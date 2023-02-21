@@ -1,0 +1,167 @@
+/* 
+  Localizable.strings
+  SwiftShift
+
+  Created by Ollie on 13/11/2022.
+  
+*/
+
+// Welcome View
+"welcomeText" = "Willkommen bei SimpleShift";
+
+"welcomeBulletin1Title" = "Schichtvorlagen";
+"welcomeBulletin1" = "Erstellen Sie Schichtvorlagen und wischen Sie, um sie zum Kalender hinzuzufügen";
+"welcomeBulletin2Title" = "Einfach Muster";
+"welcomeBulletin2" = "Verwenden Sie Muster, um sie schnell und einfach auf den Kalender anzuwenden";
+"welcomeBulletin3Title" = "Anpassung";
+"welcomeBulletin3" = "Richten Sie ganz einfach Farbschemata ein, um das Erlebnis nach Ihren Wünschen anzupassen.";
+
+"welcomePrivacy" = "Über SimpleShift & Datenschutz...";
+
+// iCloud View
+"icloudtagline" = "Aktivieren Sie iCloud Sync, um Daten zu sichern und mit anderen Geräten zu teilen.";
+"icloudenable" = "Aktivieren iCloud-Synchronisierung";
+"notnow" = "Nicht Jetzt";
+
+// Shift Calendar
+"calendar" = "Kalender";
+"shiftcalendar" = "Schichtkalender";
+"shifts" = "Schichts";
+"patterns" = "Muster";
+"pattern" = "Muster";
+"settings" = "Einstellungen";
+"exporting" = "Exportieren...";
+
+
+// Settings
+"sync" = "Synchronisieren";
+"syncfooter" = "Synchronisieren Sie Daten mit iCloud und anderen iOS-Geräten";
+"theme" = "Thema";
+"information" = "Information";
+"data" = "Daten";
+"website" = "Webseite";
+
+"iCloudSync" = "iCloud-Synchronisierung";
+"firstweekday" = "Erster Wochentag";
+"todayindicator" = "Heute Indikator";
+"dimoutside" = "Draußen Tage dunkel";
+"showoff" = "Zeigen Sie Aus an leeren Tagen";
+
+"colortheme" = "Farbthema";
+"accentcolor" = "Akzentfarbe";
+"privacy" = "Privatsphäre";
+"help" = "Hilfe";
+"eraseall" = "Alles löschen";
+"eraseallalert" = "Alle Änderungen löschen?";
+"eraseallmessage" = "Achtung: Durch Drücken von Löschen werden alle Änderungen vernichtet.";
+
+"indicatoroff" = "Anzeige aus";
+"indicatortype1" = "Top-Akzent";
+"indicatortype2" = "Untere Kapsel";
+
+// Weekdays
+"monday" = "Montag";
+"tuesday" = "Dienstag";
+"wednesday" = "Mittwoch";
+"thursday" = "Donnerstag";
+"friday" = "Freitag";
+"saturday" = "Samstag";
+"sunday" = "Sonntag";
+
+"mon" = "Mo";
+"tue" = "Di";
+"wed" = "Mi";
+"thu" = "Do";
+"fri" = "Fr";
+"sat" = "Sa";
+"sun" = "So";
+
+
+// Shifts
+"createshifts" = "Schichten erstellen";
+"createshiftstagline" = "Erstellen Sie Schichtvorlagen, die Sie dem Kalender hinzufügen können.";
+"selectshift" = "Wählen Sie Schicht";
+
+"color" = "Farbe";
+"topcolor" = "Top-Farbe";
+"bottomcolor" = "Untere Farbe";
+"presets" = "Voreinstellungen";
+
+"addshift" = "Schicht hinzufügen";
+"shiftsettings" = "Schichteinstellungen";
+"colorsettings" = "Farbeinstellungen";
+"date" = "Datum";
+"gradient" = "Gradient";
+"solid" = "Fest";
+"custom" = "Brauch";
+"starttime" = "Startzeit";
+"endtime" = "Endzeit";
+
+// Patterns
+"shiftpatterns" = "Schichtmuster";
+"shiftpatternstagline" = "Tippen und halten Sie, um die Verschiebungen im Muster zu bearbeiten. Sobald Sie fertig sind, wenden Sie sich an den Kalender.";
+
+"apply" = "Anwenden";
+"editname" = "Namen bearbeiten";
+"addweek" = "Woche hinzufügen";
+"deleteweek" = "Woche löschen";
+
+
+
+// Common
+"continue" = "Fortsetzen";
+"edit" = "Bearbeiten";
+"today" = "Heute";
+"done" = "Fertig";
+"delete" = "Löschen";
+"cancel" = "Absagen";
+"save" = "Speichern";
+"off" = "Aus";
+
+// Colors
+
+"blue" = "Blau";
+"red" = "Rot";
+"green" = "Grün";
+"orange" = "Orange";
+"purple" = "Violett";
+"cyan" = "Cyan";
+"mint" = "Mintgrünen";
+"pink" = "Rosa";
+"indigo" = "Indigo";
+"yellow" = "Gelb";
+"teal" = "Blaugrün";
+"maroon" = "Kastanienbraun";
+"darkorange" = "Dunkelorange";
+"darkgreen" = "Dunkelgrün";
+"blackwhite" = "Schwarz-Weiss";
+
+// Privacy Notice
+
+"privacynotice" = "SimpleShift ist von Grund auf darauf ausgelegt, Ihre Privatsphäre zu schützen. Wir sammeln keine personenbezogenen Daten im Zusammenhang mit Ihrer Nutzung.\n\nAlle Daten bleiben vertraulich und werden lokal auf dem Gerät gespeichert und mit iCloud synchronisiert, wenn iCloud Sync aktiviert ist.\n\nSimpleShift wird Sie um Erlaubnis bitten, auf Fotos zuzugreifen, falls Sie eine Schichtkarte in Fotos speichern möchten.\n\nWenn Sie alle Daten löschen möchten, verwenden Sie die Option Alle löschen auf der Registerkarte Einstellungen.";
+
+
+// Help Section
+
+// Calendar Help
+
+"calendarhelp1" = "Der Schichtkalender dient zum Planen und Anzeigen von Schichten auf einen Blick.";
+"calendarhelp2" = "Bearbeiten Sie den Kalender ganz einfach mit der Schaltfläche Bearbeiten oder durch langes Drücken auf den Kalenderbereich.";
+"calendarhelp3" = "Erstellen Sie zunächst die Schichtvorlagen auf der Registerkarte „Schichten“ und fügen Sie sie dem Kalender hinzu.\n\nIm Bearbeitungsmodus können Sie einfach die Schichten ziehen, die Sie bearbeiten möchten, und die Schicht für die ausgewählten Daten planen.";
+"calendarhelp4" = "Verwenden Sie die Teilen-Schaltfläche, um ein Bild des aktuell ausgewählten Monats zu exportieren. Einmal exportiert, kann es geteilt oder gespeichert werden.";
+
+// Shifts Help
+"shiftshelp1" = "Die Registerkarte Schichten wird zum Erstellen von Schichtvorlagen zur Verwendung im Schichtkalender verwendet.\n\n
+Hier können Sie vordefinierte Schichten erstellen und sie verwenden, um ein Muster auf der Registerkarte Muster einzurichten.";
+"shiftshelp2" = "Verwenden Sie die Schaltfläche +, um dem Stapel eine neue Schicht hinzuzufügen.";
+"shiftshelp3" = "Der Schicht-Editor bietet eine Schnittstelle, um die Schichtvorlage nach Ihren Wünschen anzupassen.";
+"shiftshelp4" = "Ziehen Sie Schichten per Drag & Drop in die Liste, um die Reihenfolge neu anzuordnen.";
+
+
+// Patterns Help
+"patternshelp1" = "Auf der Registerkarte Muster können Schichtmuster erstellt werden. Richten Sie wöchentliche Muster ein und wenden Sie sie dann auf den Kalender an.";
+"patternshelp2" = "Fügen Sie mit der Plus-Schaltfläche ein Muster hinzu und tippen Sie darauf, um es zu bearbeiten. Tippen und halten Sie auf die Platzhalter, um Schichtvorlagen auszuwählen und anzuwenden.";
+"patternshelp3" = "Verwenden Sie die Optionsschaltfläche, um Wochen zum Stapel hinzuzufügen und zu entfernen und Muster zu entfernen.";
+"patternshelp4" = "Wird eine Schicht gelöscht, wird der Platzhalter auf die ursprüngliche Aus-Einstellung zurückgesetzt.";
+"patternshelp5" = "Wenn das Muster eingerichtet ist, kann es über die Option Anwenden im Menü auf den Kalender angewendet werden. Wählen Sie das Startdatum im Kalender aus und legen Sie fest, wie oft das Muster wiederholt werden soll.";
+

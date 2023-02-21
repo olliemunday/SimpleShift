@@ -1,0 +1,162 @@
+/* 
+  Localizable.strings
+  SwiftShift
+
+  Created by Ollie on 13/11/2022.
+  
+*/
+
+// Welcome View
+"welcomeText" = "Bienvenido a SimpleShift";
+
+"welcomeBulletin1Title" = "Plantillas de turno";
+"welcomeBulletin1" = "Cree plantillas de tarjetas de turnos y deslice para agregar el calendario de turnos.";
+"welcomeBulletin2Title" = "Patrones Fáciles";
+"welcomeBulletin2" = "Use patrones para empujar rápida y fácilmente sus patrones de turnos en el calendario.";
+"welcomeBulletin3Title" = "Personalización";
+"welcomeBulletin3" = "Configure fácilmente esquemas de color para adaptar la experiencia a su gusto.";
+
+"welcomePrivacy" = "Acerca de SimpleShift y Privacidad...";
+
+// iCloud View
+"icloudtagline" = "Habilite iCloud Sync para hacer una copia de seguridad de los datos y compartirlos con otros dispositivos.";
+"icloudenable" = "Habilitar la sincronización de iCloud";
+"notnow" = "No Ahora";
+
+
+// Shift Calendar
+"calendar" = "Calendario";
+"shiftcalendar" = "Calendario de turnos";
+"shifts" = "Turnos";
+"patterns" = "Patrón";
+"pattern" = "Patrón";
+"settings" = "Ajustes";
+"exporting" = "Exportador...";
+
+// Settings
+"sync" = "Sincronizar";
+"syncfooter" = "Sincroniza datos con iCloud y otros dispositivos iOS";
+"theme" = "Tema";
+"information" = "Información";
+"data" = "Datos";
+"website" = "Sitio Web";
+
+"iCloudSync" = "Sincronización de iCloud";
+"firstweekday" = "Primer día la Semana";
+"todayindicator" = "Indicador de hoy";
+"dimoutside" = "Días Oscuros";
+"showoff" = "Presume en días no establecidos";
+
+"colortheme" = "Tema de color";
+"accentcolor" = "Acentuar el color";
+"privacy" = "Privacidad";
+"help" = "Ayuda";
+"eraseall" = "Borrar todo";
+"eraseallalert" = "¿Borrar todos los cambios?";
+"eraseallmessage" = "Advertencia: Presionar borrar borrará todos los cambios.";
+
+"indicatoroff" = "Indicador apagado";
+"indicatortype1" = "Acento superior";
+"indicatortype2" = "Cápsula inferior";
+
+// Weekdays
+"monday" = "Lunes";
+"tuesday" = "Martes";
+"wednesday" = "Miércoles";
+"thursday" = "Jueves";
+"friday" = "Viernes";
+"saturday" = "Sábado";
+"sunday" = "Domingo";
+
+"mon" = "La";
+"tue" = "Ma";
+"wed" = "Mi";
+"thu" = "Ju";
+"fri" = "Vi";
+"sat" = "Sa";
+"sun" = "Do";
+
+// Shifts
+"createshifts" = "Crear turnos";
+"createshiftstagline" = "Cree plantillas de turnos para agregar al calendario.";
+"selectshift" = "Seleccione Turno";
+
+"color" = "Color";
+"topcolor" = "Color superior";
+"bottomcolor" = "Color inferior";
+"presets" = "Preajustes";
+
+"addshift" = "Agregar Turno";
+"shiftsettings" = "Ajustes de turno";
+"colorsettings" = "Ajustes de color";
+"date" = "Fecha";
+"gradient" = "Degradado";
+"solid" = "Sólido";
+"custom" = "Disfraz";
+"starttime" = "Hora de inicio";
+"endtime" = "Hora de finalización";
+
+// Patterns
+"shiftpatterns" = "Patrones de cambio";
+"shiftpatternstagline" = "Toque y mantenga presionado para editar los cambios en el patrón. Una vez completado aplicar al calendario.";
+
+"apply" = "Aplicar";
+"editname" = "Editar nombre";
+"addweek" = "Agregar semana";
+"deleteweek" = "Eliminar semana";
+
+
+// Common
+"continue" = "Continuar";
+"edit" = "Editar";
+"today" = "Este Dia";
+"done" = "Hecho";
+"delete" = "Borrar";
+"cancel" = "Cancelar";
+"save" = "Ahorrar";
+"off" = "Apagado";
+
+// Colors
+
+"blue" = "Azul";
+"red" = "Rojo";
+"green" = "Verde";
+"orange" = "Naranja";
+"purple" = "Morado";
+"cyan" = "Cian";
+"mint" = "Menta Verde";
+"pink" = "Rosado";
+"indigo" = "Índigo";
+"yellow" = "Amarillo";
+"teal" = "Verde Azulado";
+"maroon" = "Granate";
+"darkorange" = "Naranja oscuro";
+"darkgreen" = "Verde oscuro";
+"blackwhite" = "Blanco negro";
+
+// Privacy Notice
+
+"privacynotice" = "SimpleShift está diseñado desde cero para proteger su privacidad. No recopilamos información personal asociada con su uso.\n\nTodos los datos permanecen confidenciales y se almacenan localmente en el dispositivo y se sincronizan con iCloud si iCloud Sync está habilitado.\n\nSimpleShift le pedirá permiso para acceder a Fotos en caso de que desee guardar una tarjeta de turno en Fotos.\n\nSi desea borrar todos los datos, use la opción Borrar todo en la pestaña Configuración.";
+
+
+// Help Section
+
+// Calendar Help
+
+"calendarhelp1" = "El calendario de turnos se utiliza para programar y ver los turnos de un vistazo.";
+"calendarhelp2" = "Edite fácilmente el calendario usando el botón Editar o manteniendo presionado el área del calendario.";
+"calendarhelp3" = "Primero cree las plantillas de turnos en la pestaña Turnos y agréguelas al calendario.\n\nUna vez en el modo de edición, es fácil arrastrar para seleccionar los turnos que desea editar y programar el turno para las fechas seleccionadas.";
+"calendarhelp4" = "Use el botón compartir para exportar una imagen del mes seleccionado actualmente. Una vez exportado, se puede compartir o guardar.";
+
+// Shifts Help
+"shiftshelp1" = "La pestaña Turnos se usa para crear Plantillas de Turnos para usar en el Calendario de Turnos.\n\nAquí puede crear turnos predefinidos y usarlos para configurar un patrón en la pestaña Patrones.";
+"shiftshelp2" = "Use el botón + para agregar un nuevo Turno a la pila.";
+"shiftshelp3" = "El editor de turnos proporciona una interfaz para personalizar la plantilla de turnos de la manera que desee.";
+"shiftshelp4" = "Arrastre y suelte los turnos en la lista para reorganizar el orden.";
+
+// Patterns Help
+"patternshelp1" = "La pestaña Patrones es donde se pueden crear Patrones de cambio. Configure patrones semanales y luego aplíquelos al calendario.";
+"patternshelp2" = "Agregue un patrón usando el botón más y tóquelo para editar. Toque y mantenga presionados los marcadores de posición para seleccionar y aplicar plantillas de turnos.";
+"patternshelp3" = "Use el botón de opciones para agregar y eliminar semanas de la pila y eliminar patrones.";
+"patternshelp4" = "En el caso de que se elimine un turno, el marcador de posición se restablecerá a la configuración original de apagado.";
+"patternshelp5" = "Cuando el Patrón está configurado, se puede aplicar al calendario a través de la opción Aplicar en el menú. Seleccione la fecha de inicio en el calendario y elija cuántas veces repetir el patrón.";

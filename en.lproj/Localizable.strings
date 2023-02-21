@@ -1,0 +1,162 @@
+/* 
+  Localizable.strings
+  SwiftShift
+
+  Created by Ollie on 13/11/2022.
+  
+*/
+
+// Welcome View
+"welcomeText" = "Welcome to SimpleShift";
+
+"welcomeBulletin1Title" = "Shift Templates";
+"welcomeBulletin1" = "Create shift card templates and swipe to add the shift calendar.";
+"welcomeBulletin2Title" = "Easy Patterns";
+"welcomeBulletin2" = "Use Patterns to quickly and easily push your shift patterns the calendar.";
+"welcomeBulletin3Title" = "Customization";
+"welcomeBulletin3" = "Easily setup color schemes to tailor the experience to your liking.";
+
+"welcomePrivacy" = "About SimpleShift & Privacy...";
+
+// iCloud View
+"icloudtagline" = "Enable iCloud Sync to backup data and share with other devices.";
+"icloudenable" = "Enable iCloud Sync";
+"notnow" = "Not Now";
+
+
+// Shift Calendar
+"calendar" = "Calendar";
+"shiftcalendar" = "Shift Calendar";
+"shifts" = "Shifts";
+"patterns" = "Patterns";
+"pattern" = "Pattern";
+"settings" = "Settings";
+"exporting" = "Exporting...";
+
+// Settings
+"sync" = "Sync";
+"syncfooter" = "Sync data to iCloud and other iOS devices";
+"theme" = "Theme";
+"information" = "Information";
+"data" = "Data";
+"website" = "Website";
+
+"iCloudSync" = "iCloud Sync";
+"firstweekday" = "First Weekday";
+"todayindicator" = "Today Indicator";
+"dimoutside" = "Dim outside days";
+"showoff" = "Show Off on unset days";
+
+"colortheme" = "Color Theme";
+"accentcolor" = "Accent Color";
+"privacy" = "Privacy";
+"help" = "Help";
+"eraseall" = "Erase all";
+"eraseallalert" = "Erase all changes?";
+"eraseallmessage" = "Warning: Pressing delete will destory all changes.";
+
+"indicatoroff" = "Indicator Off";
+"indicatortype1" = "Top Accent";
+"indicatortype2" = "Bottom Capsule";
+
+// Weekdays
+"monday" = "Monday";
+"tuesday" = "Tuesday";
+"wednesday" = "Wednesday";
+"thursday" = "Thursday";
+"friday" = "Friday";
+"saturday" = "Saturday";
+"sunday" = "Sunday";
+
+"mon" = "Mon";
+"tue" = "Tue";
+"wed" = "Wed";
+"thu" = "Thu";
+"fri" = "Fri";
+"sat" = "Sat";
+"sun" = "Sun";
+
+// Shifts
+"createshifts" = "Create Shifts";
+"createshiftstagline" = "Create shift templates to add to the calendar.";
+"selectshift" = "Select Shift";
+
+"color" = "Color";
+"topcolor" = "Top Color";
+"bottomcolor" = "Bottom Color";
+"presets" = "Presets";
+
+"addshift" = "Add Shift";
+"shiftsettings" = "Shift Settings";
+"colorsettings" = "Color Settings";
+"date" = "Date";
+"gradient" = "Gradient";
+"solid" = "Solid";
+"custom" = "Custom";
+"starttime" = "Start Time";
+"endtime" = "End Time";
+
+// Patterns
+"shiftpatterns" = "Shift Patterns";
+"shiftpatternstagline" = "Tap and hold to edit the shifts in the pattern. Once complete apply to the calendar.";
+
+"apply" = "Apply";
+"editname" = "Edit Name";
+"addweek" = "Add Week";
+"deleteweek" = "Delete Week";
+
+
+// Common
+"continue" = "Continue";
+"edit" = "Edit";
+"today" = "Today";
+"done" = "Done";
+"delete" = "Delete";
+"cancel" = "Cancel";
+"save" = "Save";
+"off" = "Off";
+
+// Colors
+
+"blue" = "Blue";
+"red" = "Red";
+"green" = "Green";
+"orange" = "Orange";
+"purple" = "Purple";
+"cyan" = "Cyan";
+"mint" = "Mint";
+"pink" = "Pink";
+"indigo" = "Indigo";
+"yellow" = "Yellow";
+"teal" = "Teal";
+"maroon" = "Maroon";
+"darkorange" = "Dark Orange";
+"darkgreen" = "Dark Green";
+"blackwhite" = "Black & White";
+
+// Privacy Notice
+
+"privacynotice" = "SimpleShift is designed from the ground up to protect your privacy. We do not collect personal information associated with your usage.\n\nAll data remains confidential and is stored locally on the device and synced to iCloud if iCloud Sync is enabled.\n\nSimpleShift will ask for permission to access Photos in the event you wish to save a shift card to Photos.\n\nIf you wish to clear all data use the Erase All option in the Settings tab.";
+
+
+// Help Section
+
+// Calendar Help
+
+"calendarhelp1" = "The Shift Calendar is used for scheduling and seeing shifts at a glance.";
+"calendarhelp2" = "Easily edit the calendar by using the Edit button or by long pressing on the calendar area.";
+"calendarhelp3" = "First create the Shift Templates under the Shifts tab and add them to the calendar.\n\nOnce in edit mode it is easy to drag to select the shifts you wish to edit and schedule the shift for the selected dates.";
+"calendarhelp4" = "Use the share button to export an image of the currently selected month. Once exported it can be shared or saved.";
+
+// Shifts Help
+"shiftshelp1" = "The Shifts tab is used for creating Shift Templates for use in the Shift Calendar.\n\nHere you can create predefined Shifts and use them to setup a Pattern under the Patterns tab.";
+"shiftshelp2" = "Use the + Button to add a new Shift to the stack.";
+"shiftshelp3" = "The Shift Editor provides an interface to customize the Shift Template just the way you like.";
+"shiftshelp4" = "Drag & Drop Shifts in the list to rearrange the order.";
+
+// Patterns Help
+"patternshelp1" = "The Patterns Tab is where Shift Patterns can be created. Setup weekly patterns and then apply them to the calendar.";
+"patternshelp2" = "Add a Pattern using the plus button and tap it to edit. Tap and hold on the placeholders to select and apply Shift Templates.";
+"patternshelp3" = "Use the options button to add & remove weeks from the stack and remove Patterns.";
+"patternshelp4" = "In the case of a shift being deleted the placeholder will reset back to the original Off setting.";
+"patternshelp5" = "When the Pattern is setup it can be applied to the calendar via the apply option in the menu. Select the start date in the calendar and choose how many times to repeat the pattern.";

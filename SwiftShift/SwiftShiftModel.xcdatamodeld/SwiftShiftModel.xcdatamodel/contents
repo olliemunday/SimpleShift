@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22C5033e" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CD_Date" representedClassName="CD_Date" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
+        <attribute name="templateId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="CD_Pattern" representedClassName="CD_Pattern" syncable="YES" codeGenerationType="class">
+        <attribute name="encoded" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" defaultValueString="00000000-0000-0000-0000-000000000000" usesScalarValueType="NO"/>
+        <attribute name="index" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="CD_Shift" representedClassName="CD_Shift" syncable="YES" codeGenerationType="class">
+        <attribute name="color1" attributeType="String" defaultValueString=""/>
+        <attribute name="color2" attributeType="String" defaultValueString=""/>
+        <attribute name="endTime" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" defaultValueString="00000000-0000-0000-0000-000000000000" usesScalarValueType="NO"/>
+        <attribute name="index" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isCustom" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="shift" attributeType="String" defaultValueString=""/>
+        <attribute name="startTime" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
+    </entity>
+</model>
