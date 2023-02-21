@@ -39,8 +39,8 @@
 		07438A012920550200249F35 /* HCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07438A002920550200249F35 /* HCenter.swift */; };
 		07438A032920562500249F35 /* CalendarExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07438A022920562500249F35 /* CalendarExampleView.swift */; };
 		07438A05292138CF00249F35 /* CalendarRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07438A04292138CF00249F35 /* CalendarRender.swift */; };
-		0748063F29216C4F00E2B34F /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 073002CD29216C2600A69CE2 /* SF-Pro-Rounded-Semibold.otf */; };
 		0748064229218B1300E2B34F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0748064429218B1300E2B34F /* Localizable.strings */; };
+		0758E94B29A4721600B0CE54 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0758E94A29A4721600B0CE54 /* README.md */; };
 		075A7D1128E0B6040038E7DD /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075A7D1028E0B6040038E7DD /* DisplayLink.swift */; };
 		0761187A27FA965800023E9B /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0761187927FA965800023E9B /* DateView.swift */; };
 		076178AC290919180080B690 /* ShiftViewNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076178AB290919180080B690 /* ShiftViewNew.swift */; };
@@ -113,7 +113,6 @@
 		07062E8C27ED006A001E8505 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		07062EAD27ED0122001E8505 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		07062EBE27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftShiftModel.xcdatamodel; sourceTree = "<group>"; };
-		070E375E28EAD916006EA371 /* SF-Pro-Rounded-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Regular.otf"; sourceTree = "<group>"; };
 		0710699F290F24F300E7A2D5 /* Revolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Revolver.swift; sourceTree = "<group>"; };
 		07131A472909808C00779EDA /* TintOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintOption.swift; sourceTree = "<group>"; };
 		07132ACF28EB90DE009E41B2 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -131,7 +130,6 @@
 		0724C33C291DE31A00F472F4 /* DynamicStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicStack.swift; sourceTree = "<group>"; };
 		0724C33E291EBB5800F472F4 /* ImageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
 		073002CB29216BD300A69CE2 /* IconRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconRounded.png; sourceTree = "<group>"; };
-		073002CD29216C2600A69CE2 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		0737DC6F27F7F16A00CF2AC9 /* SensePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensePreferences.swift; sourceTree = "<group>"; };
 		074389F2291FD2B100249F35 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		074389F4291FE3FF00249F35 /* IndicatorExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorExampleView.swift; sourceTree = "<group>"; };
@@ -150,6 +148,7 @@
 		0748064529218B1500E2B34F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		074806462921B83400E2B34F /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		074806472921B88B00E2B34F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0758E94A29A4721600B0CE54 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		075A7D1028E0B6040038E7DD /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
 		0761187927FA965800023E9B /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
 		076178AB290919180080B690 /* ShiftViewNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftViewNew.swift; sourceTree = "<group>"; };
@@ -211,6 +210,7 @@
 		07062E7927ED0069001E8505 = {
 			isa = PBXGroup;
 			children = (
+				0758E94A29A4721600B0CE54 /* README.md */,
 				0748064429218B1300E2B34F /* Localizable.strings */,
 				07062E8427ED0069001E8505 /* SwiftShift */,
 				070E375F28EAD919006EA371 /* fonts */,
@@ -239,7 +239,6 @@
 				07062E8527ED0069001E8505 /* SwiftShiftApp.swift */,
 				0794057528D1042A003A7592 /* Info.plist */,
 				07062E8927ED006A001E8505 /* Assets.xcassets */,
-				073002CD29216C2600A69CE2 /* SF-Pro-Rounded-Semibold.otf */,
 				073002CB29216BD300A69CE2 /* IconRounded.png */,
 				07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */,
 				07062E8B27ED006A001E8505 /* Preview Content */,
@@ -296,7 +295,6 @@
 		070E375F28EAD919006EA371 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-				070E375E28EAD916006EA371 /* SF-Pro-Rounded-Regular.otf */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
@@ -513,9 +511,9 @@
 				073002CC29216BD300A69CE2 /* IconRounded.png in Resources */,
 				0748064229218B1300E2B34F /* Localizable.strings in Resources */,
 				07062E8D27ED006A001E8505 /* Preview Assets.xcassets in Resources */,
+				0758E94B29A4721600B0CE54 /* README.md in Resources */,
 				07062E8A27ED006A001E8505 /* Assets.xcassets in Resources */,
 				0791A5B128020DAE0002A3E8 /* Launch Screen.storyboard in Resources */,
-				0748063F29216C4F00E2B34F /* SF-Pro-Rounded-Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
