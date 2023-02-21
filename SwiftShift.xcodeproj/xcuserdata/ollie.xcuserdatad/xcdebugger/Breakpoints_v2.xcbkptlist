@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "07D34AD9-F181-4197-AE17-A81C10863641"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9D67CAC9-3CC2-4A2D-9B5C-ACC9A58D1DF6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwiftShift/new/services/CalendarService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "CalendarService"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "9D67CAC9-3CC2-4A2D-9B5C-ACC9A58D1DF6 - 504879e2810832ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftShift.CalendarService.selectionStart.getter : Swift.Int"
+                  moduleName = "SwiftShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SwiftShift/new/services/CalendarService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "9D67CAC9-3CC2-4A2D-9B5C-ACC9A58D1DF6 - 6ab195a3db6f6f11"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftShift.CalendarService.selectionStart.setter : Swift.Int"
+                  moduleName = "SwiftShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SwiftShift/new/services/CalendarService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "92">
+               </Location>
+               <Location
+                  uuid = "9D67CAC9-3CC2-4A2D-9B5C-ACC9A58D1DF6 - 2757d649d38d5fee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftShift.CalendarService.selectionStart.modify : Swift.Int"
+                  moduleName = "SwiftShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SwiftShift/new/services/CalendarService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "9D67CAC9-3CC2-4A2D-9B5C-ACC9A58D1DF6 - a8add658ec85811"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftShift.CalendarService.selectionStart.modify : Swift.Int with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "SwiftShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SwiftShift/new/services/CalendarService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E861F1A3-728B-4BE9-B7F0-8AF203417467"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwiftShiftWidget/SwiftShiftWidget.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8B2686DB-0BA9-4FC0-95BB-3E49E4FC128D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwiftShift/views/modal/WelcomeiCloudView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "previews"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
