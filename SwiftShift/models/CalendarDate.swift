@@ -23,8 +23,8 @@ struct CalendarDate: Identifiable, Hashable {
     var selected: Bool = false
 }
 
-struct CalendarPage: Identifiable {
-    let id: UUID
+struct CalendarPage: Identifiable, Equatable {
+    let id: Int
 
-    let dates: [CalendarDate]
+    var dates: [CalendarDate]
 }

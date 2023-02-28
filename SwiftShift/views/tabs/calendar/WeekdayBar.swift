@@ -35,8 +35,9 @@ struct WeekdayBar: View {
         return HStack(spacing: spacing) {
             ForEach(getWeekdays(start: weekday - 1), id: \.self) { wkday in
                 ZStack {
-                    RoundedRectangle(cornerRadius: 14)
+                    RoundedRectangle(cornerRadius: 10)
                         .foregroundColor(accentColor)
+                        .opacity(0.8)
                     Text(wkday)
                         .foregroundColor(accentColor == .white ? .black : .white)
                         .font(.system(.title2, design: .rounded))

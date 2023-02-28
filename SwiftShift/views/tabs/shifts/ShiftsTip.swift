@@ -37,6 +37,7 @@ struct ShiftsTip: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("createshifts")
                         .font(.system(size: 30, weight: .semibold, design: .default))
+                        .padding(.bottom, 1)
 
                     Text("createshiftstagline")
                         .font(.subheadline)

@@ -25,12 +25,18 @@ class CalendarManager: NSObject, ObservableObject {
 
     // Array for UI View to display each day of the month.
     @Published var dates: [CalendarDate] = []
+    {
+        didSet {
+            datesPage = CalendarPage(id: dateDisplay.hashValue, dates: dates)
+        }
+    }
 
-    @Published var datesArray: [CalendarPage] = []
+    @Published var datesPage: CalendarPage = CalendarPage(id: 0, dates: [])
+
     // Date that calendar is set to and array for navigation display text.
     @Published var setDate: Date
     // Array used for display.
-    @Published var dateViewArray: [DateDisplay] = []
+    @Published var dateDisplay: String = ""
 
     @AppStorage("calendar_weekday", store: .standard)
     public var weekday: Int = 1
@@ -72,7 +78,7 @@ class CalendarManager: NSObject, ObservableObject {
         super.init()
         self.setDate = getCalendarDate(date: Date.now) ?? Date.now
         fetchedResultsController.delegate = self
-        self.dateViewArray.append(DateDisplay(date: getDisplayDate(date: Date.now)))
+        self.dateDisplay = getDisplayDate(date: Date.now)
         // Load in saved shift data
         DispatchQueue.global().sync { self.fetchShifts() }
 
@@ -99,8 +105,6 @@ class CalendarManager: NSObject, ObservableObject {
         return userCalendar.date(from: dateComp)
     }
 
-
-
     // Sets Calendar date and view date before month can be refreshed
     public func setCalendarDate(date: Date) {
         setDate = date
@@ -111,13 +115,8 @@ class CalendarManager: NSObject, ObservableObject {
     public func setMonth() {
         DispatchQueue.global(qos: .userInitiated).async {
             let dates = self.getMonth(date: self.setDate)
-            DispatchQueue.main.async { self.dates = dates; self.setDatesArray(dates: dates) }
+            DispatchQueue.main.async { self.dates = dates }
         }
-    }
-
-    public func setDatesArray(dates: [CalendarDate]) {
-        self.datesArray = []
-        self.datesArray.append(CalendarPage(id: UUID(), dates: dates))
     }
 
     public func isToday(date: Date) -> Bool {
@@ -313,10 +312,8 @@ class CalendarManager: NSObject, ObservableObject {
         return dates
     }
 
-    // Clear view date array so transition can take place.
     private func setViewDate(date: Date) {
-        dateViewArray.removeAll()
-        dateViewArray.append(DateDisplay(date: getDisplayDate(date: date)))
+        dateDisplay = getDisplayDate(date: date)
     }
 
     // Convert Date to String for date display.
@@ -435,7 +432,6 @@ class CalendarManager: NSObject, ObservableObject {
 // CoreData extension.
 extension CalendarManager: NSFetchedResultsControllerDelegate {
     internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("Calendar CoreData Update.")
         guard let shifts = fetchedResultsController.fetchedObjects else { return }
         DispatchQueue.global().sync {
             self.dateStore = self.unpackShifts(shifts: shifts)

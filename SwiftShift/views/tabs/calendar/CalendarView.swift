@@ -39,8 +39,8 @@ struct CalendarView: View {
                     if calendarManager.isApplyingPattern {
                         ToolbarItem(placement: .navigationBarTrailing) { cancelPatternButton }
                     } else {
-                        ToolbarItemGroup(placement: .navigationBarLeading) { editButton; shareButton; }
-                        ToolbarItemGroup(placement: .navigationBarTrailing) { todayButton }
+                        ToolbarItemGroup(placement: .navigationBarTrailing) { editButtonNew }
+                        ToolbarItemGroup(placement: .navigationBarLeading) { todayButton; shareButton; }
                     }
                 }
         }
@@ -54,16 +54,20 @@ struct CalendarView: View {
         .onAppear() { calendarManager.setMonth(); prepareHaptics() }
         .onChange(of: calendarManager.isApplyingPattern) { applying in isEditing = applying }
         .onChange(of: tabSelection) { if !($0 == 1) { calendarManager.deselectPattern() } }
-        .onChange(of: snapshotImage, perform: { newValue in
-            showShareSheet = true
-        })
+        .onChange(of: snapshotImage, perform: { _ in showShareSheet = true })
         .popover(isPresented: $showShareSheet) {
             ShareSheet(items: [snapshotImage!])
         }
     }
 
     private var navigationTitle: String {
-        calendarManager.isApplyingPattern ? "Applying Pattern" : String(localized: "shiftcalendar")
+        if calendarManager.isApplyingPattern {
+            return "Applying Pattern"
+        }
+        if isEditing {
+            return "Editing"
+        }
+        return String(localized: "shiftcalendar")
     }
 
     // Set date to today.
@@ -91,6 +95,15 @@ struct CalendarView: View {
         }
         .frame(height: 36)
     }
+
+    private var editButtonNew: some View {
+        Button(isEditing ? "done" : "edit" ) {
+            isEditing.toggle()
+        }
+
+    }
+
+
 
     @ViewBuilder private var renderingProgress: some View {
         if showRendering {
@@ -129,7 +142,7 @@ struct CalendarView: View {
             showRendering = true
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.dateViewArray.first?.date ?? "", weekday: calendarManager.weekday, accentColor: calendarManager.accentColor, dates: calendarManager.dates, shifts: shiftManager.shifts).environment(\.colorScheme, colorScheme))
+                let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.dateDisplay, weekday: calendarManager.weekday, accentColor: calendarManager.accentColor, dates: calendarManager.datesPage.dates, shifts: shiftManager.shifts).environment(\.colorScheme, colorScheme))
                 renderer.proposedSize = ProposedViewSize(width: 400, height: 660)
                 renderer.scale = 3
                 snapshotImage = renderer.uiImage
@@ -211,11 +224,16 @@ struct CalendarView: View {
         VStack(spacing: 0) {
             WeekdayBar(weekday: calendarManager.weekday, accentColor: calendarManager.accentColor)
                 .padding(.horizontal, 2)
+                .padding(.bottom, 2)
                 .frame(height: 30)
+                .zIndex(2)
 
-            CalendarDateSection(isEditing: $isEditing, playHaptic: playHaptic)
+            CalendarDateSection(dateForward: $dateForward,isEditing: $isEditing, disableNavDrag: $disableNavDrag, playHaptic: playHaptic)
+                .zIndex(1)
 
             navigationSection
+                .zIndex(2)
+                .padding(.top, 2)
         }
     }
 
@@ -227,6 +245,8 @@ struct CalendarView: View {
     @State var dateForward: Bool = false
     // Offset of date text via drag animation.
     @State var dateOffset: CGSize = CGSize.zero
+    // Disable dragging in the nav bar
+    @State private var disableNavDrag: Bool = false
     // Navigation bar parent.
     private var navigationSection: some View {
         ZStack {
@@ -253,45 +273,61 @@ struct CalendarView: View {
     private var navigationBackground: some View {
         RoundedRectangle(cornerRadius: 16)
             .foregroundColor(Color("NavBarBackground"))
+            .opacity(0.8)
             .shadow(radius: 1)
     }
     // Buttons for Navigation bar.
     private var navigationButtons: some View {
         HStack(spacing: 0) {
             let arrowColor = calendarManager.accentColor == .white ? Color.black : Color.white
-            Button { if !showDatePicker { iterateMonth(forward: false) } } label: {
+            Button { if !showDatePicker { navigationButtonAction(forward: false) } } label: {
                 ImageButton(arrow: "arrow.left.circle.fill", size: 40, color: calendarManager.accentColor, imageColor: arrowColor)
             }
             .padding(.leading, 5)
             
             Spacer()
             
-            Button { if !showDatePicker { iterateMonth(forward: true) } } label: {
+            Button { if !showDatePicker { navigationButtonAction(forward: true) } } label: {
                 ImageButton(arrow: "arrow.right.circle.fill", size: 40, color: calendarManager.accentColor, imageColor: arrowColor)
             }
             .padding(.trailing, 5)
         }
     }
+    // Function to run for the navigation buttons. Delay iterating month so dateForward is established else animations can be buggy.
+    private func navigationButtonAction(forward: Bool) {
+        dateForward = forward
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            calendarManager.iterateMonth(value: forward ? 1 : -1)
+        })
+    }
+    // Proxy for text animation. Will be 1.0 when animation is finished.
+    @State private var changeDetect = 0.0
     // Date display for Navigation bar.
     private var navigationDate: some View {
-        ZStack{
-            dateText
-        }
-        .gesture(dragGesture)
-        .simultaneousGesture(longPress)
-        .animation(.interactiveSpring(response: 0.4, dampingFraction: 0.75), value: calendarManager.dateViewArray)
-    }
-    // Date Text View.
-    @ViewBuilder private var dateText: some View {
-        ForEach(calendarManager.dateViewArray) {
-            Text($0.date)
+        ZStack {
+            Text(calendarManager.dateDisplay)
+                .id(calendarManager.dateDisplay)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .font(.system(size: 32, weight: .semibold, design: .rounded))
                 .foregroundColor(Color("ShiftText"))
-                .transition(AnyTransition.asymmetric(insertion: .flyIn(forward: $dateForward, callback: flyInOutCallback), removal: .flyOut(forward: $dateForward)))
-                .animation(.interactiveSpring(dampingFraction: 0.5), value: dateOffset)
+                .transition(.asymmetric(insertion: .move(edge: dateForward ? .trailing: .leading).combined(with: .opacity), removal: .move(edge: dateForward ? .leading : .trailing).combined(with: .opacity)))
+//                .transition(.asymmetric(insertion: .flyIn(forward: $dateForward), removal: .flyOut(forward: $dateForward)))
                 .offset(dateOffset)
                 .drawingGroup()
+        }
+        .gesture(dragGesture)
+        .simultaneousGesture(longPress)
+        .animation(.interactiveSpring(response: 0.4, dampingFraction: 0.75), value: calendarManager.dateDisplay)
+        .animation(.interactiveSpring(dampingFraction: 0.5), value: dateOffset)
+        .drawingGroup()
+        .onChange(of: calendarManager.dateDisplay, perform: { _ in
+            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.75)) { changeDetect = 1.0 }
+        })
+        .onAnimationCompleted(for: changeDetect) {
+            changeDetect = 0.0
+            if showDatePicker { return }
+            self.calendarManager.setMonth()
+            disableNavDrag = false
         }
     }
     // Long press on bar gesture.
@@ -310,24 +346,22 @@ struct CalendarView: View {
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged({
-                if showDatePicker || enableDatePicker { return }
+                if showDatePicker || enableDatePicker || disableNavDrag { return }
+                isEditing = false
                 let width = $0.translation.width
+                dateForward = (width > 0 ? false : true)
                 dateOffset = CGSize(width: width, height: 0)
             })
             .onEnded({
                 // End of drag gesture and long press gesture
                 let width = $0.translation.width
+
                 dateOffset = .zero
                 navigationIsScaled = false
                 if showDatePicker || enableDatePicker { return }
-                if width > 80 { iterateMonth(forward: false) }
-                if width < -80 { iterateMonth(forward: true) }
+                if width > 80 { iterateMonth(forward: false); disableNavDrag = true }
+                if width < -80 { iterateMonth(forward: true); disableNavDrag = true }
             })
-    }
-    // Function to execute on animation completion.
-    private func flyInOutCallback() {
-        if showDatePicker { return }
-        self.calendarManager.setMonth()
     }
     // Iterate calendarManager month
     private func iterateMonth(forward: Bool) {

@@ -26,6 +26,7 @@ struct PatternsTip: View {
                 VStack(alignment: .leading) {
                     Text("shiftpatterns")
                         .font(.system(size: 30, weight: .semibold, design: .default))
+                        .padding(.bottom, 1)
 
                     Text("shiftpatternstagline")
                         .font(.subheadline)

@@ -20,54 +20,40 @@ struct DateView: View {
     let offDay: Bool
     let today: Int
     let accentColor: Color
+
+    let cornerRadius: CGFloat = 10
     
     var body: some View {
         selectable
             .drawingGroup()
-            .animation(.interactiveSpring(), value: date.selected)
             .scaleEffect(date.selected ? 1.03 : 1.0)
             .opacity(date.greyed && greyed ? 0.6: 1.0)
-            .animation(.interactiveSpring(dampingFraction: 0.25), value: date.selected)
+            .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.8), value: date.selected)
+
     }
     
     private var selectable: some View {
         ZStack {
-            display
+            backgroundLayer
+            textLayer
                 .animation(.easeInOut, value: date)
             if date.selected {
-                RoundedRectangle(cornerRadius: 11)
+                RoundedRectangle(cornerRadius: cornerRadius)
                     .foregroundColor(.accentColor)
                     .opacity(0.5)
                     .transition(.opacity)
             }
         }
-        .background(
-            GeometryReader { geo in Color.clear.preference(key: SensePreferenceKey.self, value: [SensePreferenceData(index: self.id, bounds: geo.frame(in: .named("MonthView")))])}
-        )
-    }
-
-    private var display: some View {
-        ZStack {
-            backgroundLayer
-            textLayer
-        }
     }
     
-    private var backgroundLayer: some View {
-        ZStack{
-            if template != nil {
-                gradientBackground
-            } else {
-                flatBackground
-            }
-
-            if today == 1 { topIndicator }
-            if today == 2 { capsuleIndicator }
-        }
+    @ViewBuilder private var backgroundLayer: some View {
+        if template != nil { gradientBackground } else { flatBackground }
+        if today == 1 { topIndicator }
+        if today == 2 { capsuleIndicator }
     }
 
     @ViewBuilder private var topIndicator: some View {
-        RoundedRectangle(cornerRadius: 11)
+        RoundedRectangle(cornerRadius: cornerRadius)
             .foregroundColor(.black)
             .mask(
                 VStack {
@@ -75,13 +61,13 @@ struct DateView: View {
                     Spacer()
                 }
             )
-        RoundedRectangle(cornerRadius: 11)
+        RoundedRectangle(cornerRadius: cornerRadius)
             .foregroundColor(.accentColor)
             .overlay {
-                RoundedRectangle(cornerRadius: 11)
+                RoundedRectangle(cornerRadius: cornerRadius)
                     .stroke(lineWidth: 2)
                     .foregroundColor(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 11))
+                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             }
             .mask(
                 VStack {
@@ -118,11 +104,11 @@ struct DateView: View {
 
     private var gradientBackground: some View {
         LinearGradient(colors: template!.gradientArray, startPoint: UnitPoint.top, endPoint: UnitPoint.bottom)
-            .cornerRadius(11)
+            .cornerRadius(cornerRadius)
     }
 
     private var flatBackground: some View {
-        RoundedRectangle(cornerRadius: 11)
+        RoundedRectangle(cornerRadius: cornerRadius)
             .foregroundColor(Color("ShiftBackground"))
     }
     
@@ -139,51 +125,26 @@ struct DateView: View {
         .padding([.leading, .trailing], 15)
     }
     
-    private var textLayer: some View {
-        ZStack {
-            VStack {
-                Text(date.day)
-                    .font(.system(size: 12))
-                    .bold()
-                    .foregroundColor(today == 1 ? accentColor == .white ? Color.black : Color.white : getTopTextColor())
-                    .padding(.top, 1)
-                Spacer()
-            }
-            VStack(spacing: 0) {
-                Rectangle()
-                    .frame(height: 10)
-                    .hidden()
-                Text(getDisplayText())
-                    .dynamicTypeSize(.xSmall ... .medium)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(getTextColor())
-//                    .padding(.bottom, 4)
-            }
-            .padding(.horizontal, 1)
-
+    @ViewBuilder private var textLayer: some View {
+        VStack {
+            Text(date.day)
+                .font(.system(size: 12))
+                .bold()
+                .foregroundColor(today == 1 ? accentColor == .white ? Color.black : Color.white : template?.gradient_1.textColor)
+                .padding(.top, 1)
+            Spacer()
         }
-    }
-    
-    private func getDisplayText() -> String {
-        // If there is a template use the text if not use Off if it is set.
-        if let shift = template?.shift { return shift }
-        else if offDay { return String(localized: "off") }
-        return ""
-    }
-
-    private func getTextColor() -> Color {
-        // If there is a template set the text color if not set from colorScheme.
-        // Text color has to be determined here as colorScheme is unreliable at init.
-        if let color = template?.gradient_2 { return color.textColor }
-        else { return colorScheme == .dark ? .white : .black }
-    }
-
-    private func getTopTextColor() -> Color {
-        // If there is a template set the text color if not set from colorScheme.
-        // Text color has to be determined here as colorScheme is unreliable at init.
-        if let color = template?.gradient_1 { return color.textColor }
-        else { return colorScheme == .dark ? .white : .black }
+        VStack(spacing: 0) {
+            Rectangle()
+                .frame(height: 10)
+                .hidden()
+            Text(template?.shift ?? (offDay ? String(localized: "off") : ""))
+                .dynamicTypeSize(.xSmall ... .medium)
+                .bold()
+                .multilineTextAlignment(.center)
+                .foregroundColor(template?.gradient_2.textColor)
+        }
+        .padding(.horizontal, 1)
     }
 
 }

@@ -55,7 +55,7 @@ struct SettingsView: View {
                 }
 
                 Section { deleteAllData } header: { Text("data") }
-                footer: { Text("SimpleShift v1.0.1\n© 2022 Oliver Munday").padding(.vertical, 10) }
+                footer: { Text("SimpleShift v1.1b2\n© 2023 Ollie Munday").padding(.vertical, 10) }
             }
             .navigationTitle("settings")
             .navigationDestination(for: Navigation.self) { value in
