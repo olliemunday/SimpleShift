@@ -104,6 +104,8 @@
 "editname" = "Edit Name";
 "addweek" = "Add Week";
 "deleteweek" = "Delete Week";
+"deletepattern" = "Delete pattern";
+
 
 
 // Common
