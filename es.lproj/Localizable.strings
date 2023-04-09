@@ -32,6 +32,7 @@
 "pattern" = "Patrón";
 "settings" = "Ajustes";
 "exporting" = "Exportador...";
+"navigationbar" = "Barra de navegación";
 
 // Settings
 "sync" = "Sincronizar";
@@ -78,7 +79,7 @@
 
 // Shifts
 "createshifts" = "Crear turnos";
-"createshiftstagline" = "Cree plantillas de turnos para agregar al calendario.";
+"createshiftstagline" = "Crear plantillas de tarjetas de turnos y agregarlas fácilmente al calendario de turnos.";
 "selectshift" = "Seleccione Turno";
 
 "color" = "Color";
@@ -95,6 +96,7 @@
 "custom" = "Disfraz";
 "starttime" = "Hora de inicio";
 "endtime" = "Hora de finalización";
+"shiftdeletealert" = "Eliminar un turno lo quitará del calendario.";
 
 // Patterns
 "shiftpatterns" = "Patrones de cambio";
@@ -148,20 +150,25 @@
 
 // Calendar Help
 
-"calendarhelp1" = "El calendario de turnos se utiliza para programar y ver los turnos de un vistazo.";
-"calendarhelp2" = "Edite fácilmente el calendario usando el botón Editar o manteniendo presionado el área del calendario.";
-"calendarhelp3" = "Primero cree las plantillas de turnos en la pestaña Turnos y agréguelas al calendario.\n\nUna vez en el modo de edición, es fácil arrastrar para seleccionar los turnos que desea editar y programar el turno para las fechas seleccionadas.";
-"calendarhelp4" = "Use el botón compartir para exportar una imagen del mes seleccionado actualmente. Una vez exportado, se puede compartir o guardar.";
+"calendarhelp1" = "El Calendario de turnos se utiliza para programar y ver los turnos de un vistazo.";
+"calendarhelp_navigationHeader" = "Navegación";
+"calendarhelp_navigation1" = "Puede arrastrar el área del calendario hacia arriba y hacia abajo para avanzar o retroceder en el calendario.\n\nLa barra de navegación se puede utilizar para cambiar el mes, ya sea deslizando o utilizando los botones de flecha.\n\nAl tocar y mantener presionada la barra de navegación, puede mostrar el selector de fecha.";
+"calendarhelp_editingHeader" = "Edición";
+"calendarhelp2" = "Edite fácilmente el calendario utilizando el botón Editar o manteniendo presionado el área del calendario.";
+"calendarhelp3" = "Primero cree las Plantillas de turnos en la pestaña Turnos y agréguelas al calendario.\n\nUna vez en modo de edición, es fácil arrastrar para seleccionar los turnos que desea editar y programar el turno para las fechas seleccionadas.";
+"calendarhelp_sharingHeader" = "Compartir";
+"calendarhelp4" = "Utilice el botón Compartir para exportar una imagen del mes seleccionado actualmente. Una vez exportada, se puede compartir o guardar.";
 
 // Shifts Help
 "shiftshelp1" = "La pestaña Turnos se usa para crear Plantillas de Turnos para usar en el Calendario de Turnos.\n\nAquí puede crear turnos predefinidos y usarlos para configurar un patrón en la pestaña Patrones.";
 "shiftshelp2" = "Use el botón + para agregar un nuevo Turno a la pila.";
 "shiftshelp3" = "El editor de turnos proporciona una interfaz para personalizar la plantilla de turnos de la manera que desee.";
-"shiftshelp4" = "Arrastre y suelte los turnos en la lista para reorganizar el orden.";
+"shiftshelp4" = "Simplemente arrastre y suelte turnos en la lista para reorganizar el orden.";
 
 // Patterns Help
-"patternshelp1" = "La pestaña Patrones es donde se pueden crear Patrones de cambio. Configure patrones semanales y luego aplíquelos al calendario.";
-"patternshelp2" = "Agregue un patrón usando el botón más y tóquelo para editar. Toque y mantenga presionados los marcadores de posición para seleccionar y aplicar plantillas de turnos.";
-"patternshelp3" = "Use el botón de opciones para agregar y eliminar semanas de la pila y eliminar patrones.";
-"patternshelp4" = "En el caso de que se elimine un turno, el marcador de posición se restablecerá a la configuración original de apagado.";
-"patternshelp5" = "Cuando el Patrón está configurado, se puede aplicar al calendario a través de la opción Aplicar en el menú. Seleccione la fecha de inicio en el calendario y elija cuántas veces repetir el patrón.";
+"patternshelp1" = "La pestaña de patrones es donde se pueden crear patrones de turnos. Configura patrones semanales y luego aplícalos al calendario.";
+"patternshelp2" = "Agrega un patrón usando el botón de más y tócalo para editarlo. Mantén presionados los marcadores de posición para seleccionar y aplicar turnos.";
+"patternshelp3" = "Para cambiar el nombre de un patrón, puedes mantener presionado el nombre cuando el patrón está expandido o usar el botón que se muestra arriba para habilitar la edición.";
+"patternshelp4" = "Para agregar una semana, usa el botón de más en la parte inferior de la pila. Para eliminar una semana, desliza hacia la izquierda para revelar el botón de eliminación.";
+"patternshelp5" = "En caso de que se elimine un turno, el marcador de posición volverá al estado original de apagado.";
+"patternshelp6" = "Una vez configurado el patrón, se puede aplicar al calendario usando el botón de aplicar que se muestra arriba. Selecciona la fecha de inicio en el calendario y elige cuántas veces repetir el patrón.";

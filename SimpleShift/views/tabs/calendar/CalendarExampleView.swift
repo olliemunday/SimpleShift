@@ -12,14 +12,14 @@ struct CalendarExampleView: View {
         calendarExample
     }
 
-    private let exampleShifts: [ShiftExample] = [
-        ShiftExample(id: 0, color1: Color.hex("ff6a00"), color2: Color.hex("ee0979"), text: "06:00 14:00"),
-        ShiftExample(id: 1, color1: Color.hex("ff6a00"), color2: Color.hex("ee0979"), text: "07:00 19:00"),
-        ShiftExample(id: 2, color1: Color.hex("ff6a00"), color2: Color.hex("ee0979"), text: "09:00 17:00"),
-        ShiftExample(id: 3, color1: Color.hex("ff6a00"), color2: Color.hex("ee0979"), text: "14:00 22:00"),
-        ShiftExample(id: 4, color1: Color.hex("ff6a00"), color2: Color.hex("ee0979"), text: "14:00 22:00"),
-        ShiftExample(id: 5, color1: Color.hex("00c6ff"), color2: Color.hex("0072ff"), text: "14:00 22:00"),
-        ShiftExample(id: 6, color1: Color.hex("00c6ff"), color2: Color.hex("0072ff"), text: "14:00 22:00"),
+    private let exampleShifts = [
+        (0, "ff6a00", "ee0979"),
+        (1, "ff6a00", "ee0979"),
+        (2, "ff6a00", "ee0979"),
+        (3, "ff6a00", "ee0979"),
+        (4, "ff6a00", "ee0979"),
+        (5, "00c6ff", "0072ff"),
+        (6, "00c6ff", "0072ff"),
     ]
 
     let weekdays = [
@@ -49,8 +49,8 @@ struct CalendarExampleView: View {
             .frame(width: 300, height: 24)
 
             HStack(spacing: 3) {
-                ForEach(exampleShifts) { shift in
-                    GradientRounded(cornerRadius: 12, colors: [shift.color1, shift.color2], direction: .vertical)
+                ForEach(exampleShifts, id: \.0) {
+                    GradientRounded(cornerRadius: 12, colors: [Color.hex($0.1), Color.hex($0.2)], direction: .vertical)
                         .frame(width: 40, height: 55)
                 }
             }

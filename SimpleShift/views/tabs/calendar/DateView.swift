@@ -19,15 +19,17 @@ struct DateView: View {
     let cornerRadius: CGFloat = 10
     
     var body: some View {
-        selectable
+        main
             .drawingGroup()
             .scaleEffect(date.selected ? 1.03 : 1.0)
             .opacity(date.greyed && greyed ? 0.3 : 1.0)
-            .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.8), value: date.selected)
+            .animation(.interactiveSpring(response: 0.4, dampingFraction: 0.8), value: date.selected)
     }
     
-    private var selectable: some View {
-        backgroundLayer
+    private var main: some View {
+        ZStack {
+            backgroundLayer
+        }
             .overlay {
                 if today == 1 { topIndicator }
                 if today == 2 { capsuleIndicator }
@@ -49,16 +51,20 @@ struct DateView: View {
     }
 
     @ViewBuilder private var topIndicator: some View {
-        RoundedRectangle(cornerRadius: cornerRadius)
+        Rectangle()
             .foregroundColor(.black)
-            .mask( VStack {
-                    Rectangle().frame(height: 17)
-                    Spacer()
-                } )
+            .cornerRadius(cornerRadius)
+            .mask {
+                VStack {
+                        Rectangle().frame(height: 17)
+                        Spacer()
+                    }
+            }
+
         RoundedRectangle(cornerRadius: cornerRadius)
-            .foregroundColor(.accentColor)
+            .foregroundColor(accentColor == .black ? .gray : accentColor)
             .overlay { RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(lineWidth: 2)
+                    .stroke(lineWidth: 3)
                     .foregroundColor(.black)
                     .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             }
@@ -82,7 +88,7 @@ struct DateView: View {
                 } else {
                     Capsule()
                         .strokeBorder(lineWidth: 2, antialiased: true)
-                        .foregroundColor(accentColor == .white ? Color.black : Color.white)
+                        .foregroundColor(.accentColor == .white ? Color.black : Color.white)
                 }
 
 
@@ -100,8 +106,9 @@ struct DateView: View {
     }
 
     private var flatBackground: some View {
-        RoundedRectangle(cornerRadius: cornerRadius)
+        Rectangle()
             .foregroundColor(Color("ShiftBackground"))
+            .cornerRadius(cornerRadius)
     }
     
     @ViewBuilder private var textLayer: some View {

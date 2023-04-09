@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 /// An animatable modifier that is used for observing animations for a given animatable value.
-struct AnimationCompletionObserverModifier<Value>: AnimatableModifier where Value: VectorArithmetic {
+struct AnimationCompletionObserverModifier<Value>: @unchecked Sendable, AnimatableModifier where Value: VectorArithmetic {
 
     /// While animating, SwiftUI changes the old input value to the new target value using this property.
     /// This value is set to the old value until the animation completes.
@@ -41,6 +41,7 @@ struct AnimationCompletionObserverModifier<Value>: AnimatableModifier where Valu
         DispatchQueue.main.async {
             self.completion()
         }
+
     }
 
     func body(content: Content) -> some View {

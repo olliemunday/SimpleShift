@@ -12,12 +12,12 @@ struct SettingsView: View {
     @EnvironmentObject private var shiftManager: ShiftManager
     @EnvironmentObject private var patternManager: PatternManager
 
+    /// Pass through the PersistenceController so we can reinitialise from here
+    let persistenceController: PersistenceController
+
     @Environment(\.colorScheme) private var colorScheme
 
     @Binding var tintOptionSelected: String
-
-    @State private var showPrivacy: Bool = false
-    @State private var showHelp: Bool = false
 
     private enum Navigation: String, Hashable {
         case weekday = "Weekday"
@@ -26,6 +26,33 @@ struct SettingsView: View {
         case privacy = "privacy"
         case help = "help"
     }
+
+    private let weekdays = [
+        String(localized: "sunday"),
+        String(localized: "monday"),
+        String(localized: "tuesday"),
+        String(localized: "wednesday"),
+        String(localized: "thursday"),
+        String(localized: "friday"),
+        String(localized: "saturday")
+    ]
+
+    private let tintOptions: [(String, Color)] = [
+        ("blue", .blue),
+        ("red", .red),
+        ("green", .green),
+        ("orange", .orange),
+        ("purple", .purple),
+        ("cyan", .cyan),
+        ("mint", .mint),
+        ("pink", .pink),
+        ("indigo", .indigo),
+        ("yellow", .yellow),
+        ("teal", .teal),
+        ("maroon", .hex("800000")),
+        ("darkorange", Color(uiColor: #colorLiteral(red: 0.8608909249, green: 0.1735971868, blue: 0.08356299251, alpha: 1))),
+        ("darkgreen", Color(uiColor: #colorLiteral(red: 0.3049176335, green: 0.5427229404, blue: 0.1484210789, alpha: 1))),
+    ]
 
     @State private var navigationStack = [Navigation]()
     var body: some View {
@@ -45,7 +72,6 @@ struct SettingsView: View {
 
                 Section {
                     NavigationLink(value: Navigation.tint, label: {ImageLabel(title: String(localized: "accentcolor"), systemName: "paintpalette.fill", color: .accentColor, symbolColor: calendarManager.accentColor == .white ? Color.black : Color.white)})
-
                 } header: { Text("theme") }
 
                 Section {
@@ -57,7 +83,19 @@ struct SettingsView: View {
                 }
 
                 Section { deleteAllData } header: { Text("data") }
-                footer: { Text("SimpleShift v1.1b3\n© 2023 Ollie Munday").padding(.vertical, 10) }
+                footer: {
+                    ZStack {
+                        HStack {
+                            Text("SimpleShift v1.1\n© 2023 Ollie Munday")
+                                .padding(.vertical, 10)
+                            Spacer()
+                        }
+                        Rectangle()
+                            .hidden()
+                            .overlay { SpinningGradientLogo(size: 80).offset(y: 160) }
+                    }
+                }
+
             }
             .navigationTitle("settings")
             .navigationDestination(for: Navigation.self) { value in
@@ -69,53 +107,24 @@ struct SettingsView: View {
                 case .help : HelpNavigationView()
                 }
             }
-            .popover(isPresented: $showPrivacy) { PrivacyView() }
-            .popover(isPresented: $showHelp, content: { HelpView().presentationDetents([.fraction(0.7), .large]) })
         }
+        
         .environment(\.defaultMinListRowHeight, 46)
         .navigationViewStyle(.stack)
     }
 
-    let Weekdays = [
-        WeekdayOption(id: 0, name: String(localized: "sunday")),
-        WeekdayOption(id: 1, name: String(localized: "monday")),
-        WeekdayOption(id: 2, name: String(localized: "tuesday")),
-        WeekdayOption(id: 3, name: String(localized: "wednesday")),
-        WeekdayOption(id: 4, name: String(localized: "thursday")),
-        WeekdayOption(id: 5, name: String(localized: "friday")),
-        WeekdayOption(id: 6, name: String(localized: "saturday")),
-    ]
-
-    private let tintOptions: [TintOption] = [
-        TintOption(id: "blue", name: String(localized: "blue"), color: .blue),
-        TintOption(id: "red", name: String(localized: "red"), color: .red),
-        TintOption(id: "green", name: String(localized: "green"), color: .green),
-        TintOption(id: "orange", name: String(localized: "orange"), color: .orange),
-        TintOption(id: "purple", name: String(localized: "purple"), color: .purple),
-        TintOption(id: "cyan", name: String(localized: "cyan"), color: .cyan),
-        TintOption(id: "mint", name: String(localized: "mint"), color: .mint),
-        TintOption(id: "pink", name: String(localized: "pink"), color: .pink),
-        TintOption(id: "indigo", name: String(localized: "indigo"), color: .indigo),
-        TintOption(id: "yellow", name: String(localized: "yellow"), color: .yellow),
-        TintOption(id: "teal", name: String(localized: "teal"), color: .teal),
-        TintOption(id: "maroon", name: String(localized: "maroon"), color: Color.hex("800000")),
-        TintOption(id: "darkorange", name: String(localized: "darkorange"), color: Color(uiColor: #colorLiteral(red: 0.8608909249, green: 0.1735971868, blue: 0.08356299251, alpha: 1)) ),
-        TintOption(id: "darkgreen", name: String(localized: "darkgreen"), color: Color(uiColor: #colorLiteral(red: 0.3049176335, green: 0.5427229404, blue: 0.1484210789, alpha: 1)) )
-    ]
-
-
     private var weekdaySelection: some View {
         List {
-            ForEach(Weekdays) { weekday in
-
+            ForEach(weekdays.indices, id: \.self) { index in
+                let weekday = weekdays[index]
                 Button {
-                    calendarManager.weekday = weekday.id + 1
+                    calendarManager.weekday = index + 1
                 } label: {
-                    HStack{
-                        Text(weekday.name)
+                    HStack {
+                        Text(weekday)
                             .foregroundColor(.primary)
                         Spacer()
-                        if calendarManager.weekday == (weekday.id+1) {
+                        if calendarManager.weekday == index + 1 {
                             Image(systemName: "checkmark")
                                 .transition(.opacity)
                         }
@@ -141,19 +150,22 @@ struct SettingsView: View {
                             tintOptionSelected = "blackwhite"
                         }
                     } label: {
-                        ColorPreviewView(name: String(localized: "blackwhite"), selected: tintOptionSelected == "blackwhite", color: colorScheme == .light ? .black : .white)
+                        ColorPreviewView(name: String(localized: "blackwhite"),
+                                         selected: tintOptionSelected == "blackwhite",
+                                         color: colorScheme == .light ? .black : .white)
                             .frame(height: geo.size.width / 3)
                     }
 
-                    ForEach(tintOptions) { tint in
+                    ForEach(tintOptions, id: \.self.1) { tint in
+                        let colorName = String(localized: String.LocalizationValue(tint.0))
                         Button {
-                            withAnimation {
-                                calendarManager.accentColor = tint.color
-                                tintOptionSelected = tint.id
-                            }
+                            calendarManager.accentColor = tint.1
+                            tintOptionSelected = tint.0
                         } label: {
-                            ColorPreviewView(name: tint.name, selected: tintOptionSelected == tint.id, color: tint.color)
-                                .frame(height: geo.size.width / 3)
+                            ColorPreviewView(name: colorName,
+                                             selected: tintOptionSelected == tint.0,
+                                             color: tint.1)
+                            .frame(height: geo.size.width / 3)
                         }
                     }
                 }
@@ -193,18 +205,13 @@ struct SettingsView: View {
         }
     }
 
-    @State private var iCloud: Bool = PersistenceController.cloud
+    @State var iCloud: Bool = false
     private var iCloudToggle: some View {
         Toggle(isOn: $iCloud) {
             ImageLabel(title: String(localized: "iCloudSync"), systemName: "cloud.fill", color: Color.hex("036bfc"))
         }
-            .onChange(of: iCloud) { refreshCoreData(cloud: $0) }
-    }
-
-    private func refreshCoreData(cloud: Bool) {
-        PersistenceController.cloud = cloud
-        PersistenceController.reloadController()
-        NotificationCenter.default.post(name: NSNotification.Name("CoreDataRefresh"), object: nil)
+        .onAppear { iCloud = persistenceController.cloud }
+        .onChange(of: iCloud) { persistenceController.enableiCloud($0) }
     }
 
     @State private var showingDeleteAlert = false
@@ -212,9 +219,11 @@ struct SettingsView: View {
         Button("eraseall", role: .destructive, action: {showingDeleteAlert = true})
         .alert("eraseallalert", isPresented: $showingDeleteAlert) {
             Button("delete", role: .destructive) {
-                calendarManager.deleteAll()
-                shiftManager.deleteAll()
-                patternManager.deleteAll()
+                Task {
+                    await calendarManager.deleteAll()
+                    await shiftManager.deleteAll()
+                    await patternManager.deleteAll()
+                }
             }
         } message: {
             Text("eraseallmessage")
@@ -247,10 +256,7 @@ struct SettingsView: View {
                 } header: {
                     Text(typeNames[index])
                 }
-
-
             }
-
         }
         .navigationTitle("todayindicator")
     }
@@ -260,8 +266,6 @@ struct SettingsView: View {
             UIApplication.shared.open(url)
         }
     }
-
-
 }
 
 

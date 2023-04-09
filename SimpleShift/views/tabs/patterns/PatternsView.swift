@@ -55,11 +55,12 @@ struct PatternsView: View {
             .onChange(of: patternManager.patternSelected) {
                 if let first = $0.first {
                     if !(scrollHeight > frameHeight/2) { return }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            withAnimation {
-                                scroll.scrollTo(first, anchor: UnitPoint.top )
-                            }
+                    Task {
+                        try await Task.sleep(for: .milliseconds(500))
+                        withAnimation {
+                            scroll.scrollTo(first, anchor: UnitPoint.top )
                         }
+                    }
                 }
             }
         }
@@ -74,11 +75,13 @@ struct PatternsView: View {
                     isEditingTransitory = true
                     let isEmpty = patternManager.patternSelected.isEmpty
                     if !isEmpty { patternManager.patternSelected.removeAll() }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + (isEmpty ? 0.0 : 1.0), execute: {
+                    Task {
+                        try await Task.sleep(for: .seconds(isEmpty ? 0 : 1))
                         isEditing.toggle()
                         isEditingTransitory = false
-                    })
+                    }
                 }
+                .bold(isEditing)
                 .disabled(isEditingTransitory)
             }
         }
@@ -92,7 +95,7 @@ struct PatternsView: View {
         LazyVStack{
             if isEmpty { PatternsTip().transition(.scaleInOut(anchor: .bottom)) }
             ForEach(patternManager.patternStore) { let id = $0.id
-                PatternView(tabSelection: $tabSelection, pattern: $0, zoomedIn: patternManager.patternSelected.contains(id))
+                PatternView(tabSelection: $tabSelection, isEditing: $isEditing, pattern: $0, zoomedIn: patternManager.patternSelected.contains(id))
                     .id(id)
                     .transition(.scaleInOut(anchor: .top))
             }
@@ -106,7 +109,7 @@ struct PatternsView: View {
     var editStack: some View {
         LazyVStack {
             ForEach(patternManager.patternStore) { pattern in
-                PatternView(tabSelection: $tabSelection, pattern: pattern, isBasicView: true, zoomedIn: false)
+                PatternView(tabSelection: $tabSelection, isEditing: $isEditing, pattern: pattern, isBasicView: true, zoomedIn: false)
                     .id(pattern.id)
             }
 
@@ -114,7 +117,7 @@ struct PatternsView: View {
     }
 
     func addPattern() {
-        patternManager.setPattern(pattern: Pattern(id: UUID(), name: "", firstday: 1))
+        patternManager.setPattern(pattern: Pattern(id: UUID()))
     }
 }
 

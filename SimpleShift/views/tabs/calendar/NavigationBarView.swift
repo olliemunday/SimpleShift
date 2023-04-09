@@ -8,30 +8,36 @@
 import SwiftUI
 import UIKit
 
-struct NavigationBarView: View {
-
+struct NavigationBarView: View, Sendable {
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject var calendarManager: CalendarManager
+    @EnvironmentObject private var calendarManager: CalendarManager
+    @EnvironmentObject private var hapticManager: HapticManager
+
     @Binding var navigationIsScaled: Bool
     @Binding var enableDatePicker: Bool
     @Binding var showDatePicker: Bool
     @Binding var isEditing: Bool
     @Binding var datePickerDate: Date
 
-    // State to pass to transition as binding if we are moving forward or backwards.
+    // Var for if we navigation is already changing.
+    @State var transitionActive: Bool = false
+
+    // Var for if running on an A11 device.
+    @State private var isA11: Bool = false
+
+    // Var to pass to transition as binding if we are moving forward or backwards.
     @Binding var dateForward: Bool
 
-    // Pass in Haptic function from parent view.
-    var playHaptic: (Float, Float, Double) -> ()
-
     var body: some View {
-        navigationSection
+        navigationBar
+
     }
 
     // Offset of date text via drag animation.
     @State private var dateOffset: CGSize = CGSize.zero
+
     // Navigation bar parent.
-    private var navigationSection: some View {
+    private var navigationBar: some View {
         ZStack {
             navigationBackground
             navigationDate.zIndex(2)
@@ -45,7 +51,7 @@ struct NavigationBarView: View {
         .onAnimationCompleted(for: navigationIsScaled ? 1.0 : 0.0) {
             if !showDatePicker { enableDatePicker = false }
             if navigationIsScaled {
-                playHaptic(1.0, 8, 0.5)
+                hapticManager.medium()
                 showDatePicker = true
                 navigationIsScaled = false
             }
@@ -54,22 +60,43 @@ struct NavigationBarView: View {
         .gesture(dragGesture)
         .simultaneousGesture(longPress)
         .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: calendarManager.dateDisplay)
-        .animation(.interactiveSpring(response: 0.8, dampingFraction: 0.5), value: dateOffset)
-        .onChange(of: calendarManager.dateDisplay, perform: { _ in
-            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.75)) { changeDetect = 1.0 }
-        })
-        .onAnimationCompleted(for: changeDetect) {
-            changeDetect = 0.0
-            if showDatePicker { return }
-            self.calendarManager.setMonth()
-        }
+        .animation(.interactiveSpring(response: 0.9, dampingFraction: 0.9), value: dateOffset)
+        .onAppear(perform: { isA11 = UIDevice.current.modelName.contains("iPhone10") })
     }
+
     // Background for Navigation bar.
-    private var navigationBackground: some View {
+    @ViewBuilder private var navigationBackground: some View {
+        if isA11 { navigationBackgroundSimple }
+        else { navigationBackgroundBlur }
+    }
+
+    // Navigation Bar background with Blur view.
+    private var navigationBackgroundBlur: some View {
         VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+            .background(
+                Rectangle()
+                    .foregroundColor(.accentColor)
+                    .opacity(0.18)
+
+            )
             .cornerRadius(16)
             .shadow(radius: 1)
     }
+
+    // Navigation Bar background with Rectangle which improves performance on A11.
+    private var navigationBackgroundSimple: some View {
+        Rectangle()
+            .foregroundColor(Color("NavBarBackground"))
+            .overlay(content: {
+                Rectangle()
+                    .foregroundColor(.accentColor)
+                    .opacity(0.15)
+            })
+            .opacity(0.8)
+            .cornerRadius(16)
+            .shadow(radius: 1)
+    }
+
     // Buttons for Navigation bar.
     private var navigationButtons: some View {
         HStack(spacing: 0) {
@@ -87,15 +114,21 @@ struct NavigationBarView: View {
             .padding(.trailing, 5)
         }
     }
+
     // Function to run for the navigation buttons. Delay iterating month so dateForward is established else animations can be buggy.
     private func navigationButtonAction(forward: Bool) {
+        if transitionActive { return }
         dateForward = forward
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            calendarManager.iterateMonth(value: forward ? 1 : -1)
-        })
+        transitionActive = true
+        Task {
+            try await Task.sleep(for: .milliseconds(10))
+            await calendarManager.iterateMonth(value: forward ? 1 : -1)
+            try await Task.sleep(for: .seconds(1))
+            await calendarManager.setMonth()
+            transitionActive = false
+        }
     }
-    // Proxy for text animation. Will be 1.0 when animation is finished.
-    @State private var changeDetect = 0.0
+
     // Date display for Navigation bar.
     @ViewBuilder private var navigationDate: some View {
         Text(calendarManager.dateDisplay)
@@ -108,14 +141,13 @@ struct NavigationBarView: View {
             .drawingGroup()
     }
 
-
     // Long press on bar gesture.
     private var longPress: some Gesture {
         LongPressGesture(minimumDuration: 0.2)
             .onEnded { _ in
                 if showDatePicker { return }
                 datePickerDate = calendarManager.setDate
-                playHaptic(0.5, 1, 0.3)
+                hapticManager.medium()
                 dateOffset = .zero
                 navigationIsScaled = true
                 enableDatePicker = true
@@ -126,20 +158,30 @@ struct NavigationBarView: View {
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged({
-                if showDatePicker || enableDatePicker { return }
-                isEditing = false
+                if showDatePicker || enableDatePicker || transitionActive { return }
                 let width = $0.translation.width
                 dateForward = (width > 0 ? false : true)
                 dateOffset = CGSize(width: width, height: 0)
             })
             .onEnded({
                 // End of drag gesture and long press gesture
+                if showDatePicker || enableDatePicker || transitionActive { return }
                 let width = $0.translation.width
                 dateOffset = .zero
                 navigationIsScaled = false
-                if showDatePicker || enableDatePicker { return }
-                if width > 80 { iterateMonth(forward: false); return }
-                if width < -80 { iterateMonth(forward: true); return }
+
+                if abs(width) > 80 {
+                    dateForward = width > 80 ? false : true
+                    transitionActive = true
+                    Task {
+                        try await Task.sleep(for: .milliseconds(10))
+                        await calendarManager.iterateMonth(value: dateForward ? 1 : -1)
+                        try await Task.sleep(for: .seconds(1))
+                        await calendarManager.setMonth()
+                        transitionActive = false
+                    }
+
+                }
             })
     }
     // Iterate calendarManager month

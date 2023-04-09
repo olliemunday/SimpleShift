@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ImageLabel: View {
-
     let title: String
     let systemName: String
     let color: Color
@@ -24,7 +23,6 @@ struct ImageLabel: View {
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(symbolColor)
                     .padding(4)
-                
             }
             .frame(width: 28, height: 28, alignment: .center)
             Text(title)

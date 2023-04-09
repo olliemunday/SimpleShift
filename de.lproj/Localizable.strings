@@ -8,7 +8,6 @@
 
 // Welcome View
 "welcomeText" = "Willkommen bei SimpleShift";
-
 "welcomeBulletin1Title" = "Schichtvorlagen";
 "welcomeBulletin1" = "Erstellen Sie Schichtvorlagen und wischen Sie, um sie zum Kalender hinzuzufügen";
 "welcomeBulletin2Title" = "Einfach Muster";
@@ -31,6 +30,7 @@
 "pattern" = "Muster";
 "settings" = "Einstellungen";
 "exporting" = "Exportieren...";
+"navigationbar" = "Navigationsleiste";
 
 
 // Settings
@@ -79,7 +79,7 @@
 
 // Shifts
 "createshifts" = "Schichten erstellen";
-"createshiftstagline" = "Erstellen Sie Schichtvorlagen, die Sie dem Kalender hinzufügen können.";
+"createshiftstagline" = "Erstellen Sie Schichtkarten-Vorlagen und fügen Sie sie einfach zum Schichtkalender hinzu.";
 "selectshift" = "Wählen Sie Schicht";
 
 "color" = "Farbe";
@@ -96,6 +96,7 @@
 "custom" = "Brauch";
 "starttime" = "Startzeit";
 "endtime" = "Endzeit";
+"shiftdeletealert" = "Das Löschen einer Schicht entfernt sie aus dem Kalender.";
 
 // Patterns
 "shiftpatterns" = "Schichtmuster";
@@ -148,23 +149,28 @@
 
 // Calendar Help
 
-"calendarhelp1" = "Der Schichtkalender dient zum Planen und Anzeigen von Schichten auf einen Blick.";
-"calendarhelp2" = "Bearbeiten Sie den Kalender ganz einfach mit der Schaltfläche Bearbeiten oder durch langes Drücken auf den Kalenderbereich.";
-"calendarhelp3" = "Erstellen Sie zunächst die Schichtvorlagen auf der Registerkarte „Schichten“ und fügen Sie sie dem Kalender hinzu.\n\nIm Bearbeitungsmodus können Sie einfach die Schichten ziehen, die Sie bearbeiten möchten, und die Schicht für die ausgewählten Daten planen.";
-"calendarhelp4" = "Verwenden Sie die Teilen-Schaltfläche, um ein Bild des aktuell ausgewählten Monats zu exportieren. Einmal exportiert, kann es geteilt oder gespeichert werden.";
+"calendarhelp1" = "Der Schichtkalender wird zum Planen und Anzeigen von Schichten auf einen Blick verwendet.";
+"calendarhelp_navigationHeader" = "Navigation";
+"calendarhelp_navigation1" = "Sie können den Kalenderbereich hoch- und runterziehen, um im Kalender vor- oder zurückzugehen.\n\nDie Navigationsleiste kann verwendet werden, um den Monat durch Wischen oder Verwendung der Pfeiltasten zu ändern.\n\nDurch Tippen und Halten auf der Navigationsleiste können Sie den Datumsauswahl öffnen.";
+"calendarhelp_editingHeader" = "Bearbeitung";
+"calendarhelp2" = "Bearbeiten Sie den Kalender einfach durch Verwendung der Schaltfläche 'Bearbeiten' oder durch langes Drücken auf den Kalenderbereich.";
+"calendarhelp3" = "Erstellen Sie zuerst die Schichtvorlagen unter dem Tab 'Schichten' und fügen Sie sie zum Kalender hinzu.\n\nSobald Sie sich im Bearbeitungsmodus befinden, können Sie die Schichten auswählen, die Sie bearbeiten möchten, und die Schicht für die ausgewählten Termine planen.";
+"calendarhelp_sharingHeader" = "Teilen";
+"calendarhelp4" = "Verwenden Sie die Schaltfläche 'Teilen', um ein Bild des aktuell ausgewählten Monats zu exportieren. Nach dem Exportieren kann es geteilt oder gespeichert werden.";
 
 // Shifts Help
 "shiftshelp1" = "Die Registerkarte Schichten wird zum Erstellen von Schichtvorlagen zur Verwendung im Schichtkalender verwendet.\n\n
 Hier können Sie vordefinierte Schichten erstellen und sie verwenden, um ein Muster auf der Registerkarte Muster einzurichten.";
 "shiftshelp2" = "Verwenden Sie die Schaltfläche +, um dem Stapel eine neue Schicht hinzuzufügen.";
 "shiftshelp3" = "Der Schicht-Editor bietet eine Schnittstelle, um die Schichtvorlage nach Ihren Wünschen anzupassen.";
-"shiftshelp4" = "Ziehen Sie Schichten per Drag & Drop in die Liste, um die Reihenfolge neu anzuordnen.";
+"shiftshelp4" = "Ziehen und Ablegen von Schichten in der Liste, um die Reihenfolge neu anzuordnen.";
 
 
 // Patterns Help
-"patternshelp1" = "Auf der Registerkarte Muster können Schichtmuster erstellt werden. Richten Sie wöchentliche Muster ein und wenden Sie sie dann auf den Kalender an.";
-"patternshelp2" = "Fügen Sie mit der Plus-Schaltfläche ein Muster hinzu und tippen Sie darauf, um es zu bearbeiten. Tippen und halten Sie auf die Platzhalter, um Schichtvorlagen auszuwählen und anzuwenden.";
-"patternshelp3" = "Verwenden Sie die Optionsschaltfläche, um Wochen zum Stapel hinzuzufügen und zu entfernen und Muster zu entfernen.";
-"patternshelp4" = "Wird eine Schicht gelöscht, wird der Platzhalter auf die ursprüngliche Aus-Einstellung zurückgesetzt.";
-"patternshelp5" = "Wenn das Muster eingerichtet ist, kann es über die Option Anwenden im Menü auf den Kalender angewendet werden. Wählen Sie das Startdatum im Kalender aus und legen Sie fest, wie oft das Muster wiederholt werden soll.";
+"patternshelp1" = "Im Bereich 'Muster' können Schichtmuster erstellt werden. Legen Sie wöchentliche Muster fest und wenden Sie diese dann auf den Kalender an.";
+"patternshelp2" = "Fügen Sie ein Muster mit dem Plus-Button hinzu und tippen Sie darauf, um es zu bearbeiten. Tippen und halten Sie auf den Platzhaltern, um Schichten auszuwählen und anzuwenden.";
+"patternshelp3" = "Um ein Muster umzubenennen, halten Sie den Namen gedrückt, wenn das Muster erweitert ist, oder verwenden Sie den oben gezeigten Button, um die Bearbeitung zu aktivieren.";
+"patternshelp4" = "Um eine Woche hinzuzufügen, verwenden Sie den Plus-Button unten im Stapel. Um eine Woche zu löschen, wischen Sie nach links, um den Lösungsbutton anzuzeigen.";
+"patternshelp5" = "Im Falle einer gelöschten Schicht wird der Platzhalter auf den ursprünglichen Aus-Zustand zurückgesetzt.";
+"patternshelp6" = "Sobald das Muster eingerichtet ist, kann es mit dem oben angezeigten 'Anwenden'-Button auf den Kalender angewendet werden. Wählen Sie das Startdatum im Kalender aus und entscheiden Sie, wie oft das Muster wiederholt werden soll.";
 

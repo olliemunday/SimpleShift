@@ -15,7 +15,9 @@ struct PatternView: View {
     @EnvironmentObject var patternManager: PatternManager
     @EnvironmentObject var shiftManager: ShiftManager
     @EnvironmentObject var calendarManager: CalendarManager
+    @EnvironmentObject var hapticManager: HapticManager
     @Binding var tabSelection: Int
+    @Binding var isEditing: Bool
     
     // Binding to pattern in patternManager array passed from parent view.
     var pattern: Pattern
@@ -91,12 +93,34 @@ struct PatternView: View {
             }
         }
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: pattern.weekArray)
-            .onAppear { prepareHaptics() }
+            .onAppear { hapticManager.prepareEngine() }
             .onChange(of: zoomedIn) { zoomed in if !zoomed { nameDisabled = true }; mainOffset = 0 }
-            .onChange(of: scenePhase, perform: { scene in if scene == .active {prepareHaptics()} })
+            .onChange(of: scenePhase, perform: { scene in if scene == .active { hapticManager.prepareEngine() } })
             .popover(isPresented: $showShiftSelector) { shiftSelector }
             .onTapGesture { if !isBasicView { patternToggle(id: pattern.id) } }
+            .onLongPressGesture(minimumDuration: 1.0, perform: {
+                if zoomedIn { return }
+                isEditing.toggle()
+                hapticManager.extraLight()
+            })
             .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20))
+    }
+
+    private var longPress: some Gesture {
+        LongPressGesture(minimumDuration: 1.0)
+            .onEnded { _ in
+                if zoomedIn { return }
+                isEditing.toggle()
+                hapticManager.extraLight()
+            }
+    }
+
+    private var onTap: some Gesture {
+        TapGesture()
+            .onEnded { _ in
+                if !isBasicView { patternToggle(id: pattern.id) }
+            }
+
     }
 
     private var slideGesture: some Gesture {
@@ -119,7 +143,8 @@ struct PatternView: View {
         HStack {
             Spacer()
             Button { deleteAlert = true; mainOffset = 0 } label: {
-                RoundedRectangle(cornerRadius: 12)
+                Rectangle()
+                    .cornerRadius(12)
                     .foregroundColor(Color("PatternBackground"))
                     .frame(width: 60, height: 60)
                     .shadow(radius: 2)
@@ -136,26 +161,45 @@ struct PatternView: View {
     }
 
     private var background: some View {
-        RoundedRectangle(cornerRadius: zoomedIn ? 12 : 20)
+        Rectangle()
+            .cornerRadius(zoomedIn ? 12 : 20)
             .foregroundColor(Color("PatternBackground"))
             .shadow(radius: zoomedIn ?  3 : 1)
-    }
-
-    private var actionsBar: some View {
-        RoundedRectangle(cornerRadius: 12)
-            .frame(height: 50, alignment: .center)
-            .padding(.horizontal, 15)
-            .padding(.bottom, 4)
     }
     
     /// Top Bar Section
     private var topBar: some View {
-        HStack(alignment: .top) {
-            patternTitle
-            Spacer()
-//            if zoomedIn { optionsButton.transition(.scale.combined(with: .opacity)) }
+        ZStack {
+            HStack {
+                patternTitle
+                Spacer()
+                if zoomedIn {
+                    Rectangle()
+                        .hidden()
+                        .frame(width: 80, height: 1)
+                }
+            }
+
+            HStack(spacing: 10) {
+                Spacer()
+                editNameButton
+                    .scaleEffect(zoomedIn ? 1 : 0.05, anchor: .top)
+                    .rotationEffect(.degrees(zoomedIn ? 0 : -45))
+                    .opacity(zoomedIn ? 1.0 : 0.0)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0), value: zoomedIn)
+                applyButton
+                    .scaleEffect(zoomedIn ? 1 : 0.05, anchor: .top)
+                    .rotationEffect(.degrees(zoomedIn ? 0 : -45))
+                    .opacity(zoomedIn ? 1.0 : 0.0)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0).delay(0.1), value: zoomedIn)
+            }
+                .zIndex(10)
+                .padding(.top, 14)
+                .padding(.trailing, 14)
+                .padding(.leading, 10)
+
         }
-        .padding(.bottom, zoomedIn ? 6 : 4)
+        .padding(.bottom, zoomedIn ? 10 : 4)
     }
     
     @State var patternName: String = ""
@@ -193,39 +237,32 @@ struct PatternView: View {
     }
 
     @State private var deleteAlert: Bool = false
-    private var optionsButton: some View {
-        Menu {
-            Section {
-                Button(action: {applyPattern()}, label: {Label("apply", systemImage: "arrowshape.turn.up.forward.circle")})
-                Button(action: {editName()}, label: {Label("editname", systemImage: "pencil.circle")})
-                Button(role: .destructive,action: {deleteAlert = true}, label: {Label("delete", systemImage: "minus.circle")})
-                .foregroundColor(.red)
-            }
-            Section {
-                Button(action: {addWeek()}, label: {Label("addweek", systemImage: "plus.square.on.square")})
-                if pattern.weekArray.count > 1 {
-                    Button(role: .destructive,action: {removeWeek()}, label: {Label("deleteweek", systemImage: "minus.circle")})
-                }
-            }
+
+    private var applyButton: some View {
+        Button {
+            applyPattern()
         } label: {
-            Image(systemName: "ellipsis.circle")
+            Image(systemName: "arrowshape.turn.up.forward.circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .padding(.top, 20)
-                .padding(.trailing, 16)
+                .frame(width: 36, height: 36)
         }
-        .alert("Delete Pattern", isPresented: $deleteAlert, actions: {
-            Button("Delete", role: .destructive, action: {patternManager.deletePattern(id: pattern.id); deleteAlert = false})
-            Button("Cancel", role: .cancel, action: {deleteAlert = false})
-        })
-            .onTapGesture { return }
+    }
 
+    private var editNameButton: some View {
+        Button {
+            editName()
+        } label: {
+            Image(systemName: "a.circle")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 36, height: 36)
+        }
     }
     
     /// Week section
     private var weekdayBar: some View {
-        WeekdayBar(weekday: pattern.firstday, accentColor: calendarManager.accentColor)
+        WeekdayBar(weekday: calendarManager.weekday, accentColor: calendarManager.accentColor)
             .padding(.horizontal, 2)
             .transition(.opacity.combined(with: .scale))
     }
@@ -238,41 +275,45 @@ struct PatternView: View {
     }
     private var weekView: some View {
         VStack(spacing: 2) {
-            weekStack
-                .transition(.scaleInOut(anchor: .top, voffset: -100))
-                .frame(height: zoomedIn ? 80 : 65)
-                .padding(.horizontal, zoomedIn ? 0 : 10)
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: isDragging ? 0 : 1000, coordinateSpace: .named(pattern.id))
-                        .onChanged({ drag in
-                            if !isDragging || !zoomedIn { return }
-                            if let data = senseData.first(where: {$0.bounds.contains(drag.location)}) {
-                                if patternManager.getSelectionEnd() == data.index { return }
-                                selectionEnd(index: data.index)
-                                selectHaptic()
-                            }
-                        })
-                        .onEnded({ drag in
-                            if isDragging {
-                                showShiftSelector.toggle()
-                                patternManager.setShiftsUnselected()
-                            }
-                            isDragging = false
-                        })
-                )
-        }
-        
-    }
-    @ViewBuilder private var weekStack: some View {
-        ForEach(Array(pattern.weekArray.enumerated()), id: \.offset) { index, week in
-            if (index == 0) || (zoomedIn && index > 0) {
-                PatternWeekView(week: week, patternId: pattern.id, zoomedIn: zoomedIn, isDragging: $isDragging, startHaptic: startHaptic)
-                    .zIndex(100 - Double(index))
+            ForEach(pattern.weekArray) { week in
+                let isFirst = patternManager.isFirstWeek(weekId: week.id, patternId: pattern.id)
+                if zoomedIn || isFirst {
+                    PatternWeekView(week: week,
+                                    patternId: pattern.id,
+                                    zoomedIn: zoomedIn,
+                                    isFirst: isFirst,
+                                    isDragging: $isDragging)
+                        .transition(.scaleInOut(anchor: .top, voffset: -100))
+                        .frame(height: zoomedIn ? 80 : 65)
+                }
+            }
+
+            if zoomedIn && !(pattern.weekArray.count >= 16) {
+                addWeekButton
+                    .padding(2)
+                .transition(.scaleInOut(anchor: .top, voffset: CGFloat(-70 * pattern.weekArray.count)))
             }
         }
-
-        if zoomedIn { addWeekButton }
-
+            .animation(.spring(), value: pattern.weekArray)
+            .padding(.horizontal, zoomedIn ? 0 : 10)
+            .simultaneousGesture(
+                DragGesture(minimumDistance: isDragging ? 0 : 1000, coordinateSpace: .named(pattern.id))
+                    .onChanged({ drag in
+                        if !isDragging || !zoomedIn { return }
+                        if let data = senseData.first(where: {$0.bounds.contains(drag.location)}) {
+                            if patternManager.getSelectionEnd() == data.index { return }
+                            selectionEnd(index: data.index)
+                            hapticManager.extraLight()
+                        }
+                    })
+                    .onEnded({ drag in
+                        if isDragging {
+                            showShiftSelector.toggle()
+                            patternManager.setShiftsUnselected()
+                        }
+                        isDragging = false
+                    })
+            )
     }
 
     private var addWeekButton: some View {
@@ -280,7 +321,8 @@ struct PatternView: View {
             addWeek()
         } label: {
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
+                Rectangle()
+                    .cornerRadius(16)
                     .foregroundColor(Color("ShiftBackground"))
 
                 Image(systemName: "plus.circle.fill")
@@ -290,8 +332,7 @@ struct PatternView: View {
                     .foregroundColor(.accentColor)
             }
         }
-        .frame(width: 58, height: 58, alignment: .center)
-            .disabled(pattern.weekArray.count >= 16)
+            .frame(width: 100, height: 45, alignment: .center)
     }
 
     private var shiftSelector: some View {
@@ -334,7 +375,8 @@ struct PatternView: View {
     }
     private func editName() {
         nameDisabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        Task {
+            try await Task.sleep(for: .milliseconds(200))
             nameFocus.toggle()
         }
     }
@@ -342,7 +384,7 @@ struct PatternView: View {
         patternManager.addWeekToPattern(id: pattern.id)
     }
     private func removeWeek() {
-        patternManager.removeWeekFromPattern(id: pattern.id)
+        patternManager.removeLastWeekFromPattern(id: pattern.id)
     }
     private func selectionEnd(index: Int) {
         patternManager.setSelectionEnd(index: index)
@@ -353,19 +395,6 @@ struct PatternView: View {
         
         if weekId == senseId { return true } else { return false}
     }
-    
-    /// Core Haptic Functions
-    
-    private func prepareHaptics() {
-        hapticEngine = CHHapticEngine.prepareEngine()
-    }
-    private func playHaptic(intensity: Float, sharpness: Float, duration: Double) {
-        hapticEngine?.playHaptic(intensity: intensity, sharpness: sharpness, duration: duration)
-    }
-    
-    private func selectHaptic() { playHaptic(intensity: 0.5, sharpness: 0.5, duration: 0.5) }
-    private func startHaptic() { playHaptic(intensity: 1, sharpness: 1, duration: 0.8) }
-
     private func patternToggle(id: UUID) {
         if !(mainOffset == 0) { return }
         patternManager.patternToggle(id: id)
@@ -381,14 +410,8 @@ struct PatternDropDelegate: DropDelegate {
 
     func performDrop(info: DropInfo) -> Bool { true }
 
-    func dropEntered(info: DropInfo) {
-        print("onEntered")
-        print("Dragged: \(dragged) Dropped: \(dropped)")
-        onEntered(dragged, dropped)
-    }
+    func dropEntered(info: DropInfo) { onEntered(dragged, dropped) }
 
-    func dropUpdated(info: DropInfo) -> DropProposal? {
-        DropProposal(operation: .move)
-    }
+    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
 
 }

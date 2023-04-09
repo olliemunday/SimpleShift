@@ -20,13 +20,17 @@ struct WelcomeView: View {
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
+
+                SpinningGradientLogo(size: 120)
+                    .padding(.top, 40)
+
                 Text("welcomeText")
                     .font(.largeTitle)
                     .bold()
                     .multilineTextAlignment(.center)
-                    .padding(.top, 50)
-                    .padding(.bottom, 40)
-                    .padding(.horizontal, 30)
+                    .padding(.top, 10)
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, 20)
                 
                 infoBulletin
                 Spacer()
@@ -95,9 +99,9 @@ struct WelcomeView: View {
                 .frame(width: 40, height: 40)
                 .padding(.horizontal, 5)
             VStack(alignment: .leading) {
-                Text("Create Shift Templates")
+                Text("createshifts")
                     .bold()
-                Text("Create shift card templates and easily add to the shift calendar")
+                Text("createshiftstagline")
             }
         }
         .padding(.horizontal, 15)

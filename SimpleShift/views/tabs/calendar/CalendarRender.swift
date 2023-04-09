@@ -4,6 +4,8 @@
 //
 //  Created by Ollie on 13/11/2022.
 //
+//  Render the current calendar to be exported as an image
+//
 
 import SwiftUI
 
@@ -40,7 +42,13 @@ struct CalendarRender: View {
 
                 LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
                     ForEach(dates) { date in
-                        DateView(id: date.id, date: date, template: shifts.first(where: {$0.id == date.templateId}), greyed: date.greyed, offDay: true, today: 0, accentColor: .blue)
+                        DateView(id: date.id,
+                                 date: date,
+                                 template: shifts.first(where: {$0.id == date.templateId}),
+                                 greyed: date.greyed,
+                                 offDay: true,
+                                 today: 0,
+                                 accentColor: accentColor)
                             .frame(height: 90)
 
                     }

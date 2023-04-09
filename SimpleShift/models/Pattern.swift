@@ -13,7 +13,6 @@ struct Pattern: Identifiable, Equatable, Codable, Hashable {
     let id: UUID
     var name: String = ""
     var weekArray: [PatternWeek] = [PatternWeek(id: UUID())]
-    var firstday: Int = 1
     
     func getWeekIndexId(weekId: UUID) -> Int {
         guard let index = self.weekArray.firstIndex(where: {$0.id == weekId}) else {

@@ -11,17 +11,17 @@ import os
 import Combine
 import CoreHaptics
 
-struct CalendarView: View {
+struct CalendarView: View, Sendable {
     /// External variables/objects
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.timeZone) private var timeZone
     @EnvironmentObject private var calendarManager: CalendarManager
     @EnvironmentObject private var shiftManager: ShiftManager
+    @EnvironmentObject private var hapticManager: HapticManager
 
     @Binding var tintOptionSelected: String
     @Binding var tabSelection: Int
-    @State private var hapticEngine: CHHapticEngine?
     @State private var navigationIsScaled = false
     @State private var isEditing: Bool = false
     // State to pass to transition as binding if we are moving forward or backwards.
@@ -49,11 +49,11 @@ struct CalendarView: View {
         .navigationViewStyle(.stack)
         .onChange(of: scenePhase, perform: { if $0 == .active {
             if tintOptionSelected == "blackwhite" { withAnimation { calendarManager.accentColor = colorScheme == .light ? .black : .white } }
-            calendarManager.setMonth()
-            prepareHaptics()
+            Task.detached { await calendarManager.setMonth() }
+            hapticManager.prepareEngine()
         } })
         .onDisappear { isEditing = false }
-        .onAppear() { calendarManager.setMonth(); prepareHaptics() }
+        .onAppear() { Task.detached { await calendarManager.setMonth() }; hapticManager.prepareEngine() }
         .onChange(of: calendarManager.isApplyingPattern) { applying in isEditing = applying }
         .onChange(of: tabSelection) { if !($0 == 1) { calendarManager.deselectPattern() } }
         .onChange(of: snapshotImage, perform: { _ in showShareSheet = true })
@@ -73,8 +73,12 @@ struct CalendarView: View {
         Button("today") {
             if Date.now > calendarManager.setDate { dateForward = true } else { dateForward = false }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {calendarManager.setCalendarDateToday()})
-
+            Task.detached {
+                try await Task.sleep(for: Duration.milliseconds(200))
+                DispatchQueue.main.async { calendarManager.setCalendarDateToday() }
+                try await Task.sleep(for: Duration.milliseconds(500))
+                await calendarManager.setMonth()
+            }
         }
         .disabled(calendarManager.isSameMonth(date: calendarManager.getCalendarDate(date: Date.now) ?? Date.now))
     }
@@ -83,6 +87,7 @@ struct CalendarView: View {
         Button(isEditing ? "done" : "edit" ) {
             isEditing.toggle()
         }
+        .bold(isEditing)
 
     }
 
@@ -121,8 +126,8 @@ struct CalendarView: View {
     private var shareButton: some View {
         Button {
             showRendering = true
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            Task {
+                try await Task.sleep(for: .milliseconds(500))
                 let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.dateDisplay, weekday: calendarManager.weekday, accentColor: calendarManager.accentColor, dates: calendarManager.datesPage.dates, shifts: shiftManager.shifts).environment(\.colorScheme, colorScheme))
                 renderer.proposedSize = ProposedViewSize(width: 400, height: 660)
                 renderer.scale = 3
@@ -168,12 +173,13 @@ struct CalendarView: View {
         VStack {
             Spacer()
             ZStack {
-                let blurEffect = UIBlurEffect(style: colorScheme == .light ? .extraLight : .dark)
+                VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+                    .background(
+                        Rectangle()
+                            .foregroundColor(.accentColor)
+                            .opacity(0.2)
 
-                ZStack {
-                    VisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
-                    VisualEffectView(effect: blurEffect)
-                }
+                    )
                 .opacity(showDatePicker ? 1 : 0.0)
                 .cornerRadius(28)
                 
@@ -185,9 +191,8 @@ struct CalendarView: View {
                         .onChange(of: datePickerDate) {
                             if calendarManager.isSameMonth(date: datePickerDate) { return }
                             if datePickerDate > calendarManager.setDate { dateForward = true } else { dateForward = false }
-                            calendarManager.setDate = datePickerDate
                             calendarManager.setCalendarDate(date: $0)
-                            calendarManager.setMonth()
+                            Task.detached { await calendarManager.setMonth() }
                         }
                 }
             }
@@ -208,7 +213,7 @@ struct CalendarView: View {
                 .frame(height: 30)
                 .zIndex(2)
 
-            CalendarDateView(dateForward: $dateForward,isEditing: $isEditing, playHaptic: playHaptic)
+            CalendarDateView(dateForward: $dateForward, isEditing: $isEditing)
                 .zIndex(1)
 
             NavigationBarView(navigationIsScaled: $navigationIsScaled,
@@ -216,26 +221,12 @@ struct CalendarView: View {
                               showDatePicker: $showDatePicker,
                               isEditing: $isEditing,
                               datePickerDate: $datePickerDate,
-                              dateForward: $dateForward,
-                              playHaptic: playHaptic)
+                              dateForward: $dateForward)
                 .zIndex(2)
                 .padding(.top, 2)
         }
     }
 
-    ///=============================>
-    /// Core Haptics Events
-    ///=============================>
-    // Prepare Haptics.
-    private func prepareHaptics() {
-        hapticEngine = CHHapticEngine.prepareEngine()
-    }
-    // Play a haptic event.
-    private func playHaptic(intensity: Float, sharpness: Float, duration: Double) {
-        hapticEngine?.playHaptic(intensity: intensity, sharpness: sharpness, duration: duration)
-    }
-    // Haptic for selection.
-    private func selectHaptic() { playHaptic(intensity: 0.5, sharpness: 8, duration: 0.5) }
 
 }
 

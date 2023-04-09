@@ -10,14 +10,15 @@ import CoreHaptics
 
 struct PatternWeekView: View {
     @Environment(\.scenePhase) var scenePhase
-    @EnvironmentObject var patternManager: PatternManager
-    @EnvironmentObject var shiftManager: ShiftManager
+    @EnvironmentObject private var patternManager: PatternManager
+    @EnvironmentObject private var shiftManager: ShiftManager
+    @EnvironmentObject private var hapticManager: HapticManager
     
     var week: PatternWeek
     let patternId: UUID
     let zoomedIn: Bool
+    let isFirst: Bool
     @Binding var isDragging: Bool
-    let startHaptic: () -> Void
     @State var fixGeometry: Bool = false
 
     @State private var xOffset: CGFloat = 0.0
@@ -39,11 +40,11 @@ struct PatternWeekView: View {
                         .onLongPressGesture(maximumDistance: 0) {
                             if !zoomedIn { return }
                             selectionStart(index: shift.id)
-                            startHaptic()
+                            hapticManager.mediumLight()
                         }
                         .simultaneousGesture(DragGesture(minimumDistance: 12, coordinateSpace: .named("ScrollHeight"))
                             .onChanged({
-                                if !zoomedIn || isDragging { return }
+                                if !zoomedIn || isDragging || isFirst { return }
                                 if xOffset == 0 || $0.translation.width > 0 { return }
                                 if xOffset == -72 || $0.translation.width < 0 { return }
                                 if abs($0.translation.height) > 40 { dragOffset = 0; return }
@@ -51,7 +52,7 @@ struct PatternWeekView: View {
                             })
                         .onEnded({
                             dragOffset = 0
-                            if !zoomedIn || isDragging { return }
+                            if !zoomedIn || isDragging || isFirst { return }
                             if abs($0.translation.height) > 40 { return }
                             if $0.translation.width < -30 { xOffset = -72 }
                             if $0.translation.width > 30 { xOffset = 0 }
@@ -85,9 +86,15 @@ struct PatternWeekView: View {
 
     private var deleteButton: some View {
         Button {
-            print("Delete")
+            dragOffset = 0.0
+            xOffset = 0.0
+            Task {
+                try await Task.sleep(for: .milliseconds(10))
+                patternManager.removeWeekFromPattern(pattern: patternId, week: week.id)
+            }
         } label: {
-            RoundedRectangle(cornerRadius: 12)
+            Rectangle()
+                .cornerRadius(12)
                 .foregroundColor(Color("ShiftBackground"))
                 .frame(width: 56, height: 56)
                 .overlay { Image(systemName: "trash.circle.fill")
@@ -100,7 +107,8 @@ struct PatternWeekView: View {
     }
     
     private var selectedOverlay: some View {
-        RoundedRectangle(cornerRadius: 10)
+        Rectangle()
+            .cornerRadius(10)
             .foregroundColor(.white)
     }
     

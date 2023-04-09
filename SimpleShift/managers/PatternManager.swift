@@ -9,9 +9,8 @@ import Foundation
 import CoreData
 
 class PatternManager: NSObject, ObservableObject {
-       
-    // Core Data View Context
-    private var viewContext = PersistenceController.shared.container.viewContext
+    private var persistenceController: PersistenceController
+    private var viewContext: NSManagedObjectContext { persistenceController.container.viewContext }
     // Core Data Fetch Controller
     private var fetchedResultsController: NSFetchedResultsController<CD_Pattern>
     
@@ -26,16 +25,17 @@ class PatternManager: NSObject, ObservableObject {
     private var selectionStart: Int = 0
     private var selectionEnd: Int = 0
     
-    override init() {
-        
+    init(_ persistenceController : PersistenceController) {
+        self.persistenceController = persistenceController
         let request = CD_Pattern.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
+                                                              managedObjectContext: persistenceController.container.viewContext,
+                                                              sectionNameKeyPath: nil,
+                                                              cacheName: nil)
         super.init()
-
         fetchedResultsController.delegate = self
-        
+
         /// Load in Patterns stored to CoreData.
         loadPatterns()
 
@@ -43,7 +43,7 @@ class PatternManager: NSObject, ObservableObject {
     }
 
     @objc func reinitializeCoreData() {
-        viewContext = PersistenceController.shared.container.viewContext
+        print("Reinit CD")
         let request = CD_Pattern.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
         fetchedResultsController = NSFetchedResultsController(
@@ -52,7 +52,7 @@ class PatternManager: NSObject, ObservableObject {
             sectionNameKeyPath: nil,
             cacheName: nil)
         fetchedResultsController.delegate = self
-        DispatchQueue.global().sync { self.loadPatterns() }
+        self.loadPatterns()
     }
     
     private func loadPatterns() {
@@ -89,12 +89,12 @@ class PatternManager: NSObject, ObservableObject {
         return entry
     }
     
-    func getPattern(id: UUID, weekday: Int) -> Pattern {
+    func getPattern(id: UUID) -> Pattern {
         if patternExists(id: id) {
-            guard let index = getPatternIndex(id: id) else { return Pattern(id: id, name: "", firstday: weekday) }
+            guard let index = getPatternIndex(id: id) else { return Pattern(id: id, name: "") }
             return patternStore[index]
         }
-        return Pattern(id: id, name: "", firstday: weekday)
+        return Pattern(id: id, name: "")
     }
     
     func setPattern(pattern: Pattern) {
@@ -168,6 +168,14 @@ class PatternManager: NSObject, ObservableObject {
         return index
         
     }
+
+    public func getWeekIndex(patternId: UUID, weekId: UUID) -> Int? {
+        guard let pattern = patternStore.first(where: {$0.id == patternId}) else {
+            return nil }
+        guard let index = pattern.weekArray.firstIndex(where: {$0.id == weekId}) else {
+            return nil }
+        return index
+    }
     
     func getWeekIndex(pattern: Int, weekId: UUID) -> Int? {
         guard let index = patternStore[pattern].weekArray.firstIndex(where: {$0.id == weekId}) else {
@@ -182,23 +190,28 @@ class PatternManager: NSObject, ObservableObject {
         patternStore[index].weekArray.append(PatternWeek(id: UUID()))
         commitPatternId(id: id)
     }
-    
-    func removeWeekFromPattern(id: UUID) {
+
+    // Remove the last item in the patterns array
+    func removeLastWeekFromPattern(id: UUID) {
         guard let patternIndex = getPatternIndex(id: id) else { return }
         if patternStore[patternIndex].weekArray.isEmpty { return }
         patternStore[patternIndex].weekArray.removeLast()
         commitPatternId(id: id)
+    }
+
+    // Remove Week from Pattern as specified by UUIDs.
+    func removeWeekFromPattern(pattern: UUID, week: UUID) {
+        guard let patternIndex = getPatternIndex(id: pattern) else { return }
+        patternStore[patternIndex].weekArray.removeAll(where: {$0.id == week})
+        commitPatternId(id: pattern)
     }
     
     func patternToggle(id: UUID) -> Void {
         if patternSelected.contains(id) {
             patternSelected.removeAll()
         } else {
-            let time = patternSelected.isEmpty ? 0 : 0.25
             patternSelected.removeAll()
-            DispatchQueue.main.asyncAfter(deadline: .now() + time) {
-                self.patternSelected.insert(id)
-            }
+            patternSelected.insert(id)
         }
     }
     
@@ -268,7 +281,7 @@ class PatternManager: NSObject, ObservableObject {
         }
     }
 
-    public func deleteAll() {
+    public func deleteAll() async {
         let request = CD_Pattern.fetchRequest()
         request.sortDescriptors = []
 
@@ -319,7 +332,12 @@ class PatternManager: NSObject, ObservableObject {
         patternStore.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
         updateIndexes()
     }
-    
+
+    public func isFirstWeek(weekId: UUID, patternId: UUID) -> Bool {
+        guard let pattern = patternStore.first(where: { $0.id == patternId }) else {return false}
+        if pattern.weekArray.first?.id == weekId { return true }
+        return false
+    }
 }
 
 extension PatternManager: NSFetchedResultsControllerDelegate {

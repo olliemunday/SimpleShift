@@ -23,6 +23,8 @@ struct ScaleInOut: ViewModifier {
     }
 }
 
+
+
 extension AnyTransition {
     
     static func scaleInOut(anchor: UnitPoint, voffset: CGFloat = -20) -> AnyTransition {

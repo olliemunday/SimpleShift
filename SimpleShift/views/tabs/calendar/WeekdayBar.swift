@@ -14,7 +14,6 @@ struct WeekdayBar: View {
 
     var body: some View {
         weekdayBar
-            .drawingGroup()
     }
     
     func getWeekdays(start: Int) -> [String] {
@@ -34,16 +33,17 @@ struct WeekdayBar: View {
     private var weekdayBar: some View {
         return HStack(spacing: spacing) {
             ForEach(getWeekdays(start: weekday - 1), id: \.self) { wkday in
-                RoundedRectangle(cornerRadius: 10)
+
+                RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(accentColor)
                     .opacity(0.8)
-                    .overlay(alignment: .center) {
+                    .overlay(
                         Text(wkday)
                             .foregroundColor(accentColor == .white ? .black : .white)
                             .font(.system(.title2, design: .rounded))
                             .dynamicTypeSize(.xSmall ... .large)
                             .bold()
-                    }
+                    )
             }
         }
     }

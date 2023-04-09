@@ -11,6 +11,8 @@ struct WelcomeiCloudView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var colorScheme
 
+    let persistenceController: PersistenceController
+
     let darkColor = Color(UIColor(#colorLiteral(red: 0.9179086089, green: 0.9179086089, blue: 0.9179086089, alpha: 1)))
     let lightColor = Color(UIColor(#colorLiteral(red: 0.1559881568, green: 0.1559881568, blue: 0.1559881568, alpha: 1)))
 
@@ -51,9 +53,7 @@ struct WelcomeiCloudView: View {
 
     private var enableButton: some View {
         Button {
-            PersistenceController.cloud = true
-            PersistenceController.reloadController()
-            NotificationCenter.default.post(name: NSNotification.Name("CoreDataRefresh"), object: nil)
+            persistenceController.enableiCloud(true)
             dismiss()
         }
         label: {
@@ -82,10 +82,3 @@ struct WelcomeiCloudView: View {
     }
 }
 
-struct WelcomeiCloudView_Previews: PreviewProvider {
-
-
-    static var previews: some View {
-        WelcomeiCloudView()
-    }
-}

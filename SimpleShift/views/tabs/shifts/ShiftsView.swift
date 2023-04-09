@@ -36,7 +36,7 @@ struct ShiftsView: View {
                 .navigationTitle("shifts")
                 .background(Color("Background"))
                 .toolbar { ToolbarItem(placement: .navigationBarTrailing) { addButton } }
-                .sheet(isPresented: $showEditor, content: { ShiftEditor() })
+                .popover(isPresented: $showEditor) { ShiftEditor() }
         }
         .navigationViewStyle(.stack)
     }
@@ -49,15 +49,18 @@ struct ShiftsView: View {
     }
 
     @State var draggedShift: Shift?
-//    @State private var draggedShiftIndex
     private var shiftList: some View {
         let gridSpacing: CGFloat = 26
         var gridColumns: Array<GridItem> { Array(repeating: GridItem(spacing: gridSpacing), count: 3) }
         return LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
             ForEach(shiftManager.shifts) { shift in
                 Button {
-                    shiftManager.editingShift = shift
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {showEditor = true})
+                    Task {
+                        shiftManager.editingShift = shift
+                        shiftManager.isNewShift = false
+                        try await Task.sleep(for: .milliseconds(200))
+                        showEditor = true
+                    }
                 } label: {
                     ShiftView(shift: shift)
                 }
@@ -67,24 +70,13 @@ struct ShiftsView: View {
 
                         return NSItemProvider(object: "\(shift.shift)" as NSString)
                     }
-                    .onDrop(of: [UTType.text], delegate: ShiftDropDelegate(shifts: $shiftManager.shifts, shift: shift, draggedShift: draggedShift, entered: onEntered))
+                    .onDrop(of: [UTType.text], delegate: ShiftDropDelegate(shifts: $shiftManager.shifts, shift: shift, draggedShift: draggedShift, shiftManager: shiftManager))
                     .transition(.scale)
             }
         }
         .animation(.spring(response: 0.6, dampingFraction: 0.65), value: shiftManager.shifts)
         .padding(.horizontal, 26)
     }
-
-    func onEntered(dragged: Shift, entered: Shift) {
-        let from = shiftManager.getShiftIndex(id: dragged.id)
-        let to = shiftManager.getShiftIndex(id: entered.id)
-
-        withAnimation {
-            shiftManager.shifts.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
-        }
-        shiftManager.updateIndexes()
-    }
-
     private var addButton: some View {
         Button() {
             shiftManager.newEditingShift()
@@ -100,15 +92,14 @@ struct ShiftDropDelegate: DropDelegate {
     @Binding var shifts: [Shift]
     let shift: Shift
     let draggedShift: Shift?
-
-    let entered: (Shift, Shift) -> ()
+    let shiftManager: ShiftManager
 
     func performDrop(info: DropInfo) -> Bool { true }
 
     func dropEntered(info: DropInfo) {
         if shift == draggedShift {return}
         guard let dragged = draggedShift else { return }
-        entered(dragged, shift)
+        shiftManager.moveShift(from: dragged.id, to: shift.id)
     }
 
     func dropUpdated(info: DropInfo) -> DropProposal? {

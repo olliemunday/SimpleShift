@@ -8,9 +8,10 @@
 import SwiftUI
 import CoreHaptics
 
-struct CalendarDateView: View {
-    @EnvironmentObject var calendarManager: CalendarManager
-    @EnvironmentObject var shiftManager: ShiftManager
+struct CalendarDateView: View, Sendable {
+    @EnvironmentObject private var calendarManager: CalendarManager
+    @EnvironmentObject private var shiftManager: ShiftManager
+    @EnvironmentObject private var hapticManager: HapticManager
 
     @Binding var dateForward: Bool
     @Binding var isEditing: Bool
@@ -18,7 +19,8 @@ struct CalendarDateView: View {
     @State var showPatternConfirm: Bool = false
     @State private var calendarHoldScale: Bool = false
     @State private var slideOffset: Double = 0
-    var playHaptic: (Float, Float, Double) -> ()
+    // Animations are too slow for A11 :(
+    @State private var isA11: Bool = false
 
     var body: some View {
         ZStack {
@@ -29,7 +31,7 @@ struct CalendarDateView: View {
                 .onAnimationCompleted(for: calendarHoldScale ? 1.0 : 0.0, completion: {
                     if calendarHoldScale {
                         calendarHoldScale = false
-                        editHaptic()
+                        hapticManager.medium()
                         isEditing.toggle()
                     }
                 })
@@ -38,15 +40,14 @@ struct CalendarDateView: View {
                     calendarManager.updateViewDate()
                 }
         }
+        .onChange(of: calendarManager.datesPage.id, perform: { _ in  pageAnimationActive = true } )
+        .onAppear(perform: { isA11 = UIDevice.current.modelName.contains("iPhone10") })
         .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.7), value: calendarManager.datesPage.id)
-        .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.7).speed(0.9), value: pageAnimationActive)
-        .animation(.easeInOut, value: slideOffset)
         .animation(.interactiveSpring(response: 0.6), value: calendarHoldScale)
-        .onChange(of: calendarManager.datesPage.id, perform: { _ in pageAnimationActive = true })
+        .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.7).speed(isA11 ? 0.7 : 1.0), value: pageAnimationActive)
         .gesture(calendarDrag)
         .simultaneousGesture(calendarSelection)
         .simultaneousGesture(calendarEditHold)
-
     }
 
     // Selected Dates
@@ -72,8 +73,7 @@ struct CalendarDateView: View {
                              greyed: calendarManager.greyed,
                              offDay: calendarManager.showOff,
                              today: calendarManager.isToday(date: date.date) ? calendarManager.todayIndicatorType : 0,
-                             accentColor: calendarManager.accentColor
-                    )
+                             accentColor: calendarManager.accentColor)
                         .id(date.id)
                         .frame(height: (geo.size.height / 6) - gridSpacing)
                 }
@@ -126,7 +126,6 @@ struct CalendarDateView: View {
         DragGesture(minimumDistance: 0.0, coordinateSpace: .named("MonthView"))
             .onChanged { drag in
                 if !isEditing { isHolding = true }
-
                 if isHolding { return }
                 if let data = senseData.first(where: {$0.bounds.contains(drag.location)}) {
                     if calendarManager.selectionEnd == data.index { return }
@@ -134,7 +133,7 @@ struct CalendarDateView: View {
                         calendarManager.setSelectionStart(id: data.index)
                         isSelecting.toggle()
                     }
-                    selectHaptic()
+                    hapticManager.medium()
                     if !calendarManager.isApplyingPattern {
                         calendarManager.setSelectionEnd(id: data.index)
                     }
@@ -163,26 +162,35 @@ struct CalendarDateView: View {
             .onEnded { _ in
                 if isEditing { return }
                 calendarHoldScale = true
-                selectHaptic()
+                hapticManager.light()
             }
     }
 
     // Drag calendar up & down to navigate months.
     private var calendarDrag: some Gesture {
         DragGesture(minimumDistance: 0.0, coordinateSpace: .named("MonthView"))
-            .onChanged({
+            .onChanged({ drag in
                 if isEditing || calendarHoldScale || pageAnimationActive { return }
-                if $0.translation.height > 0 { dateForward = false } else { dateForward = true }
-                slideOffset = $0.translation.height
+                if drag.translation.height > 0 { dateForward = false } else { dateForward = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                    slideOffset = isA11 ? 0 : drag.translation.height
+                }
             })
             .onEnded {
                 if isEditing || pageAnimationActive { return }
+                let height = $0.translation.height
+                if height > 0 { dateForward = false } else { dateForward = true }
                 calendarHoldScale = false
-                slideOffset = 0
-                if abs($0.translation.height) < 50 { return }
-                if $0.translation.height > 0 { dateForward = false } else { dateForward = true }
-                calendarManager.iterateMonthNoDisplay(value: $0.translation.height > 0 ? -1 : 1)
-                calendarManager.setMonth()
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                    slideOffset = 0
+                }
+                if abs(height) < 50 { return }
+                Task.detached(priority: .userInitiated) {
+                    await calendarManager.iterateMonthNoDisplay(value: height > 0 ? -1 : 1)
+                    try await Task.sleep(for: Duration.milliseconds(100))
+                    await calendarManager.setMonth()
+                }
+                isHolding = false
             }
     }
     // View to select shift for selected dates.
@@ -200,7 +208,7 @@ struct CalendarDateView: View {
             Stepper(value: $repeatCount, in: 1...10) {
                 Text("Repeat : \(repeatCount)")
             }
-
+            
             Button("Apply Pattern") {
                 calendarManager.setPatternFromDate(repeatCount: repeatCount)
                 showPatternConfirm = false
@@ -212,38 +220,9 @@ struct CalendarDateView: View {
 
     }
 
-    private var patternRepresentation: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(Color("PatternBackground"))
-            VStack {
-                HStack {
-                    Text(calendarManager.applyingPattern?.name ?? "Pattern")
-                        .padding(8)
-                    Spacer()
-
-//                    HStack {
-//                        ForEach(calendarManager.applyingPattern?.weekArray.first?.shiftArray ?? []) { shift in
-//
-//                            GradientRounded(cornerRadius: 12, colors: , direction: .vertical)
-//
-//                        }
-//                    }
-                }
-                Spacer()
-                .padding(3)
-            }
-        }
-    }
-
     // Apply shift template to selected dates.
     func selectTemplate(templateId: UUID) {
         calendarManager.setSelectedDates(templateId: templateId)
     }
-
-    private func selectHaptic() { playHaptic(0.5, 8, 0.5) }
-    private func editHaptic() { playHaptic( 1, 8, 0.5 ) }
-
-
 
 }

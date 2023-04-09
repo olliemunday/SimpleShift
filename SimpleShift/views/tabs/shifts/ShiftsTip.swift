@@ -9,9 +9,6 @@ import SwiftUI
 
 struct ShiftsTip: View {
 
-    @State var easterEgg: Bool = false
-    @State var easterEggCounter: Int = 0
-
     var body: some View {
         ZStack {
             background
@@ -24,11 +21,13 @@ struct ShiftsTip: View {
             .shadow(radius: 2)
     }
 
-    private let exampleShifts: [ShiftExample] = [
-        ShiftExample(id: 0, color1: Color.hex("a8ff78"), color2: Color.hex("78ffd6"), text: "06:00 14:00"),
-        ShiftExample(id: 1, color1: Color.hex("00c6ff"), color2: Color.hex("0072ff"), text: "07:00 19:00"),
-        ShiftExample(id: 2, color1: Color.hex("ffc500"), color2: Color.hex("c21500"), text: "09:00 17:00"),
-        ShiftExample(id: 3, color1: Color.hex("8f94fb"), color2: Color.hex("4e54c8"), text: "14:00 22:00")
+
+
+    private let examples: [(String, String, String)] = [
+        ("a8ff78", "78ffd6", "06:00 14:00"),
+        ("00c6ff", "0072ff", "07:00 19:00"),
+        ("ffc500", "c21500", "09:00 17:00"),
+        ("8f94fb", "4e54c8", "14:00 22:00")
     ]
 
     private var text: some View {
@@ -50,27 +49,18 @@ struct ShiftsTip: View {
             }
 
             HStack(alignment: .center, spacing: -10) {
-                ForEach(exampleShifts) { shift in
+                ForEach(examples, id: \.0) { shift in
                     ZStack {
-                        GradientRounded(cornerRadius: 18, colors: [shift.color1, shift.color2], direction: .vertical)
-                        Text(shift.text)
-                            .foregroundColor(shift.color1.textColor)
+                        GradientRounded(cornerRadius: 18, colors: [Color.hex(shift.0), Color.hex(shift.1)], direction: .vertical)
+                        Text(shift.2)
+                            .foregroundColor(Color.hex(shift.0).textColor)
                             .font(.system(size: 20, weight: .semibold, design: .rounded))
                             .multilineTextAlignment(.center)
                     }
-                    .drawingGroup()
-                    .rotationEffect(.degrees(Double(easterEgg ? 0 : 10)))
-                    .animation(easterEgg ? .linear(duration: 0.2).repeatForever(autoreverses: true) : .default, value: easterEgg)
                     .frame(width: 80, height: 115)
+                    .rotationEffect(.degrees(10))
+                    .drawingGroup()
                     .shadow(radius: 3)
-                    .onTapGesture {
-                        easterEggCounter += 1
-                        if easterEggCounter == 32 {
-                            easterEgg.toggle()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {easterEgg.toggle()}
-                        }
-                    }
-
                 }
             }
             .padding(.vertical, 40)

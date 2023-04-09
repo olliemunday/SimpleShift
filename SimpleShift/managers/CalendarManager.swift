@@ -9,12 +9,17 @@ import Foundation
 import CoreData
 import SwiftUI
 import WidgetKit
+import Combine
+
 
 // CalendarManager creates DateDescriptor instances to be displayed by a view.
-class CalendarManager: NSObject, ObservableObject {
-    private var viewContext = PersistenceController.shared.container.viewContext
+class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
+
+    private var persistenceController: PersistenceController
+    private var viewContext: NSManagedObjectContext { persistenceController.container.viewContext }
+
     private var fetchedResultsController: NSFetchedResultsController<CD_Date>
-    private var userCalendar = Calendar.autoupdatingCurrent
+    private var userCalendar = Calendar.current
 
     // Date/Shift working array.
     var dateStore: [CalendarDate] = []
@@ -35,7 +40,7 @@ class CalendarManager: NSObject, ObservableObject {
     public var greyed: Bool = true
 
     @AppStorage("calendar_showOff", store: .standard)
-    public var showOff: Bool = true
+    public var showOff: Bool = false
 
     @AppStorage("calendar_showTodayIndicator", store: .standard)
     public var showTodayIndicator: Bool = true
@@ -55,14 +60,17 @@ class CalendarManager: NSObject, ObservableObject {
     public var applyingPattern: Pattern?
     @Published var isApplyingPattern: Bool = false
 
-    override init() {
+    init(_ persistenceController: PersistenceController) {
+        // Use GMT timezone for the local calendar so change of timezones do not affect the underlying Date.
+        // We only ever need to compare against the day of the month with can be obtained from the current calendar.
         self.userCalendar.timeZone = .gmt
         self.setDate = Date.now
+        self.persistenceController = persistenceController
         let request = CD_Date.fetchRequest()
         request.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
-            managedObjectContext: viewContext,
+            managedObjectContext: persistenceController.container.viewContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
         super.init()
@@ -70,14 +78,15 @@ class CalendarManager: NSObject, ObservableObject {
         fetchedResultsController.delegate = self
         self.dateDisplay = getDisplayDate(date: Date.now)
         // Load in saved shift data
-        DispatchQueue.global().sync { self.fetchShifts() }
+        self.fetchShifts()
+
 
         NotificationCenter.default.addObserver(self, selector: #selector(reinitializeCoreData), name: NSNotification.Name("CoreDataRefresh"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(powerStateChanged), name: Notification.Name.NSProcessInfoPowerStateDidChange, object: nil)
+
     }
 
+    /// Reload Core Data ViewContext when Container is reloaded
     @objc func reinitializeCoreData() {
-        viewContext = PersistenceController.shared.container.viewContext
         let request = CD_Date.fetchRequest()
         request.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(
@@ -86,13 +95,8 @@ class CalendarManager: NSObject, ObservableObject {
             sectionNameKeyPath: nil,
             cacheName: nil)
         fetchedResultsController.delegate = self
-        DispatchQueue.global().sync { self.fetchShifts() }
+        self.fetchShifts()
     }
-
-//    @Published var lowPowerMode = false
-//    @objc func powerStateChanged() {
-//        lowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
-//    }
 
     public func getCalendarDate(date: Date) -> Date? {
         let defaultCalendar = Calendar.current
@@ -113,18 +117,8 @@ class CalendarManager: NSObject, ObservableObject {
         setViewDate(date: now)
     }
 
-    // Update dates array to date given.
-    public func setMonth() {
-        DispatchQueue.global(qos: .userInteractive).async {
-            let dates = self.getMonth(date: self.setDate)
-            let dateDisplay = self.getDisplayDate(date: self.setDate)
-            let page = CalendarPage(id: dateDisplay.hashValue, dates: dates)
-            DispatchQueue.main.async { self.datesPage = page }
-        }
-    }
-
     public func isToday(date: Date) -> Bool {
-        let defaultCalendar = Calendar.current
+        let defaultCalendar = Calendar.autoupdatingCurrent
 
         let nowComps = defaultCalendar.dateComponents([.year, .month, .day], from: Date.now)
         let dateComps = userCalendar.dateComponents([.year, .month, .day], from: date)
@@ -136,6 +130,7 @@ class CalendarManager: NSObject, ObservableObject {
     public func setSelectedDates(templateId: UUID) {
         let begin = min(selectionEnd, selectionStart)
         let end = max(selectionEnd, selectionStart)
+
 
         runDateFetcher { fetchedResults in
             for index in begin...end {
@@ -171,18 +166,12 @@ class CalendarManager: NSObject, ObservableObject {
         }
         if !datesPage.dates.indexExists(index: selectionStart) { return }
         let startDate = datesPage.dates[selectionStart].date
-
-        guard let endDate = userCalendar.date(byAdding: .day, value: unpacked.count, to: startDate) else { return }
-
+        guard let endDate = userCalendar.date(byAdding: .day, value: (unpacked.count * repeatCount), to: startDate) else { return }
         let fetchedResultsController = setupDateFetcher(start: startDate, end: endDate)
-
         do {
             try fetchedResultsController.performFetch()
             guard let results = fetchedResultsController.fetchedObjects else { return }
-
-
             var workingDate = startDate
-
             for _ in 0..<repeatCount {
                 for shiftId in unpacked {
                     if let exist = results.first(where: {$0.date == workingDate}) {
@@ -192,11 +181,9 @@ class CalendarManager: NSObject, ObservableObject {
                         newDate.templateId = shiftId
                         newDate.date = workingDate
                     }
-
                     workingDate = userCalendar.date(byAdding: .day, value: 1, to: workingDate) ?? workingDate
                 }
             }
-
             try viewContext.save()
         } catch {
             return
@@ -324,6 +311,7 @@ class CalendarManager: NSObject, ObservableObject {
         return dates
     }
 
+    // Push the current date to the display var
     public func updateViewDate() {
         dateDisplay = getDisplayDate(date: setDate)
     }
@@ -340,7 +328,7 @@ class CalendarManager: NSObject, ObservableObject {
         dateFormatter.setLocalizedDateFormatFromTemplate("MMMM")
         let month = dateFormatter.string(from: date)
 
-        dateFormatter.setLocalizedDateFormatFromTemplate("YYYY")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy")
         let year = dateFormatter.string(from: date)
 
         return "\(month) \(year)"
@@ -411,7 +399,7 @@ class CalendarManager: NSObject, ObservableObject {
         isApplyingPattern = false
     }
 
-    public func deleteAll() {
+    public func deleteAll() async {
         let request = CD_Date.fetchRequest()
         request.sortDescriptors = []
 
@@ -443,16 +431,88 @@ class CalendarManager: NSObject, ObservableObject {
         if dateComp == setDateComp { return true } else { return false }
     }
 
+
+    // Update dates array to date given.
+    public func setMonth() async {
+        let dates = await self.getMonthAsync(date: self.setDate)
+        let dateDisplay = await self.getDisplayDate(date: self.setDate)
+        let page = CalendarPage(id: dateDisplay.hashValue, dates: dates)
+
+        DispatchQueue.main.async { self.datesPage = page }
+    }
+
+    // Iterate the current date by amount of months
+    public func iterateMonth(value: Int) async {
+        var addDate = DateComponents()
+        addDate.month = value
+        guard let resultMonth = userCalendar.date(byAdding: addDate, to: setDate) else { return }
+        DispatchQueue.main.async { self.setCalendarDate(date: resultMonth) }
+    }
+
+    // Iterate Month but do not update the display text.
+    public func iterateMonthNoDisplay(value: Int) async {
+        var addDate = DateComponents()
+        addDate.month = value
+        guard let resultMonth = userCalendar.date(byAdding: addDate, to: setDate) else { return }
+        DispatchQueue.main.async { self.setDate = resultMonth }
+    }
+    // Convert Date to String for date display.
+    private func getDisplayDate(date: Date) async -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = userCalendar.timeZone
+        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM")
+        let month = dateFormatter.string(from: date)
+
+        dateFormatter.setLocalizedDateFormatFromTemplate("YYYY")
+        let year = dateFormatter.string(from: date)
+
+        return "\(month) \(year)"
+    }
+
+    // Return array of dates from the first weekday before/on the 1st of the month.
+    private func getMonthAsync(date: Date) async -> [CalendarDate] {
+        var selectedDate = getStartDate(date: date)
+        var dates: [CalendarDate] = []
+        // Create date component to iterate one day.
+        var addDate = DateComponents()
+        addDate.day = 1
+        var firstBool: Bool = false
+        var greyed: Bool = true
+
+        for dateId in 0...41 {
+            // Get the day number for each day.
+            let calDateComponents = userCalendar.dateComponents([.day], from: selectedDate)
+            guard let calDay = calDateComponents.day else { continue }
+
+            if (calDay == 1) {
+                if (firstBool) { greyed = true }
+                else { firstBool = true; greyed = false }
+            }
+
+            let stored = dateStore.first(where: {$0.date == selectedDate})
+            let descriptor = CalendarDate(id: dateId, date: selectedDate, day: String(calDay), templateId: stored?.templateId, greyed: greyed)
+
+            // Add to the collection to be returned.
+            dates.append(descriptor)
+
+            // Iterate the day for the next loop
+            guard let nextDay = userCalendar.date(byAdding: addDate, to: selectedDate) else { continue }
+            selectedDate = nextDay
+        }
+
+        return dates
+    }
+
 }
 
 // CoreData extension.
 extension CalendarManager: NSFetchedResultsControllerDelegate {
     internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let shifts = fetchedResultsController.fetchedObjects else { return }
-        DispatchQueue.global().sync {
-            self.dateStore = self.unpackShifts(shifts: shifts)
-            DispatchQueue.main.async { self.setMonth() }
-        }
+        self.dateStore = self.unpackShifts(shifts: shifts)
+        Task.detached { await self.setMonth() }
+
     }
 }
 
@@ -476,4 +536,3 @@ struct CD_DateMapped: Identifiable {
         CD_Date.templateId
     }
 }
-

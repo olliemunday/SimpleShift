@@ -25,13 +25,13 @@ struct Shift: Identifiable, Equatable, Hashable {
 
     var hide: Bool = false
 
-    var timeData: String {
-        "\(startTime.dateToTime())#\(endTime.dateToTime())"
-    }
-    
-    var gradientData: String {
-        "\(gradient_1.rawValue)#**#\(gradient_2.rawValue)"
-    }
+//    var timeData: String {
+//        "\(startTime.dateToTime())#\(endTime.dateToTime())"
+//    }
+//    
+//    var gradientData: String {
+//        "\(gradient_1.rawValue)#**#\(gradient_2.rawValue)"
+//    }
     
     var gradientArray: [Color] {
         [gradient_1, gradient_2]

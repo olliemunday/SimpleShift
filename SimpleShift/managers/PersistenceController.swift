@@ -8,20 +8,23 @@
 import CoreData
 import SwiftUI
 
-struct PersistenceController {
-    static var shared = PersistenceController(cloud: cloud)
+class PersistenceController {
 
-    var container: NSPersistentContainer
+    var container: NSPersistentContainer = NSPersistentContainer(name: "SwiftShiftModel")
 
-    @AppStorage("iCloudSetting") static var cloud: Bool = false
+    /// iCloud Boolean to control if iCloud is to be used.
+    @AppStorage("iCloudSetting") var cloud: Bool = false
 
-    static func reloadController() {
-        shared = PersistenceController(cloud: cloud)
+    /// Set iCloud and reload container.
+    public func enableiCloud(_ bool: Bool) {
+        if bool == self.cloud { return }
+        self.cloud = bool
+        self.createContainer()
     }
 
-    init(inMemory: Bool = false, cloud: Bool = false) {
+    /// Initialise a new `NSPersistentContainer`.
+    private func createContainer() {
         container = NSPersistentCloudKitContainer(name: "SwiftShiftModel")
-
 
         let description = container.persistentStoreDescriptions.first
         description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
@@ -29,17 +32,15 @@ struct PersistenceController {
         let remoteChangeKey = "NSPersistentStoreRemoteChangeNotificationOptionKey"
         description?.setOption(true as NSNumber, forKey: remoteChangeKey)
 
-        if !cloud {
-            description?.cloudKitContainerOptions = nil
-        }
+        if !self.cloud { description?.cloudKitContainerOptions = nil }
 
-        if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        }
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-        })
+        container.loadPersistentStores { description, err in }
         container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+
+        NotificationCenter.default.post(name: NSNotification.Name("CoreDataRefresh"), object: container.viewContext)
     }
+
+    init() { self.createContainer() }
 
 }

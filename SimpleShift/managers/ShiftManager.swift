@@ -12,16 +12,23 @@ import CoreData
 class ShiftManager: NSObject, ObservableObject {
     @Published var shifts: [Shift] = []
     @Published var editingShift: Shift = Shift()
-    private var viewContext = PersistenceController.shared.container.viewContext
+    @Published var isNewShift: Bool = false
+
+    private var persistenceController: PersistenceController
+    private var viewContext: NSManagedObjectContext { persistenceController.container.viewContext }
     private var fetchedResultsController: NSFetchedResultsController<CD_Shift>
 
-    override init() {
+    private var dateFormatter = DateFormatter()
+
+    init(_ persistenceController: PersistenceController) {
+        self.persistenceController = persistenceController
+
         let request = CD_Shift.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
 
         fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
-            managedObjectContext: viewContext,
+            managedObjectContext: persistenceController.container.viewContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
 
@@ -44,7 +51,6 @@ class ShiftManager: NSObject, ObservableObject {
     }
 
     @objc func reinitializeCoreData() {
-        viewContext = PersistenceController.shared.container.viewContext
         let request = CD_Shift.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
         fetchedResultsController = NSFetchedResultsController(
@@ -53,7 +59,7 @@ class ShiftManager: NSObject, ObservableObject {
             sectionNameKeyPath: nil,
             cacheName: nil)
         fetchedResultsController.delegate = self
-        DispatchQueue.global().sync { self.fetchShifts() }
+        self.fetchShifts()
     }
 
     func fetchShifts() {
@@ -253,7 +259,7 @@ class ShiftManager: NSObject, ObservableObject {
         }
     }
 
-    public func deleteAll() {
+    public func deleteAll() async {
         let request = CD_Shift.fetchRequest()
         request.sortDescriptors = []
 
@@ -282,10 +288,24 @@ class ShiftManager: NSObject, ObservableObject {
         shifts[index].hide = hide
     }
 
+    public func moveShift(from: UUID, to: UUID ) {
+        let from = getShiftIndex(id: from)
+        let to = getShiftIndex(id: to)
+
+        shifts.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+        updateIndexes()
+    }
 
     // Editing Shift Functions
-    public func newEditingShift() { editingShift = Shift() }
+    public func newEditingShift() { isNewShift = true; editingShift = Shift() }
 
+    public func getEditingShiftTimeString() -> String? {
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
+        let start = dateFormatter.string(from: editingShift.startTime)
+        let end = dateFormatter.string(from: editingShift.endTime) 
+        return "\(start) \(end)"
+    }
 
 }
 
@@ -294,15 +314,15 @@ extension ShiftManager: NSFetchedResultsControllerDelegate {
     internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let fetchedObjects = controller.fetchedObjects else { return }
         guard let shifts: [CD_Shift] = fetchedObjects as? [CD_Shift] else { return }
-        DispatchQueue.global(qos: .default).async {
-            let mapped = shifts.map(ShiftMapped.init)
-            var updated = [Shift]()
 
-            for shift in mapped {
-                updated.append(Shift(id: shift.id, shift: shift.shift, isCustom: shift.isCustom, startTime: shift.startTime, endTime: shift.endTime, gradient_1: shift.gradient1, gradient_2: shift.gradient2))
-            }
-            DispatchQueue.main.async { self.shifts = updated }
+        let mapped = shifts.map(ShiftMapped.init)
+        var updated = [Shift]()
+
+        for shift in mapped {
+            updated.append(Shift(id: shift.id, shift: shift.shift, isCustom: shift.isCustom, startTime: shift.startTime, endTime: shift.endTime, gradient_1: shift.gradient1, gradient_2: shift.gradient2))
         }
+
+        self.shifts = updated
     }
 }
 
