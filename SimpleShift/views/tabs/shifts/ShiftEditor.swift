@@ -70,7 +70,7 @@ struct ShiftEditor: View {
 
     @ViewBuilder private var textSettings: some View {
         Picker("Show custom text", selection: $showCustomText) {
-            Text("date").tag(0)
+            Text("time").tag(0)
             Text("custom").tag(1)
         }
             .pickerStyle(.segmented)

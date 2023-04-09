@@ -36,13 +36,17 @@ struct CalendarView: View, Sendable {
                 renderingProgress
             }
                 .background(Color("Background"))
-                .navigationBarTitle(navigationTitle, displayMode: .inline)
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     if calendarManager.isApplyingPattern {
                         ToolbarItem(placement: .navigationBarTrailing) { cancelPatternButton }
                     } else {
                         ToolbarItemGroup(placement: .navigationBarTrailing) { editButton }
                         ToolbarItemGroup(placement: .navigationBarLeading) { todayButton; shareButton; }
+                    }
+                    ToolbarItem(placement: .principal) {
+                        Text(navigationTitle)
+                            .dynamicTypeSize(.xSmall ... .large)
                     }
                 }
         }
@@ -63,8 +67,8 @@ struct CalendarView: View, Sendable {
     }
 
     private var navigationTitle: String {
-        if calendarManager.isApplyingPattern { return "Applying Pattern" }
-        if isEditing { return "Editing" }
+        if calendarManager.isApplyingPattern { return String(localized: "applyingpattern") }
+        if isEditing { return String(localized: "editing") }
         return String(localized: "shiftcalendar")
     }
 
@@ -145,7 +149,7 @@ struct CalendarView: View, Sendable {
     }
 
     private var cancelPatternButton: some View {
-        Button("Cancel") {
+        Button("cancel") {
             calendarManager.applyingPattern = nil
             calendarManager.isApplyingPattern = false
         }

@@ -91,12 +91,14 @@
 "shiftsettings" = "Ajustes de turno";
 "colorsettings" = "Ajustes de color";
 "date" = "Fecha";
+"time" = "Tiempo";
 "gradient" = "Degradado";
 "solid" = "Sólido";
 "custom" = "Disfraz";
 "starttime" = "Hora de inicio";
 "endtime" = "Hora de finalización";
 "shiftdeletealert" = "Eliminar un turno lo quitará del calendario.";
+"editing" = "Edición";
 
 // Patterns
 "shiftpatterns" = "Patrones de cambio";
@@ -107,9 +109,7 @@
 "addweek" = "Agregar semana";
 "deleteweek" = "Eliminar semana";
 "deletepattern" = "Eliminar patrón";
-
-
-
+"applyingpattern" = "Aplicando Patrón";
 
 
 // Common

@@ -91,12 +91,14 @@
 "shiftsettings" = "Schichteinstellungen";
 "colorsettings" = "Farbeinstellungen";
 "date" = "Datum";
+"time" = "Zeit";
 "gradient" = "Gradient";
 "solid" = "Fest";
 "custom" = "Brauch";
 "starttime" = "Startzeit";
 "endtime" = "Endzeit";
 "shiftdeletealert" = "Das Löschen einer Schicht entfernt sie aus dem Kalender.";
+"editing" = "Bearbeitung";
 
 // Patterns
 "shiftpatterns" = "Schichtmuster";
@@ -107,8 +109,7 @@
 "addweek" = "Woche hinzufügen";
 "deleteweek" = "Woche löschen";
 "deletepattern" = "Muster löschen";
-
-
+"applyingpattern" = "Muster anwenden";
 
 
 // Common

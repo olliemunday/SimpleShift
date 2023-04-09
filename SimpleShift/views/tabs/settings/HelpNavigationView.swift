@@ -20,28 +20,29 @@ struct HelpNavigationView: View {
                                        label: { HelpViewOption(size: geo.size.height / 4,
                                                                image: "calendar",
                                                                text: String(localized: "calendar"),
-                                                               colors: [Color.hex("FDFC47"), Color.hex("24FE41")] )})
+                                                               colors: [Color.hex("FDFC47"), Color.hex("24FE41")] )
 
-//                        NavigationLink(destination: {navigationBarHelp},
-//                                       label: { HelpViewOption(size: geo.size.height / 4,
-//                                                               image: "arrow.left.and.right.square",
-//                                                               text: String(localized: "navigationbar"),
-//                                                               colors: [Color.hex("00b9ff"), Color.hex("007aff")] )})
+
+                        })
                         NavigationLink(destination: {shiftHelp},
                                        label: { HelpViewOption(size: geo.size.height / 4,
                                                                image: "square.stack.3d.down.forward",
                                                                text: String(localized: "shifts"),
-                                                               colors: [Color.hex("f5af19"), Color.hex("f12711")] )})
+                                                               colors: [Color.hex("f5af19"), Color.hex("f12711")] )
+                        })
                     }
+                    .padding(.horizontal, 8)
 
                     GridRow {
-
                         NavigationLink(destination: {patternHelp},
                                        label: { HelpViewOption(size: geo.size.height / 4,
                                                                image: "clock.arrow.2.circlepath",
                                                                text: String(localized: "patterns"),
-                                                               colors: [Color.hex("96DEDA"), Color.hex("50C9C3")]) })
+                                                               colors: [Color.hex("96DEDA"), Color.hex("50C9C3")])
+
+                        })
                     }
+                    .padding(.horizontal, 8)
                 }
                 .padding(.vertical, 20)
                 .padding(.horizontal , geo.size.width/12)
