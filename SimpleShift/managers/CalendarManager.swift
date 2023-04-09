@@ -431,13 +431,11 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
         if dateComp == setDateComp { return true } else { return false }
     }
 
-
     // Update dates array to date given.
     public func setMonth() async {
         let dates = await self.getMonthAsync(date: self.setDate)
         let dateDisplay = await self.getDisplayDate(date: self.setDate)
         let page = CalendarPage(id: dateDisplay.hashValue, dates: dates)
-
         DispatchQueue.main.async { self.datesPage = page }
     }
 
@@ -464,7 +462,7 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
         dateFormatter.setLocalizedDateFormatFromTemplate("MMMM")
         let month = dateFormatter.string(from: date)
 
-        dateFormatter.setLocalizedDateFormatFromTemplate("YYYY")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy")
         let year = dateFormatter.string(from: date)
 
         return "\(month) \(year)"
