@@ -25,7 +25,5 @@ struct Shift: Identifiable, Equatable, Hashable {
 
     var hide: Bool = false
     
-    var gradientArray: [Color] {
-        [gradient_1, gradient_2]
-    }
+    var gradientArray: [Color] { [gradient_1, gradient_2] }
 }

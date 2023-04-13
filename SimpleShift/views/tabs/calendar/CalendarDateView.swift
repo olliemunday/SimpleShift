@@ -146,7 +146,7 @@ struct CalendarDateView: View, Sendable {
                 } else {
                     isHolding = true
                     if drag.translation.height > 0 { dateForward = false } else { dateForward = true }
-                    withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                    withAnimation(.spring(response: 0.65, dampingFraction: 0.6)) {
                         slideOffset = drag.translation.height
                     }
                 }
@@ -166,14 +166,14 @@ struct CalendarDateView: View, Sendable {
                     let height = $0.translation.height
                     if height > 0 { dateForward = false } else { dateForward = true }
                     calendarHoldScale = false
-                    withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                    withAnimation(.spring(response: 0.65, dampingFraction: 0.6)) {
                         slideOffset = 0
                     }
                     if abs(height) < 50 { return }
                     disableInput = true
                     Task {
                         try await Task.sleep(for: .milliseconds(100))
-                        await calendarManager.iterateMonth(value: height > 0 ? -1 : 1)
+                        calendarManager.iterateMonth(value: height > 0 ? -1 : 1)
                         await calendarManager.setMonth()
                         try await Task.sleep(for: .milliseconds(600))
                         disableInput = false

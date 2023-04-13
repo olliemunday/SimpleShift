@@ -50,6 +50,7 @@ struct CalendarView: View, Sendable {
                     }
                     ToolbarItem(placement: .principal) {
                         Text(navigationTitle)
+                            .bold()
                             .dynamicTypeSize(.xSmall ... .large)
                     }
                 }
@@ -185,8 +186,7 @@ struct CalendarView: View, Sendable {
                     .background(
                         Rectangle()
                             .foregroundColor(.accentColor)
-                            .opacity(0.2)
-
+                            .opacity(0.1)
                     )
                 .opacity(showDatePicker ? 1 : 0.0)
                 .cornerRadius(28)
@@ -204,9 +204,9 @@ struct CalendarView: View, Sendable {
                         }
                 }
             }
-            .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.55), value: showDatePicker)
+            .animation(.spring(response: 0.65, dampingFraction: 0.55), value: showDatePicker)
             .frame(width: showDatePicker ? 330 : 100, height: showDatePicker ? 200 : 56)
-            .padding(.bottom, showDatePicker ? 60 : 0)
+            .padding(.bottom, showDatePicker ? 70 : 0)
             .onAnimationCompleted(for: showDatePicker ? 1 : 0) {
                 if !showDatePicker { enableDatePicker = false }
             }

@@ -430,21 +430,6 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
         DispatchQueue.main.async { self.datesPage = page }
     }
 
-    // Iterate the current date by amount of months
-    public func iterateMonth(value: Int) async {
-        var addDate = DateComponents()
-        addDate.month = value
-        guard let resultMonth = userCalendar.date(byAdding: addDate, to: setDate) else { return }
-        DispatchQueue.main.async { self.setCalendarDate(date: resultMonth) }
-    }
-
-    // Iterate Month but do not update the display text.
-    public func iterateMonthNoDisplay(value: Int) async {
-        var addDate = DateComponents()
-        addDate.month = value
-        guard let resultMonth = userCalendar.date(byAdding: addDate, to: setDate) else { return }
-        DispatchQueue.main.async { self.setDate = resultMonth }
-    }
     // Convert Date to String for date display.
     private func getDisplayDate(date: Date) async -> String {
         let dateFormatter = DateFormatter()

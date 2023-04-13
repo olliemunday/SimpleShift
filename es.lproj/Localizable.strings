@@ -121,7 +121,7 @@
 "cancel" = "Cancelar";
 "save" = "Ahorrar";
 "off" = "Apagado";
-"add" = "añadir";
+"add" = "Añadir";
 
 // Colors
 
@@ -147,6 +147,9 @@
 
 
 // Help Section
+"demo_date1" = "mayo 2024";
+"demo_date2" = "junio 2024";
+
 
 // Calendar Help
 

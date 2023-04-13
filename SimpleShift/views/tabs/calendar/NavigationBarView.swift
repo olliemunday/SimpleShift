@@ -57,7 +57,7 @@ struct NavigationBarView: View, Sendable {
         .gesture(dragGesture)
         .simultaneousGesture(longPress)
         .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: calendarManager.dateDisplay)
-        .animation(.interactiveSpring(response: 0.9, dampingFraction: 0.9), value: dateOffset)
+        .animation(.spring(response: 0.8, dampingFraction: 0.6), value: dateOffset)
     }
 
     // Navigation Bar background with Blur view.
@@ -98,7 +98,7 @@ struct NavigationBarView: View, Sendable {
         disableInput = true
         Task {
             try await Task.sleep(for: .milliseconds(100))
-            await calendarManager.iterateMonth(value: forward ? 1 : -1)
+            calendarManager.iterateMonth(value: forward ? 1 : -1)
             await calendarManager.setMonth()
             try await Task.sleep(for: .milliseconds(800))
             disableInput = false
@@ -151,7 +151,7 @@ struct NavigationBarView: View, Sendable {
                     disableInput = true
                     Task {
                         try await Task.sleep(for: .milliseconds(100))
-                        await calendarManager.iterateMonth(value: dateForward ? 1 : -1)
+                        calendarManager.iterateMonth(value: dateForward ? 1 : -1)
                         await calendarManager.setMonth()
                         try await Task.sleep(for: .milliseconds(800))
                         disableInput = false

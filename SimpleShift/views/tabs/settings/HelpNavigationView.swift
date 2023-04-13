@@ -146,11 +146,12 @@ struct HelpNavigationView: View {
         }
     }
 
-    private let date1 = "May 2024"
-    private let date2 = "June 2024"
-    @State private var barDate = "May 2024"
+    @State private var date1 = String(localized: "demo_date1")
+    @State private var date2 = String(localized: "demo_date2")
+    @State private var barDate = String(localized: "demo_date1")
     @State private var barDateForward = true
     @State private var taskCreated: Bool = false
+    
 
     private var calendarHelpNavigationBarDemo: some View {
         ZStack {
@@ -434,6 +435,7 @@ struct HelpNavigationView: View {
 //        .cornerRadius(16)
         .frame(width: 220, height: 160)
     }
+
 
 
 }
