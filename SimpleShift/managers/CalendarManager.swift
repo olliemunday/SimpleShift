@@ -15,8 +15,10 @@ import Combine
 // CalendarManager creates DateDescriptor instances to be displayed by a view.
 class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
 
-    private var persistenceController: PersistenceController
-    private var viewContext: NSManagedObjectContext { persistenceController.container.viewContext }
+    // Persistence Controller with computed variable in case the container
+    // is reloaded such as toggling iCloud functionality.
+    private var persistenceController = PersistenceController.shared
+    private var viewContext:NSManagedObjectContext { persistenceController.container.viewContext }
 
     private var fetchedResultsController: NSFetchedResultsController<CD_Date>
     private var userCalendar = Calendar.current
@@ -48,7 +50,7 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
     @AppStorage("calendar_todayIndicatorType", store: .standard)
     public var todayIndicatorType: Int = 1
 
-    @AppStorage("calendar_accentColor", store: .standard)
+    @AppStorage("_accentColor", store: .standard)
     public var accentColor: Color = .blue
 
     // Vars for selecting multiple dates.
@@ -56,16 +58,11 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
     @Published var selectionEnd: Int = -1
     private var lastSelectionEnd: Int = -1
 
-    // Variable to hold pattern that is being applied.
-    public var applyingPattern: Pattern?
-    @Published var isApplyingPattern: Bool = false
-
-    init(_ persistenceController: PersistenceController) {
+    init(noLoad: Bool = false) {
         // Use GMT timezone for the local calendar so change of timezones do not affect the underlying Date.
         // We only ever need to compare against the day of the month with can be obtained from the current calendar.
-        self.userCalendar.timeZone = .gmt
-        self.setDate = Date.now
-        self.persistenceController = persistenceController
+        userCalendar.timeZone = .gmt
+        setDate = Date.now
         let request = CD_Date.fetchRequest()
         request.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(
@@ -74,15 +71,14 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
             sectionNameKeyPath: nil,
             cacheName: nil)
         super.init()
+        if noLoad { return }
         self.setDate = getCalendarDate(date: Date.now) ?? Date.now
         fetchedResultsController.delegate = self
         self.dateDisplay = getDisplayDate(date: Date.now)
         // Load in saved shift data
         self.fetchShifts()
 
-
         NotificationCenter.default.addObserver(self, selector: #selector(reinitializeCoreData), name: NSNotification.Name("CoreDataRefresh"), object: nil)
-
     }
 
     /// Reload Core Data ViewContext when Container is reloaded
@@ -150,8 +146,8 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
         WidgetCenter.shared.reloadAllTimelines()
     }
 
-    public func setPatternFromDate(repeatCount: Int = 1) {
-        guard let weekArray = applyingPattern?.weekArray else { return }
+    public func setPatternFromDate(pattern: Pattern?, repeatCount: Int = 1) {
+        guard let weekArray = pattern?.weekArray else { return }
 
         var unpacked = [UUID?]()
 
@@ -164,7 +160,7 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
                 }
             }
         }
-        if !datesPage.dates.indexExists(index: selectionStart) { return }
+        if !datesPage.dates.indices.contains(selectionStart) { return }
         let startDate = datesPage.dates[selectionStart].date
         guard let endDate = userCalendar.date(byAdding: .day, value: (unpacked.count * repeatCount), to: startDate) else { return }
         let fetchedResultsController = setupDateFetcher(start: startDate, end: endDate)
@@ -392,11 +388,6 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
             array.append(CalendarDate(id: index, date: shift.date, day: day, templateId: shift.templateId, greyed: false))
         }
         return array
-    }
-
-    public func deselectPattern() {
-        applyingPattern = nil
-        isApplyingPattern = false
     }
 
     public func deleteAll() async {

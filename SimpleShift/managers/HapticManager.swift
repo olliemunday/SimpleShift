@@ -57,8 +57,6 @@ class HapticManager: ObservableObject {
     func extraLight() { playHaptic(intensity: 0.5, sharpness: 0.5, duration: 0.5) }
     func light() { playHaptic(intensity: 0.5, sharpness: 8, duration: 0.5) }
 
-
     func mediumLight() { playHaptic(intensity: 1, sharpness: 1, duration: 0.8) }
     func medium() { playHaptic(intensity: 1, sharpness: 8, duration: 0.5) }
-
 }

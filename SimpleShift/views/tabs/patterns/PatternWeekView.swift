@@ -11,7 +11,6 @@ import CoreHaptics
 struct PatternWeekView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject private var patternManager: PatternManager
-    @EnvironmentObject private var shiftManager: ShiftManager
     @EnvironmentObject private var hapticManager: HapticManager
     
     var week: PatternWeek

@@ -16,9 +16,10 @@ struct CalendarView: View, Sendable {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.timeZone) private var timeZone
-    @EnvironmentObject private var calendarManager: CalendarManager
-    @EnvironmentObject private var shiftManager: ShiftManager
-    @EnvironmentObject private var hapticManager: HapticManager
+    @StateObject private var calendarManager = CalendarManager()
+    @StateObject private var shiftManager = ShiftManager()
+    @StateObject private var hapticManager = HapticManager()
+    @EnvironmentObject private var calendarPattern: CalendarPattern
 
     @Binding var tintOptionSelected: String
     @Binding var tabSelection: Int
@@ -35,10 +36,13 @@ struct CalendarView: View, Sendable {
                 datePickerLayer
                 renderingProgress
             }
+                .environmentObject(calendarManager)
+                .environmentObject(shiftManager)
+                .environmentObject(hapticManager)
                 .background(Color("Background"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    if calendarManager.isApplyingPattern {
+                    if calendarPattern.isApplyingPattern {
                         ToolbarItem(placement: .navigationBarTrailing) { cancelPatternButton }
                     } else {
                         ToolbarItemGroup(placement: .navigationBarTrailing) { editButton }
@@ -58,8 +62,8 @@ struct CalendarView: View, Sendable {
         } })
         .onDisappear { isEditing = false }
         .onAppear() { Task.detached { await calendarManager.setMonth() }; hapticManager.prepareEngine() }
-        .onChange(of: calendarManager.isApplyingPattern) { applying in isEditing = applying }
-        .onChange(of: tabSelection) { if !($0 == 1) { calendarManager.deselectPattern() } }
+        .onChange(of: calendarPattern.isApplyingPattern) { applying in isEditing = applying }
+        .onChange(of: tabSelection) { if !($0 == 1) { calendarPattern.deselectPattern() } }
         .onChange(of: snapshotImage, perform: { _ in showShareSheet = true })
         .popover(isPresented: $showShareSheet) {
             ShareSheet(items: [snapshotImage!])
@@ -67,7 +71,7 @@ struct CalendarView: View, Sendable {
     }
 
     private var navigationTitle: String {
-        if calendarManager.isApplyingPattern { return String(localized: "applyingpattern") }
+        if calendarPattern.isApplyingPattern { return String(localized: "applyingpattern") }
         if isEditing { return String(localized: "editing") }
         return String(localized: "shiftcalendar")
     }
@@ -150,8 +154,8 @@ struct CalendarView: View, Sendable {
 
     private var cancelPatternButton: some View {
         Button("cancel") {
-            calendarManager.applyingPattern = nil
-            calendarManager.isApplyingPattern = false
+            calendarPattern.applyingPattern = nil
+            calendarPattern.isApplyingPattern = false
         }
     }
 

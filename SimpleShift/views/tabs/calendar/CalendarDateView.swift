@@ -12,6 +12,7 @@ struct CalendarDateView: View, Sendable {
     @EnvironmentObject private var calendarManager: CalendarManager
     @EnvironmentObject private var shiftManager: ShiftManager
     @EnvironmentObject private var hapticManager: HapticManager
+    @EnvironmentObject private var calendarPattern: CalendarPattern
 
     @Binding var dateForward: Bool
     @Binding var isEditing: Bool
@@ -19,8 +20,9 @@ struct CalendarDateView: View, Sendable {
     @State var showPatternConfirm: Bool = false
     @State private var calendarHoldScale: Bool = false
     @State private var slideOffset: Double = 0
-    // Animations are too slow for A11 :(
-    @State private var isA11: Bool = false
+
+    // Disable dragging for a time to prevent excessive scrolling
+    @State private var disableInput = false
 
     var body: some View {
         ZStack {
@@ -35,18 +37,10 @@ struct CalendarDateView: View, Sendable {
                         isEditing.toggle()
                     }
                 })
-                .onAnimationCompleted(for: pageAnimationActive ? 1.0 : 0.0) {
-                    pageAnimationActive = false
-                    calendarManager.updateViewDate()
-                }
         }
-        .onChange(of: calendarManager.datesPage.id, perform: { _ in  pageAnimationActive = true } )
-        .onAppear(perform: { isA11 = UIDevice.current.modelName.contains("iPhone10") })
         .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.7), value: calendarManager.datesPage.id)
         .animation(.interactiveSpring(response: 0.6), value: calendarHoldScale)
-        .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.7).speed(isA11 ? 0.7 : 1.0), value: pageAnimationActive)
         .gesture(calendarDrag)
-        .simultaneousGesture(calendarSelection)
         .simultaneousGesture(calendarEditHold)
     }
 
@@ -56,8 +50,6 @@ struct CalendarDateView: View, Sendable {
     @State private var senseData: [SensePreferenceData] = []
     // Is User currently selecting
     @State private var isSelecting: Bool = false
-    // Animation to track completion of month page animation.
-    @State private var pageAnimationActive: Bool = false
 
     let gridSpacing: CGFloat = 2.0
     var gridColumns: Array<GridItem> { Array(repeating: GridItem(spacing: gridSpacing), count: 7) }
@@ -115,48 +107,11 @@ struct CalendarDateView: View, Sendable {
             .popover(isPresented: $showPatternConfirm, content: {
                 NavigationView { patternConfirmation.navigationBarTitle("Confirm Pattern", displayMode: .inline) }
                         .presentationDetents([.fraction(0.33), .medium])
-                        .onDisappear { calendarManager.finishSelect(); calendarManager.deselectPattern() }
+                        .onDisappear { calendarManager.finishSelect(); calendarPattern.deselectPattern() }
             })
         }
     }
 
-    @State private var isHolding: Bool = false
-    // Selection Gesture.
-    private var calendarSelection: some Gesture {
-        DragGesture(minimumDistance: 0.0, coordinateSpace: .named("MonthView"))
-            .onChanged { drag in
-                if !isEditing { isHolding = true }
-                if isHolding { return }
-                if let data = senseData.first(where: {$0.bounds.contains(drag.location)}) {
-                    if calendarManager.selectionEnd == data.index { return }
-                    if (!isSelecting) {
-                        calendarManager.setSelectionStart(id: data.index)
-                        isSelecting.toggle()
-                    }
-                    hapticManager.medium()
-                    if !calendarManager.isApplyingPattern {
-                        calendarManager.setSelectionEnd(id: data.index)
-                    }
-
-                }
-            }
-            .onEnded({ drag in
-                if !isEditing { return }
-                if isHolding {
-                    isHolding = false
-                    return
-                }
-                if calendarManager.isApplyingPattern {
-                    isSelecting.toggle()
-                    showPatternConfirm.toggle()
-                    return
-                }
-                if isEditing {
-                    showBulkEdit.toggle()
-                    isSelecting.toggle()
-                }
-            })
-    }
     private var calendarEditHold: some Gesture {
         LongPressGesture(minimumDuration: 0.2, maximumDistance: 0.0)
             .onEnded { _ in
@@ -166,31 +121,65 @@ struct CalendarDateView: View, Sendable {
             }
     }
 
+    // Prevent selection starting whilst long press to edit is active
+    @State private var isHolding: Bool = false
     // Drag calendar up & down to navigate months.
     private var calendarDrag: some Gesture {
         DragGesture(minimumDistance: 0.0, coordinateSpace: .named("MonthView"))
             .onChanged({ drag in
-                if isEditing || calendarHoldScale || pageAnimationActive { return }
-                if drag.translation.height > 0 { dateForward = false } else { dateForward = true }
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
-                    slideOffset = isA11 ? 0 : drag.translation.height
+                if disableInput || calendarHoldScale { return }
+
+                if isEditing {
+                    if isHolding { return }
+                    if let data = senseData.first(where: {$0.bounds.contains(drag.location)}) {
+                        if calendarManager.selectionEnd == data.index { return }
+                        if (!isSelecting) {
+                            calendarManager.setSelectionStart(id: data.index)
+                            isSelecting.toggle()
+                        }
+                        hapticManager.medium()
+                        if !calendarPattern.isApplyingPattern {
+                            calendarManager.setSelectionEnd(id: data.index)
+                        }
+
+                    }
+                } else {
+                    isHolding = true
+                    if drag.translation.height > 0 { dateForward = false } else { dateForward = true }
+                    withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                        slideOffset = drag.translation.height
+                    }
                 }
+
             })
             .onEnded {
-                if isEditing || pageAnimationActive { return }
-                let height = $0.translation.height
-                if height > 0 { dateForward = false } else { dateForward = true }
-                calendarHoldScale = false
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
-                    slideOffset = 0
+                if disableInput { return }
+                if isEditing {
+                    if isHolding { isHolding = false; return }
+                    if calendarPattern.isApplyingPattern {
+                        isSelecting.toggle()
+                        showPatternConfirm.toggle()
+                        return
+                    }
+                    if isEditing { showBulkEdit.toggle(); isSelecting.toggle() }
+                } else {
+                    let height = $0.translation.height
+                    if height > 0 { dateForward = false } else { dateForward = true }
+                    calendarHoldScale = false
+                    withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                        slideOffset = 0
+                    }
+                    if abs(height) < 50 { return }
+                    disableInput = true
+                    Task {
+                        try await Task.sleep(for: .milliseconds(100))
+                        await calendarManager.iterateMonth(value: height > 0 ? -1 : 1)
+                        await calendarManager.setMonth()
+                        try await Task.sleep(for: .milliseconds(600))
+                        disableInput = false
+                    }
+                    isHolding = false
                 }
-                if abs(height) < 50 { return }
-                Task.detached(priority: .userInitiated) {
-                    await calendarManager.iterateMonthNoDisplay(value: height > 0 ? -1 : 1)
-                    try await Task.sleep(for: Duration.milliseconds(100))
-                    await calendarManager.setMonth()
-                }
-                isHolding = false
             }
     }
     // View to select shift for selected dates.
@@ -210,11 +199,11 @@ struct CalendarDateView: View, Sendable {
             }
             
             Button("Apply Pattern") {
-                calendarManager.setPatternFromDate(repeatCount: repeatCount)
+                calendarManager.setPatternFromDate(pattern: calendarPattern.applyingPattern, repeatCount: repeatCount)
                 showPatternConfirm = false
                 isEditing = false
-                calendarManager.isApplyingPattern = false
-                calendarManager.applyingPattern = nil
+                calendarPattern.isApplyingPattern = false
+                calendarPattern.applyingPattern = nil
             }
         }
 

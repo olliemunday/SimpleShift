@@ -9,6 +9,7 @@ import CoreData
 import SwiftUI
 
 class PersistenceController {
+    static let shared = PersistenceController()
 
     var container: NSPersistentContainer = NSPersistentContainer(name: "SwiftShiftModel")
 

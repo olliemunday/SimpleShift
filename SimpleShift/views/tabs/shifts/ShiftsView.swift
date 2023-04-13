@@ -9,25 +9,19 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ShiftsView: View {
-    @EnvironmentObject private var shiftManager: ShiftManager
+    @StateObject private var shiftManager = ShiftManager()
 
     @State var selectedShiftId: String = ""
     @State var startTime: Date = Date.now
     @State var endTime: Date = Date.now
     @State var isEmpty: Bool = false
     @State var showEditor: Bool = false
-    @Namespace var shiftNamespace
+//    @Namespace var shiftNamespace
 
-    private var dateFormatter = DateFormatter()
-    
-    init() {
-        dateFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
-        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-    }
-    
     var body: some View {
         NavigationView {
             shiftView
+                .environmentObject(shiftManager)
                 .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.6), value: isEmpty)
                 .onAppear { isEmpty = shiftManager.shifts.count < 1; }
                 .onChange(of: shiftManager.shifts, perform: { _ in
@@ -36,7 +30,10 @@ struct ShiftsView: View {
                 .navigationTitle("shifts")
                 .background(Color("Background"))
                 .toolbar { ToolbarItem(placement: .navigationBarTrailing) { addButton } }
-                .popover(isPresented: $showEditor) { ShiftEditor() }
+                .popover(isPresented: $showEditor) {
+                    ShiftEditor()
+                        .environmentObject(shiftManager)
+                }
         }
         .navigationViewStyle(.stack)
     }

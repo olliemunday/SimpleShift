@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject private var calendarManager: CalendarManager
-    @EnvironmentObject private var shiftManager: ShiftManager
-    @EnvironmentObject private var patternManager: PatternManager
-
-    /// Pass through the PersistenceController so we can reinitialise from here
-    let persistenceController: PersistenceController
+    @StateObject private var settingsController = SettingsManager()
 
     @Environment(\.colorScheme) private var colorScheme
+
+    var persistenceController = PersistenceController.shared
 
     @Binding var tintOptionSelected: String
 
@@ -71,7 +68,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    NavigationLink(value: Navigation.tint, label: {ImageLabel(title: String(localized: "accentcolor"), systemName: "paintpalette.fill", color: .accentColor, symbolColor: calendarManager.accentColor == .white ? Color.black : Color.white)})
+                    NavigationLink(value: Navigation.tint, label: {ImageLabel(title: String(localized: "accentcolor"), systemName: "paintpalette.fill", color: .accentColor, symbolColor: settingsController.accentColor == .white ? Color.black : Color.white)})
                 } header: { Text("theme") }
 
                 Section {
@@ -92,7 +89,7 @@ struct SettingsView: View {
                         }
                         Rectangle()
                             .hidden()
-                            .overlay { SpinningGradientLogo(size: 80).offset(y: 160) }
+                            .overlay { SpinningGradientLogo(size: 80).offset(y: 220) }
                     }
                 }
 
@@ -104,7 +101,7 @@ struct SettingsView: View {
                 case .tint: tintSelection
                 case .today: todayIndicatorSelector
                 case .privacy : ScrollView { PrivacyView() }
-                case .help : HelpNavigationView()
+                case .help : HelpNavigationView().environmentObject(settingsController)
                 }
             }
         }
@@ -118,13 +115,13 @@ struct SettingsView: View {
             ForEach(weekdays.indices, id: \.self) { index in
                 let weekday = weekdays[index]
                 Button {
-                    calendarManager.weekday = index + 1
+                    settingsController.weekday = index + 1
                 } label: {
                     HStack {
                         Text(weekday)
                             .foregroundColor(.primary)
                         Spacer()
-                        if calendarManager.weekday == index + 1 {
+                        if settingsController.weekday == index + 1 {
                             Image(systemName: "checkmark")
                                 .transition(.opacity)
                         }
@@ -134,7 +131,7 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("firstweekday")
-        .animation(.easeInOut(duration: 0.2), value: calendarManager.weekday)
+        .animation(.easeInOut(duration: 0.2), value: settingsController.weekday)
     }
 
     let tintSpacing: CGFloat = 4
@@ -146,7 +143,7 @@ struct SettingsView: View {
                 LazyVGrid(columns: tintColumns, spacing: tintSpacing) {
                     Button {
                         withAnimation {
-                            calendarManager.accentColor = colorScheme == .light ? .black : .white
+                            settingsController.accentColor = colorScheme == .light ? .black : .white
                             tintOptionSelected = "blackwhite"
                         }
                     } label: {
@@ -159,7 +156,7 @@ struct SettingsView: View {
                     ForEach(tintOptions, id: \.self.1) { tint in
                         let colorName = String(localized: String.LocalizationValue(tint.0))
                         Button {
-                            calendarManager.accentColor = tint.1
+                            settingsController.accentColor = tint.1
                             tintOptionSelected = tint.0
                         } label: {
                             ColorPreviewView(name: colorName,
@@ -177,17 +174,17 @@ struct SettingsView: View {
     
     // Toggle for setting days not in selected month to be greyed out slightly.
     private var greyDaysToggle: some View {
-        Toggle(isOn: calendarManager.$greyed, label: {ImageLabel(title: String(localized: "dimoutside"), systemName: "lightbulb.fill", color: Color.hex("ff3c33"))})
+        Toggle(isOn: settingsController.$greyed, label: {ImageLabel(title: String(localized: "dimoutside"), systemName: "lightbulb.fill", color: Color.hex("ff3c33"))})
             .toggleStyle(.switch)
     }
     
     private var offDaysToggle: some View {
-        Toggle(isOn: calendarManager.$showOff, label: {ImageLabel(title: String(localized: "showoff"), systemName: "switch.2", color: Color.hex("ff3c33"))})
+        Toggle(isOn: settingsController.$calendarShowOff, label: {ImageLabel(title: String(localized: "showoff"), systemName: "switch.2", color: Color.hex("ff3c33"))})
             .toggleStyle(.switch)
     }
     
     private var accentColorPicker: some View {
-        ColorPicker("App Tint", selection: calendarManager.$accentColor)
+        ColorPicker("App Tint", selection: settingsController.$accentColor)
             .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -220,9 +217,9 @@ struct SettingsView: View {
         .alert("eraseallalert", isPresented: $showingDeleteAlert) {
             Button("delete", role: .destructive) {
                 Task {
-                    await calendarManager.deleteAll()
-                    await shiftManager.deleteAll()
-                    await patternManager.deleteAll()
+                    await CalendarManager(noLoad: true).deleteAll()
+                    await ShiftManager(noLoad: true).deleteAll()
+                    await PatternManager(noLoad: true).deleteAll()
                 }
             }
         } message: {
@@ -241,14 +238,15 @@ struct SettingsView: View {
             ForEach(0...2, id: \.self) { index in
                 Section {
                     Button {
-                        withAnimation { calendarManager.todayIndicatorType = index }
+                        withAnimation { settingsController.todayIndicatorType = index }
                     } label: {
                         HStack {
                             Spacer()
                             VStack(spacing: 10) {
-                                CustomMarker(size: 20, primary: calendarManager.todayIndicatorType == index ? .blue : .gray, icon: "checkmark")
+                                CustomMarker(size: 20, primary: settingsController.todayIndicatorType == index ? .blue : .gray, icon: "checkmark")
                                     .shadow(radius: 1)
                                 IndicatorExampleView(type: index)
+                                    .environmentObject(settingsController)
                             }
                             Spacer()
                         }

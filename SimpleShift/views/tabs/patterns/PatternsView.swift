@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PatternsView: View {
-    @EnvironmentObject var patternManager: PatternManager
-    @EnvironmentObject var shiftManager: ShiftManager
-    @EnvironmentObject var calendarManager: CalendarManager
+    @StateObject var patternManager = PatternManager()
+    @StateObject var shiftManager = ShiftManager()
+    @StateObject private var hapticManager = HapticManager()
     @Binding var tabSelection: Int
     
     @State var scrollHeight: CGFloat = 0.0
@@ -33,6 +33,9 @@ struct PatternsView: View {
                     }
             }
         }
+            .environmentObject(patternManager)
+            .environmentObject(shiftManager)
+            .environmentObject(hapticManager)
             .coordinateSpace(name: "FrameHeight")
             .onPreferenceChange(ScrollViewOffsetKey.self) { data in frameHeight = data }
             .navigationViewStyle(.stack)

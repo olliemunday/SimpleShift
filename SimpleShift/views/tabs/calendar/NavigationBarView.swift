@@ -19,18 +19,15 @@ struct NavigationBarView: View, Sendable {
     @Binding var isEditing: Bool
     @Binding var datePickerDate: Date
 
-    // Var for if we navigation is already changing.
-    @State var transitionActive: Bool = false
-
-    // Var for if running on an A11 device.
-    @State private var isA11: Bool = false
-
     // Var to pass to transition as binding if we are moving forward or backwards.
     @Binding var dateForward: Bool
 
+    // Disable dragging & buttons for a time to prevent excessive scrolling
+    @State private var disableInput = false
+
     var body: some View {
         navigationBar
-
+        
     }
 
     // Offset of date text via drag animation.
@@ -39,7 +36,7 @@ struct NavigationBarView: View, Sendable {
     // Navigation bar parent.
     private var navigationBar: some View {
         ZStack {
-            navigationBackground
+            navigationBackgroundBlur
             navigationDate.zIndex(2)
             navigationButtons.zIndex(3)
         }
@@ -61,13 +58,6 @@ struct NavigationBarView: View, Sendable {
         .simultaneousGesture(longPress)
         .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: calendarManager.dateDisplay)
         .animation(.interactiveSpring(response: 0.9, dampingFraction: 0.9), value: dateOffset)
-        .onAppear(perform: { isA11 = UIDevice.current.modelName.contains("iPhone10") })
-    }
-
-    // Background for Navigation bar.
-    @ViewBuilder private var navigationBackground: some View {
-        if isA11 { navigationBackgroundSimple }
-        else { navigationBackgroundBlur }
     }
 
     // Navigation Bar background with Blur view.
@@ -79,20 +69,6 @@ struct NavigationBarView: View, Sendable {
                     .opacity(0.18)
 
             )
-            .cornerRadius(16)
-            .shadow(radius: 1)
-    }
-
-    // Navigation Bar background with Rectangle which improves performance on A11.
-    private var navigationBackgroundSimple: some View {
-        Rectangle()
-            .foregroundColor(Color("NavBarBackground"))
-            .overlay(content: {
-                Rectangle()
-                    .foregroundColor(.accentColor)
-                    .opacity(0.15)
-            })
-            .opacity(0.8)
             .cornerRadius(16)
             .shadow(radius: 1)
     }
@@ -115,17 +91,17 @@ struct NavigationBarView: View, Sendable {
         }
     }
 
-    // Function to run for the navigation buttons. Delay iterating month so dateForward is established else animations can be buggy.
+    // Function to run for the navigation buttons.
     private func navigationButtonAction(forward: Bool) {
-        if transitionActive { return }
+        if disableInput { return }
         dateForward = forward
-        transitionActive = true
+        disableInput = true
         Task {
-            try await Task.sleep(for: .milliseconds(10))
+            try await Task.sleep(for: .milliseconds(100))
             await calendarManager.iterateMonth(value: forward ? 1 : -1)
-            try await Task.sleep(for: .seconds(1))
             await calendarManager.setMonth()
-            transitionActive = false
+            try await Task.sleep(for: .milliseconds(800))
+            disableInput = false
         }
     }
 
@@ -158,36 +134,32 @@ struct NavigationBarView: View, Sendable {
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged({
-                if showDatePicker || enableDatePicker || transitionActive { return }
+                if showDatePicker || enableDatePicker || disableInput { return }
                 let width = $0.translation.width
                 dateForward = (width > 0 ? false : true)
                 dateOffset = CGSize(width: width, height: 0)
             })
             .onEnded({
                 // End of drag gesture and long press gesture
-                if showDatePicker || enableDatePicker || transitionActive { return }
+                if showDatePicker || enableDatePicker || disableInput { return }
                 let width = $0.translation.width
                 dateOffset = .zero
                 navigationIsScaled = false
 
                 if abs(width) > 80 {
                     dateForward = width > 80 ? false : true
-                    transitionActive = true
+                    disableInput = true
                     Task {
-                        try await Task.sleep(for: .milliseconds(10))
+                        try await Task.sleep(for: .milliseconds(100))
                         await calendarManager.iterateMonth(value: dateForward ? 1 : -1)
-                        try await Task.sleep(for: .seconds(1))
                         await calendarManager.setMonth()
-                        transitionActive = false
+                        try await Task.sleep(for: .milliseconds(800))
+                        disableInput = false
                     }
 
                 }
             })
     }
-    // Iterate calendarManager month
-    private func iterateMonth(forward: Bool) {
-        dateForward = forward
-        calendarManager.iterateMonth(value: forward ? 1 : -1)
-    }
+
 }
 

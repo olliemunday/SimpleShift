@@ -9,7 +9,7 @@ import SwiftUI
 
 struct IndicatorExampleView: View {
 
-    @EnvironmentObject var calendarManager: CalendarManager
+    @EnvironmentObject var settingsController: SettingsManager
 
     let type: Int
 
@@ -70,7 +70,7 @@ struct IndicatorExampleView: View {
 
             VStack {
                 Text("12")
-                    .foregroundColor(type == 1 ? calendarManager.accentColor == .white ? .black : .white : .white)
+                    .foregroundColor(type == 1 ? settingsController.accentColor == .white ? .black : .white : .white)
                     .font(.system(size: 18))
                     .bold()
                     .padding(.vertical, 2)

@@ -12,10 +12,10 @@ struct PatternView: View {
 
     // Enivronment and Binding variables
     @Environment(\.scenePhase) var scenePhase
+    @StateObject private var settingsController = SettingsManager()
     @EnvironmentObject var patternManager: PatternManager
-    @EnvironmentObject var shiftManager: ShiftManager
-    @EnvironmentObject var calendarManager: CalendarManager
     @EnvironmentObject var hapticManager: HapticManager
+    @EnvironmentObject var calendarPattern: CalendarPattern
     @Binding var tabSelection: Int
     @Binding var isEditing: Bool
     
@@ -27,14 +27,13 @@ struct PatternView: View {
     // Vars for name Textfield for disable and focus
     @State private var nameDisabled: Bool = true
     @FocusState private var nameFocus: Bool
-    
     @State private var isDragging: Bool = false
     @State private var showShiftSelector: Bool = false
     @State private var getBounds: Bool = true
     @State private var hapticEngine: CHHapticEngine?
-
     @State private var slideOffset: CGFloat = 0.0
     @State private var mainOffset: CGFloat = 0.0
+    @State private var draggedPatternId: UUID = UUID()
 
     var isBasicView: Bool = false
     
@@ -75,10 +74,10 @@ struct PatternView: View {
         })
         .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 15, style: .continuous))
         .onDrag {
-            patternManager.draggedPattern = pattern.id
+            draggedPatternId = pattern.id
             return NSItemProvider(object: "\(pattern.id.uuidString)" as NSString)
         }
-        .onDrop(of: [.text], delegate: PatternDropDelegate(dragged: patternManager.draggedPattern, dropped: pattern.id, onEntered: patternManager.insertPattern))
+        .onDrop(of: [.text], delegate: PatternDropDelegate(dragged: draggedPatternId, dropped: pattern.id, onEntered: patternManager.insertPattern))
 
     }
 
@@ -262,7 +261,7 @@ struct PatternView: View {
     
     /// Week section
     private var weekdayBar: some View {
-        WeekdayBar(weekday: calendarManager.weekday, accentColor: calendarManager.accentColor)
+        WeekdayBar(weekday: settingsController.weekday, accentColor: settingsController.accentColor)
             .padding(.horizontal, 2)
             .transition(.opacity.combined(with: .scale))
     }
@@ -368,9 +367,10 @@ struct PatternView: View {
 
     }
 
+    // Needs re-working.
     private func applyPattern() {
-        calendarManager.applyingPattern = pattern
-        calendarManager.isApplyingPattern = true
+        calendarPattern.applyingPattern = pattern
+        calendarPattern.isApplyingPattern = true
         tabSelection = 1
     }
     private func editName() {

@@ -1,5 +1,5 @@
 //
-//  TemplatesManager.swift
+//  ShiftManager.swift
 //  SwiftShift
 //
 //  Created by Ollie on 03/04/2022.
@@ -10,19 +10,20 @@ import SwiftUI
 import CoreData
 
 class ShiftManager: NSObject, ObservableObject {
-    @Published var shifts: [Shift] = []
-    @Published var editingShift: Shift = Shift()
-    @Published var isNewShift: Bool = false
 
-    private var persistenceController: PersistenceController
-    private var viewContext: NSManagedObjectContext { persistenceController.container.viewContext }
+    // Persistence Controller with computed variable in case the container
+    // is reloaded such as toggling iCloud functionality.
+    private var persistenceController = PersistenceController.shared
+    private var viewContext:NSManagedObjectContext { persistenceController.container.viewContext }
     private var fetchedResultsController: NSFetchedResultsController<CD_Shift>
 
     private var dateFormatter = DateFormatter()
 
-    init(_ persistenceController: PersistenceController) {
-        self.persistenceController = persistenceController
+    @Published var shifts: [Shift] = []
+    @Published var editingShift: Shift = Shift()
+    @Published var isNewShift: Bool = false
 
+    init (noLoad: Bool = false) {
         let request = CD_Shift.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
 
@@ -33,6 +34,7 @@ class ShiftManager: NSObject, ObservableObject {
             cacheName: nil)
 
         super.init()
+        if noLoad { return }
         fetchedResultsController.delegate = self
 
         do {

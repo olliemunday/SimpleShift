@@ -9,24 +9,23 @@ import Foundation
 import CoreData
 
 class PatternManager: NSObject, ObservableObject {
-    private var persistenceController: PersistenceController
-    private var viewContext: NSManagedObjectContext { persistenceController.container.viewContext }
-    // Core Data Fetch Controller
+
+    // Persistence Controller with computed variable in case the container
+    // is reloaded such as toggling iCloud functionality.
+    private var persistenceController = PersistenceController.shared
+    private var viewContext:NSManagedObjectContext { persistenceController.container.viewContext }
     private var fetchedResultsController: NSFetchedResultsController<CD_Pattern>
+
+    private var selectionWeek: UUID = UUID()
+    private var selectionStart: Int = 0
+    private var selectionEnd: Int = 0
     
     // Array to hold all Pattern objects.
     @Published var patternStore: [Pattern] = []
     // Array to hold id of selected patterns. In practice this only ever holds one id at a time.
     @Published var patternSelected: Set<UUID> = []
 
-    @Published var draggedPattern: UUID = UUID()
-    
-    private var selectionWeek: UUID = UUID()
-    private var selectionStart: Int = 0
-    private var selectionEnd: Int = 0
-    
-    init(_ persistenceController : PersistenceController) {
-        self.persistenceController = persistenceController
+    init(noLoad: Bool = false) {
         let request = CD_Pattern.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
@@ -34,16 +33,15 @@ class PatternManager: NSObject, ObservableObject {
                                                               sectionNameKeyPath: nil,
                                                               cacheName: nil)
         super.init()
+        if noLoad { return }
         fetchedResultsController.delegate = self
 
-        /// Load in Patterns stored to CoreData.
         loadPatterns()
 
         NotificationCenter.default.addObserver(self, selector: #selector(reinitializeCoreData), name: NSNotification.Name("CoreDataRefresh"), object: nil)
     }
 
     @objc func reinitializeCoreData() {
-        print("Reinit CD")
         let request = CD_Pattern.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
         fetchedResultsController = NSFetchedResultsController(
@@ -221,12 +219,12 @@ class PatternManager: NSObject, ObservableObject {
         setShiftSelected(start: index, end: index)
     }
     
-    /// Is a Pattern currently selected?
+    // Is a Pattern currently selected?
     func isPatternSelected() -> Bool {
         !patternSelected.isEmpty
     }
     
-    /// Get selected pattern.
+    // Get selected pattern.
     func getPatternSelected() -> UUID? {
         patternSelected.first
     }
@@ -236,7 +234,7 @@ class PatternManager: NSObject, ObservableObject {
         setShiftSelected(start: selectionStart, end: index)
     }
     
-    /// Sets shifts to selected
+    // Sets shifts to selected
     public func setShiftSelected(start: Int, end: Int) {
         guard let pattern = getPatternSelected() else { return }
         
@@ -354,7 +352,6 @@ struct CD_PatternMap: Identifiable {
     var pattern: Pattern?
     var id: NSManagedObjectID
     
-  
     init(CD_Pattern: CD_Pattern) {
         self.id = CD_Pattern.objectID
         self.pattern = Pattern.decode(pattern: CD_Pattern.encoded ?? "")

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HelpNavigationView: View {
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject private var calendarManager: CalendarManager
+    @EnvironmentObject private var settingsController: SettingsManager
 
     var body: some View {
         GeometryReader { geo in
@@ -157,7 +157,7 @@ struct HelpNavigationView: View {
             Rectangle()
                 .foregroundColor(.accentColor)
                 .opacity(0.15)
-                .cornerRadius(16)
+                .cornerRadius(12)
                 .shadow(radius: 1)
 
             Text(barDate)
@@ -188,7 +188,7 @@ struct HelpNavigationView: View {
                 }
 
             HStack {
-                let arrowColor = calendarManager.accentColor == .white ? Color.black : Color.white
+                let arrowColor = settingsController.accentColor == .white ? Color.black : Color.white
                 ImageButton(arrow: "arrow.left.circle.fill", size: 36, color: .accentColor, imageColor: arrowColor)
                     .padding(.leading, 5)
                 Spacer()
