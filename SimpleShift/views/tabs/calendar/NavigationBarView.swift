@@ -65,7 +65,7 @@ struct NavigationBarView: View, Sendable {
         VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
             .background(
                 Rectangle()
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(calendarManager.tintColor.colorAdjusted(colorScheme))
                     .opacity(0.18)
 
             )
@@ -73,19 +73,27 @@ struct NavigationBarView: View, Sendable {
             .shadow(radius: 1)
     }
 
+
     // Buttons for Navigation bar.
     private var navigationButtons: some View {
         HStack(spacing: 0) {
-            let arrowColor = calendarManager.accentColor == .white ? Color.black : Color.white
-            Button { if !showDatePicker { navigationButtonAction(forward: false) } } label: {
-                ImageButton(arrow: "arrow.left.circle.fill", size: 40, color: calendarManager.accentColor, imageColor: arrowColor)
+            let tintColor = calendarManager.tintColor.colorAdjusted(colorScheme)
+            let arrowColor = calendarManager.tintColor.textColor(colorScheme)
+            Button { navigationButtonAction(forward: false) } label: {
+                ImageButton(arrow: "arrow.left.circle.fill",
+                            size: 40,
+                            color: tintColor,
+                            imageColor: arrowColor)
             }
             .padding(.leading, 5)
 
             Spacer()
 
-            Button { if !showDatePicker { navigationButtonAction(forward: true) } } label: {
-                ImageButton(arrow: "arrow.right.circle.fill", size: 40, color: calendarManager.accentColor, imageColor: arrowColor)
+            Button { navigationButtonAction(forward: true) } label: {
+                ImageButton(arrow: "arrow.right.circle.fill",
+                            size: 40,
+                            color: tintColor,
+                            imageColor: arrowColor)
             }
             .padding(.trailing, 5)
         }
@@ -134,18 +142,17 @@ struct NavigationBarView: View, Sendable {
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged({
-                if showDatePicker || enableDatePicker || disableInput { return }
+                if enableDatePicker || disableInput { return }
                 let width = $0.translation.width
                 dateForward = (width > 0 ? false : true)
                 dateOffset = CGSize(width: width, height: 0)
             })
             .onEnded({
                 // End of drag gesture and long press gesture
-                if showDatePicker || enableDatePicker || disableInput { return }
+                navigationIsScaled = false
+                if enableDatePicker || disableInput { return }
                 let width = $0.translation.width
                 dateOffset = .zero
-                navigationIsScaled = false
-
                 if abs(width) > 80 {
                     dateForward = width > 80 ? false : true
                     disableInput = true
@@ -153,7 +160,7 @@ struct NavigationBarView: View, Sendable {
                         try await Task.sleep(for: .milliseconds(100))
                         calendarManager.iterateMonth(value: dateForward ? 1 : -1)
                         await calendarManager.setMonth()
-                        try await Task.sleep(for: .milliseconds(800))
+                        try await Task.sleep(for: .milliseconds(400))
                         disableInput = false
                     }
 

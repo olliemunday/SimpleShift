@@ -10,6 +10,10 @@ import SwiftUI
 struct WelcomeView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    @Environment(\.colorScheme) var colorScheme
+
+    @AppStorage("_tintColor", store: .standard)
+    public var tintColor: TintColor = .blue
 
     var bulletinObjects: [infoBulletinObject] = [
         infoBulletinObject(id: 0, title: String(localized: "welcomeBulletin1Title"), description: String(localized: "welcomeBulletin1"), icon: "rectangle.stack.fill"),
@@ -55,7 +59,7 @@ struct WelcomeView: View {
             GeometryReader { geo in
                 ZStack{
                     RoundedRectangle(cornerRadius: geo.size.width/18)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(tintColor.colorAdjusted(colorScheme))
                     Text("continue")
                         .bold()
                         .padding()
@@ -76,7 +80,7 @@ struct WelcomeView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 36, height: 36)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(tintColor.colorAdjusted(colorScheme))
                     HStack(alignment: .center) {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(bulletinObject.title)

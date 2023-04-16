@@ -65,7 +65,7 @@ struct CalendarDateView: View, Sendable {
                              greyed: calendarManager.greyed,
                              offDay: calendarManager.showOff,
                              today: calendarManager.isToday(date: date.date) ? calendarManager.todayIndicatorType : 0,
-                             accentColor: calendarManager.accentColor)
+                             tintColor: calendarManager.tintColor)
                         .id(date.id)
                         .frame(height: (geo.size.height / 6) - gridSpacing)
                 }
@@ -175,7 +175,7 @@ struct CalendarDateView: View, Sendable {
                         try await Task.sleep(for: .milliseconds(100))
                         calendarManager.iterateMonth(value: height > 0 ? -1 : 1)
                         await calendarManager.setMonth()
-                        try await Task.sleep(for: .milliseconds(600))
+                        try await Task.sleep(for: .milliseconds(400))
                         disableInput = false
                     }
                     isHolding = false

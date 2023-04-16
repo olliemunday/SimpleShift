@@ -50,8 +50,8 @@ class CalendarManager: NSObject, ObservableObject, @unchecked Sendable {
     @AppStorage("calendar_todayIndicatorType", store: .standard)
     public var todayIndicatorType: Int = 1
 
-    @AppStorage("_accentColor", store: .standard)
-    public var accentColor: Color = .blue
+    @AppStorage("_tintColor", store: .standard)
+    public var tintColor: TintColor = .blue
 
     // Vars for selecting multiple dates.
     @Published var selectionStart: Int = -1

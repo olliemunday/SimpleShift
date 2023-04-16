@@ -45,8 +45,12 @@
 		0775E24A2907EE6800F8C20F /* ShiftsTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775E2492907EE6800F8C20F /* ShiftsTip.swift */; };
 		0775E24C29081FB000F8C20F /* PatternsTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775E24B29081FB000F8C20F /* PatternsTip.swift */; };
 		0775E25029083A1400F8C20F /* GradientPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775E24F29083A1400F8C20F /* GradientPreset.swift */; };
+		077C406D29EAF613007F056D /* TintColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C406C29EAF613007F056D /* TintColors.swift */; };
+		077C407129EB12BD007F056D /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C407029EB12BD007F056D /* TabsView.swift */; };
 		07894E2F27F8DF9E00C71A28 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07894E2E27F8DF9E00C71A28 /* Markers.swift */; };
 		078ECD672918314900ABCFF7 /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ECD662918314900ABCFF7 /* CalendarDateView.swift */; };
+		0790523529EB945600C53D44 /* Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790523429EB945500C53D44 /* Emoji.swift */; };
+		0790523729EB948000C53D44 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790523629EB948000C53D44 /* EmojiPicker.swift */; };
 		0794057728D11603003A7592 /* ShiftSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057628D11603003A7592 /* ShiftSelector.swift */; };
 		0794057928D12C57003A7592 /* WeekdayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057828D12C57003A7592 /* WeekdayBar.swift */; };
 		0794057B28D156F5003A7592 /* PatternView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057A28D156F5003A7592 /* PatternView.swift */; };
@@ -139,9 +143,13 @@
 		0775E2492907EE6800F8C20F /* ShiftsTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTip.swift; sourceTree = "<group>"; };
 		0775E24B29081FB000F8C20F /* PatternsTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsTip.swift; sourceTree = "<group>"; };
 		0775E24F29083A1400F8C20F /* GradientPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientPreset.swift; sourceTree = "<group>"; };
+		077C406C29EAF613007F056D /* TintColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColors.swift; sourceTree = "<group>"; };
+		077C407029EB12BD007F056D /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		07894E2E27F8DF9E00C71A28 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
 		078ECD5C2912C5CD00ABCFF7 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 		078ECD662918314900ABCFF7 /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
+		0790523429EB945500C53D44 /* Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji.swift; sourceTree = "<group>"; };
+		0790523629EB948000C53D44 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
 		0791A5B728020E370002A3E8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		0791A5B928020E370002A3E8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0794057528D1042A003A7592 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -213,6 +221,7 @@
 				07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */,
 				07D7FDE929E30BD5005321D7 /* Launch Screen.storyboard */,
 				07D7FDE629E3025A005321D7 /* Preview Content */,
+				0790523429EB945500C53D44 /* Emoji.swift */,
 			);
 			path = SimpleShift;
 			sourceTree = "<group>";
@@ -250,6 +259,7 @@
 				0737DC6F27F7F16A00CF2AC9 /* SensePreferences.swift */,
 				071E31A028DCD81A0076112E /* ScrollViewOffsetKey.swift */,
 				0775E24F29083A1400F8C20F /* GradientPreset.swift */,
+				077C406C29EAF613007F056D /* TintColors.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -321,6 +331,7 @@
 				071E31B828DE43130076112E /* TabViewItem.swift */,
 				07438A002920550200249F35 /* HCenter.swift */,
 				07ADEFF629E1B119005A066F /* SpinningGradientLogo.swift */,
+				0790523629EB948000C53D44 /* EmojiPicker.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -384,6 +395,7 @@
 				076BEB7927FA445B0098BB8D /* shifts */,
 				07D8E69F28C7A2D300B7A851 /* patterns */,
 				076BEB7227F96A220098BB8D /* settings */,
+				077C407029EB12BD007F056D /* TabsView.swift */,
 			);
 			path = tabs;
 			sourceTree = "<group>";
@@ -480,6 +492,7 @@
 			files = (
 				076BEB8127FA745F0098BB8D /* Color+Extensions.swift in Sources */,
 				0794057B28D156F5003A7592 /* PatternView.swift in Sources */,
+				077C407129EB12BD007F056D /* TabsView.swift in Sources */,
 				071E31B928DE43130076112E /* TabViewItem.swift in Sources */,
 				07D7FDE829E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift in Sources */,
 				074389F7291FFD9B00249F35 /* ColorPreviewView.swift in Sources */,
@@ -499,10 +512,12 @@
 				071FC29C28D5814E00A0BA7D /* PatternWeekView.swift in Sources */,
 				0704A95429AE3B0D00B8F9AC /* NavigationBarView.swift in Sources */,
 				071302C329BEBC760041FBA4 /* HelpViewOption.swift in Sources */,
+				0790523729EB948000C53D44 /* EmojiPicker.swift in Sources */,
 				07D05FB629E75C5500B43DB9 /* CalendarPattern.swift in Sources */,
 				076178AE29091B1C0080B690 /* ShiftEditor.swift in Sources */,
 				07438A012920550200249F35 /* HCenter.swift in Sources */,
 				0794057928D12C57003A7592 /* WeekdayBar.swift in Sources */,
+				0790523529EB945600C53D44 /* Emoji.swift in Sources */,
 				07438A032920562500249F35 /* CalendarExampleView.swift in Sources */,
 				07894E2F27F8DF9E00C71A28 /* Markers.swift in Sources */,
 				074389FF2920500F00249F35 /* PatternExample.swift in Sources */,
@@ -526,6 +541,7 @@
 				076A6EA9291D993D00E31D35 /* WelcomeiCloudView.swift in Sources */,
 				076BEB7B27FA45470098BB8D /* ShiftsView.swift in Sources */,
 				0775E25029083A1400F8C20F /* GradientPreset.swift in Sources */,
+				077C406D29EAF613007F056D /* TintColors.swift in Sources */,
 				0724C33F291EBB5800F472F4 /* ImageLabel.swift in Sources */,
 				071E319928D9429E0076112E /* AnimationCompletionObserverModifer.swift in Sources */,
 				0794057F28D17951003A7592 /* ScaleInOut-AnyTransition.swift in Sources */,

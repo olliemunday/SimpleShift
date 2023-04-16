@@ -11,6 +11,9 @@ struct WelcomeiCloudView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var colorScheme
 
+    @AppStorage("_tintColor", store: .standard)
+    public var tintColor: TintColor = .blue
+
     private var persistenceController = PersistenceController.shared
 
     let darkColor = Color(UIColor(#colorLiteral(red: 0.9179086089, green: 0.9179086089, blue: 0.9179086089, alpha: 1)))
@@ -59,7 +62,7 @@ struct WelcomeiCloudView: View {
             GeometryReader { geo in
                 ZStack{
                     RoundedRectangle(cornerRadius: geo.size.width/18)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(tintColor.colorAdjusted(colorScheme))
                     Text("icloudenable")
                         .bold()
                         .padding()

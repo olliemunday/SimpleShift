@@ -16,6 +16,6 @@ struct FixedDatePicker: View {
             .datePickerStyle(.wheel)
             .clipped()
             .labelsHidden()
-            .id(selection)
+//            .id(selection)
     }
 }

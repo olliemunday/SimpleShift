@@ -12,6 +12,7 @@ struct PatternView: View {
 
     // Enivronment and Binding variables
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var settingsController = SettingsManager()
     @EnvironmentObject var patternManager: PatternManager
     @EnvironmentObject var hapticManager: HapticManager
@@ -261,7 +262,8 @@ struct PatternView: View {
     
     /// Week section
     private var weekdayBar: some View {
-        WeekdayBar(weekday: settingsController.weekday, accentColor: settingsController.accentColor)
+        WeekdayBar(weekday: settingsController.weekday,
+                   tintColor: settingsController.tintColor)
             .padding(.horizontal, 2)
             .transition(.opacity.combined(with: .scale))
     }
@@ -328,7 +330,7 @@ struct PatternView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 26, height: 26)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(settingsController.tintColor.colorAdjusted(colorScheme))
             }
         }
             .frame(width: 100, height: 45, alignment: .center)

@@ -10,6 +10,7 @@ import SwiftUI
 struct HelpNavigationView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settingsController: SettingsManager
+    
 
     var body: some View {
         GeometryReader { geo in
@@ -156,7 +157,7 @@ struct HelpNavigationView: View {
     private var calendarHelpNavigationBarDemo: some View {
         ZStack {
             Rectangle()
-                .foregroundColor(.accentColor)
+                .foregroundColor(settingsController.tintColor.colorAdjusted(colorScheme))
                 .opacity(0.15)
                 .cornerRadius(12)
                 .shadow(radius: 1)
@@ -189,11 +190,12 @@ struct HelpNavigationView: View {
                 }
 
             HStack {
-                let arrowColor = settingsController.accentColor == .white ? Color.black : Color.white
-                ImageButton(arrow: "arrow.left.circle.fill", size: 36, color: .accentColor, imageColor: arrowColor)
+                let tintColor = settingsController.tintColor.colorAdjusted(colorScheme)
+                let arrowColor = settingsController.tintColor.textColor(colorScheme)
+                ImageButton(arrow: "arrow.left.circle.fill", size: 36, color: tintColor, imageColor: arrowColor)
                     .padding(.leading, 5)
                 Spacer()
-                ImageButton(arrow: "arrow.right.circle.fill", size: 36, color: .accentColor, imageColor: arrowColor)
+                ImageButton(arrow: "arrow.right.circle.fill", size: 36, color: tintColor, imageColor: arrowColor)
                     .padding(.trailing, 5)
             }
         }
@@ -224,6 +226,8 @@ struct HelpNavigationView: View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 30) {
 
+                let tintColor = settingsController.tintColor.colorAdjusted(colorScheme)
+
                 patternHelp_Section1
 
                 HCenter {
@@ -231,7 +235,7 @@ struct HelpNavigationView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(tintColor)
                 }
 
                 Text("patternshelp3")
@@ -241,7 +245,7 @@ struct HelpNavigationView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(tintColor)
                 }
 
                 Text("patternshelp4")
@@ -253,7 +257,7 @@ struct HelpNavigationView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(tintColor)
                 }
 
                 Text("patternshelp6")

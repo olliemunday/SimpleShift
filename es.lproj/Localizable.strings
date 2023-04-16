@@ -59,6 +59,7 @@
 "indicatoroff" = "Indicador apagado";
 "indicatortype1" = "Acento superior";
 "indicatortype2" = "Cápsula inferior";
+"indicatortype3" = "Resalte de borde";
 
 // Weekdays
 "monday" = "Lunes";
@@ -140,6 +141,7 @@
 "darkorange" = "Naranja oscuro";
 "darkgreen" = "Verde oscuro";
 "blackwhite" = "Blanco negro";
+"lime" = "Lima";
 
 // Privacy Notice
 

@@ -72,6 +72,7 @@ struct ShiftEditor: View {
         Picker("Show custom text", selection: $showCustomText) {
             Text("time").tag(0)
             Text("custom").tag(1)
+//            Text("emoji").tag(2)
         }
             .pickerStyle(.segmented)
             .onChange(of: showCustomText) { val in
@@ -120,6 +121,10 @@ struct ShiftEditor: View {
                 .onAppear(perform: { customText = shiftManager.editingShift.shift })
                 .onChange(of: customText, perform: { shiftManager.editingShift.shift = $0 })
         }
+
+//        if showCustomText == 2 {
+//            Rectangle()
+//        }
     }
 
     @ViewBuilder private var colorSettings: some View {

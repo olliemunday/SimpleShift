@@ -7,10 +7,13 @@
 
 import SwiftUI
 
-struct WeekdayBar: View {   
+struct WeekdayBar: View {
+    @Environment(\.colorScheme) private var colorScheme
+    
+
     let weekday: Int
     var spacing: CGFloat = 2
-    let accentColor: Color
+    let tintColor: TintColor
 
     var body: some View {
         weekdayBar
@@ -35,11 +38,11 @@ struct WeekdayBar: View {
             ForEach(getWeekdays(start: weekday - 1), id: \.self) { wkday in
 
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(accentColor)
-                    .opacity(0.8)
+                    .foregroundColor(tintColor.colorAdjusted(colorScheme))
+                    .opacity(0.95)
                     .overlay(
                         Text(wkday)
-                            .foregroundColor(accentColor == .white ? .black : .white)
+                            .foregroundColor(tintColor.textColor(colorScheme))
                             .font(.system(.title2, design: .rounded))
                             .dynamicTypeSize(.xSmall ... .large)
                             .bold()

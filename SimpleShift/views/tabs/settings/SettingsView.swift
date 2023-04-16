@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject private var settingsController = SettingsManager()
+    @StateObject private var settingsManager = SettingsManager()
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -34,23 +34,6 @@ struct SettingsView: View {
         String(localized: "saturday")
     ]
 
-    private let tintOptions: [(String, Color)] = [
-        ("blue", .blue),
-        ("red", .red),
-        ("green", .green),
-        ("orange", .orange),
-        ("purple", .purple),
-        ("cyan", .cyan),
-        ("mint", .mint),
-        ("pink", .pink),
-        ("indigo", .indigo),
-        ("yellow", .yellow),
-        ("teal", .teal),
-        ("maroon", .hex("800000")),
-        ("darkorange", Color(uiColor: #colorLiteral(red: 0.8608909249, green: 0.1735971868, blue: 0.08356299251, alpha: 1))),
-        ("darkgreen", Color(uiColor: #colorLiteral(red: 0.3049176335, green: 0.5427229404, blue: 0.1484210789, alpha: 1))),
-    ]
-
     @State private var navigationStack = [Navigation]()
     var body: some View {
         NavigationStack(path: $navigationStack) {
@@ -68,7 +51,13 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    NavigationLink(value: Navigation.tint, label: {ImageLabel(title: String(localized: "accentcolor"), systemName: "paintpalette.fill", color: .accentColor, symbolColor: settingsController.accentColor == .white ? Color.black : Color.white)})
+                    NavigationLink(value: Navigation.tint,
+                                   label: {
+                        ImageLabel(title: String(localized: "accentcolor"),
+                                   systemName: "paintpalette.fill",
+                                   color: settingsManager.tintColor.colorAdjusted(colorScheme),
+                                   symbolColor: settingsManager.tintColor.textColor(colorScheme))
+                    })
                 } header: { Text("theme") }
 
                 Section {
@@ -94,6 +83,7 @@ struct SettingsView: View {
                 }
 
             }
+            .tint(settingsManager.tintColor.color)
             .navigationTitle("settings")
             .navigationDestination(for: Navigation.self) { value in
                 switch value {
@@ -101,7 +91,7 @@ struct SettingsView: View {
                 case .tint: tintSelection
                 case .today: todayIndicatorSelector
                 case .privacy : ScrollView { PrivacyView() }
-                case .help : HelpNavigationView().environmentObject(settingsController)
+                case .help : HelpNavigationView().environmentObject(settingsManager)
                 }
             }
         }
@@ -115,13 +105,13 @@ struct SettingsView: View {
             ForEach(weekdays.indices, id: \.self) { index in
                 let weekday = weekdays[index]
                 Button {
-                    settingsController.weekday = index + 1
+                    settingsManager.weekday = index + 1
                 } label: {
                     HStack {
                         Text(weekday)
                             .foregroundColor(.primary)
                         Spacer()
-                        if settingsController.weekday == index + 1 {
+                        if settingsManager.weekday == index + 1 {
                             Image(systemName: "checkmark")
                                 .transition(.opacity)
                         }
@@ -131,7 +121,7 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("firstweekday")
-        .animation(.easeInOut(duration: 0.2), value: settingsController.weekday)
+        .animation(.easeInOut(duration: 0.2), value: settingsManager.weekday)
     }
 
     let tintSpacing: CGFloat = 4
@@ -141,28 +131,14 @@ struct SettingsView: View {
             ScrollView {
                 Rectangle().frame(height: 10).hidden()
                 LazyVGrid(columns: tintColumns, spacing: tintSpacing) {
-                    Button {
-                        withAnimation {
-                            settingsController.accentColor = colorScheme == .light ? .black : .white
-                            tintOptionSelected = "blackwhite"
-                        }
-                    } label: {
-                        ColorPreviewView(name: String(localized: "blackwhite"),
-                                         selected: tintOptionSelected == "blackwhite",
-                                         color: colorScheme == .light ? .black : .white)
-                            .frame(height: geo.size.width / 3)
-                    }
-
-                    ForEach(tintOptions, id: \.self.1) { tint in
-                        let colorName = String(localized: String.LocalizationValue(tint.0))
+                    ForEach(TintColor.allCases, id: \.self) { tint in
                         Button {
-                            settingsController.accentColor = tint.1
-                            tintOptionSelected = tint.0
+                            settingsManager.tintColor = tint
                         } label: {
-                            ColorPreviewView(name: colorName,
-                                             selected: tintOptionSelected == tint.0,
-                                             color: tint.1)
-                            .frame(height: geo.size.width / 3)
+                            ColorPreviewView(name: tint.name,
+                                             selected: settingsManager.tintColor == tint,
+                                             color: getColorAdjusted(tintColor: tint))
+                                .frame(height: geo.size.width / 3)
                         }
                     }
                 }
@@ -171,21 +147,23 @@ struct SettingsView: View {
             }
         }
     }
-    
+
+    private func getColorAdjusted(tintColor: TintColor) -> Color {
+        if colorScheme == .dark && tintColor == .blackwhite {
+            return .white
+        }
+        return tintColor.color
+    }
+
     // Toggle for setting days not in selected month to be greyed out slightly.
     private var greyDaysToggle: some View {
-        Toggle(isOn: settingsController.$greyed, label: {ImageLabel(title: String(localized: "dimoutside"), systemName: "lightbulb.fill", color: Color.hex("ff3c33"))})
+        Toggle(isOn: settingsManager.$greyed, label: {ImageLabel(title: String(localized: "dimoutside"), systemName: "lightbulb.fill", color: Color.hex("ff3c33"))})
             .toggleStyle(.switch)
     }
     
     private var offDaysToggle: some View {
-        Toggle(isOn: settingsController.$calendarShowOff, label: {ImageLabel(title: String(localized: "showoff"), systemName: "switch.2", color: Color.hex("ff3c33"))})
+        Toggle(isOn: settingsManager.$calendarShowOff, label: {ImageLabel(title: String(localized: "showoff"), systemName: "switch.2", color: Color.hex("ff3c33"))})
             .toggleStyle(.switch)
-    }
-    
-    private var accentColorPicker: some View {
-        ColorPicker("App Tint", selection: settingsController.$accentColor)
-            .navigationBarTitleDisplayMode(.inline)
     }
 
     private var about: some View {
@@ -231,22 +209,24 @@ struct SettingsView: View {
     private let typeNames = [
         String(localized: "indicatoroff"),
         String(localized: "indicatortype1"),
-        String(localized: "indicatortype2") ]
+        String(localized: "indicatortype2"),
+        String(localized: "indicatortype3")
+    ]
 
     private var todayIndicatorSelector: some View {
         List {
-            ForEach(0...2, id: \.self) { index in
+            ForEach(0...3, id: \.self) { index in
                 Section {
                     Button {
-                        withAnimation { settingsController.todayIndicatorType = index }
+                        withAnimation { settingsManager.todayIndicatorType = index }
                     } label: {
                         HStack {
                             Spacer()
                             VStack(spacing: 10) {
-                                CustomMarker(size: 20, primary: settingsController.todayIndicatorType == index ? .blue : .gray, icon: "checkmark")
+                                CustomMarker(size: 20, primary: settingsManager.todayIndicatorType == index ? .blue : .gray, icon: "checkmark")
                                     .shadow(radius: 1)
                                 IndicatorExampleView(type: index)
-                                    .environmentObject(settingsController)
+                                    .environmentObject(settingsManager)
                             }
                             Spacer()
                         }

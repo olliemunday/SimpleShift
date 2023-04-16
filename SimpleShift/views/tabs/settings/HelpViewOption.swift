@@ -9,16 +9,20 @@ import SwiftUI
 
 struct HelpViewOption: View {
 
+    @Environment(\.colorScheme) var colorScheme
+
     let size: CGFloat
     let image: String
     let text: String
     let colors: [Color]
-    
+
+    @AppStorage("_tintColor", store: .standard)
+    public var tintColor: TintColor = .blue
 
     var body: some View {
             GradientRounded(cornerRadius: size / 5, colors: colors, direction: .vertical)
                 .frame(height: size)
-                .foregroundColor(.accentColor)
+                .foregroundColor(tintColor.colorAdjusted(colorScheme))
                 .cornerRadius(size / 5)
                 .overlay {
                     VStack(alignment: .center) {

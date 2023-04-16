@@ -33,7 +33,7 @@ struct SpinningGradientLogo: View {
                 .scaledToFit()
                 .cornerRadius(size / 4.7)
                 .shadow(radius: 1)
-                .frame(width: size * 0.96, height: size * 0.96)
+                .frame(width: size * 0.97, height: size * 0.97)
         }
         .frame(width: size, height: size)
     }
@@ -42,7 +42,7 @@ struct SpinningGradientLogo: View {
 struct SpinningGradient_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            SpinningGradientLogo(size: 300)
+            SpinningGradientLogo(size: 200)
         }
     }
 }

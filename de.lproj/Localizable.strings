@@ -58,6 +58,7 @@
 "indicatoroff" = "Anzeige aus";
 "indicatortype1" = "Top-Akzent";
 "indicatortype2" = "Untere Kapsel";
+"indicatortype3" = "Rahmenhervorhebung";
 
 // Weekdays
 "monday" = "Montag";
@@ -140,6 +141,7 @@
 "darkorange" = "Dunkelorange";
 "darkgreen" = "Dunkelgrün";
 "blackwhite" = "Schwarz-Weiss";
+"lime" = "Limette";
 
 // Privacy Notice
 

@@ -35,6 +35,7 @@ struct ColorPreviewView: View {
                         TickMarker(size: 24)
                             .transition(.opacity)
                             .padding(5)
+                            .shadow(color: .gray, radius: 1)
                     }
 
                 }

@@ -15,7 +15,7 @@ struct CalendarRender: View {
 
     let displayDate: String
     let weekday: Int
-    let accentColor: Color
+    let tintColor: TintColor
 
     var dates = [
         CalendarDate(id: 1, date: Date.now, day: "1", greyed: false),
@@ -36,7 +36,7 @@ struct CalendarRender: View {
             background
 
             VStack(spacing: 5) {
-                WeekdayBar(weekday: weekday, accentColor: accentColor)
+                WeekdayBar(weekday: weekday, tintColor: tintColor)
                     .frame(height: 30)
 
 
@@ -48,7 +48,7 @@ struct CalendarRender: View {
                                  greyed: date.greyed,
                                  offDay: true,
                                  today: 0,
-                                 accentColor: accentColor)
+                                 tintColor: tintColor)
                             .frame(height: 90)
 
                     }
@@ -77,11 +77,5 @@ struct CalendarRender: View {
     var background: some View {
         Rectangle()
             .foregroundColor(colorScheme == .light ? .white : .black)
-    }
-}
-
-struct CalendarRender_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarRender(displayDate: "April 2022", weekday: 2, accentColor: .black ,shifts: [])
     }
 }

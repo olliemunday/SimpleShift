@@ -27,6 +27,8 @@ struct CalendarView: View, Sendable {
     @State private var isEditing: Bool = false
     // State to pass to transition as binding if we are moving forward or backwards.
     @State var dateForward: Bool = false
+
+    @State var dateCheckTimer: Bool = false
     
     var body: some View {
         NavigationView {
@@ -57,7 +59,7 @@ struct CalendarView: View, Sendable {
         }
         .navigationViewStyle(.stack)
         .onChange(of: scenePhase, perform: { if $0 == .active {
-            if tintOptionSelected == "blackwhite" { withAnimation { calendarManager.accentColor = colorScheme == .light ? .black : .white } }
+            // Change color here
             Task.detached { await calendarManager.setMonth() }
             hapticManager.prepareEngine()
         } })
@@ -68,6 +70,27 @@ struct CalendarView: View, Sendable {
         .onChange(of: snapshotImage, perform: { _ in showShareSheet = true })
         .popover(isPresented: $showShareSheet) {
             ShareSheet(items: [snapshotImage!])
+        }
+        .task {
+            if dateCheckTimer { return }
+            dateCheckTimer = true
+            Task {
+                let calendar = Calendar.current
+                var lastTime: Date = Date.now
+                while true {
+                    let now = Date.now
+                    let nowcomp = calendar.dateComponents([.day], from: now)
+                    let nowday = nowcomp.day
+
+                    let lastcomp = calendar.dateComponents([.day], from: lastTime)
+                    let lastday = lastcomp.day
+
+                    if nowday != lastday { await calendarManager.setMonth() }
+
+                    lastTime = now
+                    try await Task.sleep(for: .seconds(10))
+                }
+            }
         }
     }
 
@@ -137,7 +160,12 @@ struct CalendarView: View, Sendable {
             showRendering = true
             Task {
                 try await Task.sleep(for: .milliseconds(500))
-                let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.dateDisplay, weekday: calendarManager.weekday, accentColor: calendarManager.accentColor, dates: calendarManager.datesPage.dates, shifts: shiftManager.shifts).environment(\.colorScheme, colorScheme))
+                let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.dateDisplay,
+                                                                     weekday: calendarManager.weekday,
+                                                                     tintColor: calendarManager.tintColor,
+                                                                     dates: calendarManager.datesPage.dates,
+                                                                     shifts: shiftManager.shifts)
+                    .environment(\.colorScheme, colorScheme))
                 renderer.proposedSize = ProposedViewSize(width: 400, height: 660)
                 renderer.scale = 3
                 snapshotImage = renderer.uiImage
@@ -185,28 +213,34 @@ struct CalendarView: View, Sendable {
                 VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
                     .background(
                         Rectangle()
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(calendarManager.tintColor.color)
                             .opacity(0.1)
                     )
                 .opacity(showDatePicker ? 1 : 0.0)
                 .cornerRadius(28)
                 
                 if showDatePicker {
-                    FixedDatePicker(selection: $datePickerDate)
+                    DatePicker("", selection: $datePickerDate, displayedComponents: [.date])
+                        .datePickerStyle(.wheel)
+                        .clipped()
+                        .labelsHidden()
                         .environment(\.timeZone, .gmt)
                         .frame(width: 280, height: 200)
                         .transition(.scaleInOut(anchor: .center, voffset: 120))
-                        .onChange(of: datePickerDate) {
+                        .onChange(of: datePickerDate) { date in
                             if calendarManager.isSameMonth(date: datePickerDate) { return }
-                            if datePickerDate > calendarManager.setDate { dateForward = true } else { dateForward = false }
-                            calendarManager.setCalendarDate(date: $0)
-                            Task.detached { await calendarManager.setMonth() }
+                            if date > calendarManager.setDate { dateForward = true } else { dateForward = false }
+                            Task {
+                                try await Task.sleep(for: .microseconds(100))
+                                calendarManager.setCalendarDate(date: date)
+                                await calendarManager.setMonth() }
                         }
+                        .onChange(of: calendarManager.setDate) { new in withAnimation { datePickerDate = new } }
                 }
             }
             .animation(.spring(response: 0.65, dampingFraction: 0.55), value: showDatePicker)
             .frame(width: showDatePicker ? 330 : 100, height: showDatePicker ? 200 : 56)
-            .padding(.bottom, showDatePicker ? 70 : 0)
+            .padding(.bottom, showDatePicker ? 65 : 0)
             .onAnimationCompleted(for: showDatePicker ? 1 : 0) {
                 if !showDatePicker { enableDatePicker = false }
             }
@@ -215,7 +249,8 @@ struct CalendarView: View, Sendable {
 
     private var calendar: some View {
         VStack(spacing: 0) {
-            WeekdayBar(weekday: calendarManager.weekday, accentColor: calendarManager.accentColor)
+            WeekdayBar(weekday: calendarManager.weekday,
+                       tintColor: calendarManager.tintColor)
                 .padding(.horizontal, 2)
                 .padding(.bottom, 1)
                 .frame(height: 30)
