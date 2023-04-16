@@ -31,8 +31,7 @@ struct ImageButton: View {
 struct ImageButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ImageButton(arrow: "arrow.left.circle.fill", size: 200)
-                .shadow(radius: 5.0)
+            ImageButton(arrow: "arrow.left.circle.fill", size: 200, color: .white, imageColor: .black)
         }
     }
 }

@@ -18,11 +18,11 @@ struct PatternWeekView: View {
     let zoomedIn: Bool
     let isFirst: Bool
     @Binding var isDragging: Bool
+    @Binding var weekDeleteShowing: UUID
     @State var fixGeometry: Bool = false
 
     @State private var xOffset: CGFloat = 0.0
     @State private var dragOffset: CGFloat = 0.0
-    @State private var showDelete: Bool = false
     
     var body: some View {
         weekView
@@ -53,7 +53,7 @@ struct PatternWeekView: View {
                             dragOffset = 0
                             if !zoomedIn || isDragging || isFirst { return }
                             if abs($0.translation.height) > 40 { return }
-                            if $0.translation.width < -30 { xOffset = -72 }
+                            if $0.translation.width < -30 { weekDeleteShowing = week.id;  }
                             if $0.translation.width > 30 { xOffset = 0 }
                         })
                         )
@@ -77,9 +77,12 @@ struct PatternWeekView: View {
         .offset(x: xOffset + dragOffset)
         .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.6), value: xOffset)
         .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.6), value: dragOffset)
-        .onChange(of: zoomedIn) { _ in
-            xOffset = 0.0
-            dragOffset = 0.0
+        .onChange(of: weekDeleteShowing) {
+            if $0 == week.id {
+                xOffset = -72
+            } else {
+                xOffset = 0
+            }
         }
     }
 

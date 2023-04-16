@@ -93,6 +93,7 @@
 "colorsettings" = "Ajustes de color";
 "date" = "Fecha";
 "time" = "Tiempo";
+"text" = "Texto";
 "gradient" = "Degradado";
 "solid" = "Sólido";
 "custom" = "Disfraz";
@@ -100,6 +101,8 @@
 "endtime" = "Hora de finalización";
 "shiftdeletealert" = "Eliminar un turno lo quitará del calendario.";
 "editing" = "Edición";
+"emoji" = "Emoji";
+"selectemoji" = "Seleccionar emoji";
 
 // Patterns
 "shiftpatterns" = "Patrones de cambio";

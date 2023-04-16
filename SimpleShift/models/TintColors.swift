@@ -17,7 +17,7 @@ let custom_lime = Color(#colorLiteral(red: 0.5097305179, green: 0.8830023408, bl
 enum TintColor: Int, Codable, CaseIterable {
     case blackwhite,
          blue, mint, teal,
-         purple, pink, indigo,
+         purple, indigo, pink,
          red, yellow, orange,
          darkOrange, maroon,
          green, lime, darkGreen

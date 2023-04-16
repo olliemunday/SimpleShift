@@ -29,6 +29,16 @@ struct IndicatorExampleView: View {
 
             if type == 1 {
                 RoundedRectangle(cornerRadius: 15)
+                    .foregroundColor(borderColor)
+                    .opacity(0.8)
+                    .mask {
+                        VStack {
+                                Rectangle().frame(height: 28)
+                                Spacer()
+                            }
+                    }
+
+                RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(tintColor)
                     .mask {
                         VStack {

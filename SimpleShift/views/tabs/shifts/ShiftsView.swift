@@ -16,7 +16,6 @@ struct ShiftsView: View {
     @State var endTime: Date = Date.now
     @State var isEmpty: Bool = false
     @State var showEditor: Bool = false
-//    @Namespace var shiftNamespace
 
     var body: some View {
         NavigationView {
@@ -31,7 +30,7 @@ struct ShiftsView: View {
                 .background(Color("Background"))
                 .toolbar { ToolbarItem(placement: .navigationBarTrailing) { addButton } }
                 .popover(isPresented: $showEditor) {
-                    ShiftEditor()
+                    ShiftEditor(isNewShift: true, shift: Shift())
                         .environmentObject(shiftManager)
                 }
         }
@@ -51,16 +50,7 @@ struct ShiftsView: View {
         var gridColumns: Array<GridItem> { Array(repeating: GridItem(spacing: gridSpacing), count: 3) }
         return LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
             ForEach(shiftManager.shifts) { shift in
-                Button {
-                    Task {
-                        shiftManager.editingShift = shift
-                        shiftManager.isNewShift = false
-                        try await Task.sleep(for: .milliseconds(200))
-                        showEditor = true
-                    }
-                } label: {
-                    ShiftView(shift: shift)
-                }
+                ShiftView(shift: shift)
                     .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 18, style: .continuous))
                     .onDrag {
                         draggedShift = shift
@@ -76,7 +66,6 @@ struct ShiftsView: View {
     }
     private var addButton: some View {
         Button() {
-            shiftManager.newEditingShift()
             showEditor.toggle()
         } label: {
             Text("+").font(.system(size: 36, design: .rounded))

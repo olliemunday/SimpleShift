@@ -20,8 +20,6 @@ class ShiftManager: NSObject, ObservableObject {
     private var dateFormatter = DateFormatter()
 
     @Published var shifts: [Shift] = []
-    @Published var editingShift: Shift = Shift()
-    @Published var isNewShift: Bool = false
 
     init (noLoad: Bool = false) {
         let request = CD_Shift.fetchRequest()
@@ -77,10 +75,6 @@ class ShiftManager: NSObject, ObservableObject {
 
         }
         shifts = array
-    }
-
-    func getShiftCount() -> Int {
-        return shifts.count
     }
 
     func getShiftIndex(id: UUID) -> Int {
@@ -151,14 +145,6 @@ class ShiftManager: NSObject, ObservableObject {
                 let entry = getShiftIndex(id: templateid)
                 return shifts[entry]
             }
-        }
-        return nil
-    }
-    
-    func getShiftSafe(id: UUID) -> Shift? {
-        if shiftExists(id: id) {
-            let entry = getShiftIndex(id: id)
-            return shifts[entry]
         }
         return nil
     }
@@ -285,11 +271,6 @@ class ShiftManager: NSObject, ObservableObject {
         }
     }
 
-    public func hideShift(shift: Shift, hide: Bool = true) {
-        let index = getShiftIndex(id: shift.id)
-        shifts[index].hide = hide
-    }
-
     public func moveShift(from: UUID, to: UUID ) {
         let from = getShiftIndex(id: from)
         let to = getShiftIndex(id: to)
@@ -298,14 +279,12 @@ class ShiftManager: NSObject, ObservableObject {
         updateIndexes()
     }
 
-    // Editing Shift Functions
-    public func newEditingShift() { isNewShift = true; editingShift = Shift() }
-
-    public func getEditingShiftTimeString() -> String? {
-        dateFormatter.locale = Locale(identifier: "en_US")
+    public func getShiftTimeString(_ shift: Shift) -> String? {
+        dateFormatter.locale = Locale(identifier: "en_GB")
+        dateFormatter.timeZone = .gmt
         dateFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
-        let start = dateFormatter.string(from: editingShift.startTime)
-        let end = dateFormatter.string(from: editingShift.endTime) 
+        let start = dateFormatter.string(from: shift.startTime)
+        let end = dateFormatter.string(from: shift.endTime)
         return "\(start) \(end)"
     }
 

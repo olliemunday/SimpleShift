@@ -93,6 +93,7 @@
 "colorsettings" = "Farbeinstellungen";
 "date" = "Datum";
 "time" = "Zeit";
+"text" = "Text";
 "gradient" = "Gradient";
 "solid" = "Fest";
 "custom" = "Brauch";
@@ -100,6 +101,8 @@
 "endtime" = "Endzeit";
 "shiftdeletealert" = "Das Löschen einer Schicht entfernt sie aus dem Kalender.";
 "editing" = "Bearbeitung";
+"emoji" = "Emoji";
+"selectemoji" = "Emoji auswählen";
 
 // Patterns
 "shiftpatterns" = "Schichtmuster";

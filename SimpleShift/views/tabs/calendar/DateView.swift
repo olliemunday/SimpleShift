@@ -62,6 +62,16 @@ struct DateView: View, @unchecked Sendable {
 
     @ViewBuilder private var topIndicator: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
+            .foregroundColor(borderColor)
+            .opacity(0.8)
+            .mask {
+                VStack {
+                        Rectangle().frame(height: 18)
+                        Spacer()
+                    }
+            }
+
+        RoundedRectangle(cornerRadius: cornerRadius)
             .foregroundColor(tintColor.colorAdjusted(colorScheme))
             .mask( VStack {
                     Rectangle().frame(height: 16)
@@ -76,20 +86,9 @@ struct DateView: View, @unchecked Sendable {
                 Capsule()
                     .foregroundColor(capsuleColor)
 
-//                if let color = template?.gradient_2 {
-//                    Capsule()
-//                        .strokeBorder(lineWidth: 2, antialiased: true)
-//                        .foregroundColor(color.brightness == .dark ? Color.hex("cfcfcf") : Color.hex("2e2e2e"))
-//                } else {
-//                    Capsule()
-//                        .strokeBorder(lineWidth: 2, antialiased: true)
-//                        .foregroundColor(tintColor.textColor(colorScheme))
-//                }
-
                 Capsule()
                     .strokeBorder(lineWidth: 2, antialiased: true)
                     .foregroundColor(capsuleBorderColor)
-
             }
             .frame(height: 8)
             .padding(.horizontal, 14)
@@ -124,6 +123,8 @@ struct DateView: View, @unchecked Sendable {
                 .hidden()
             Text(template?.shift ?? (offDay ? String(localized: "off") : ""))
                 .dynamicTypeSize(.xSmall ... .medium)
+                .font(template?.isCustom == 2 ? .largeTitle : .body)
+                .shadow(radius: template?.isCustom == 2 ? 1 : 0)
                 .bold()
                 .multilineTextAlignment(.center)
                 .foregroundColor(template?.gradient_2.textColor)

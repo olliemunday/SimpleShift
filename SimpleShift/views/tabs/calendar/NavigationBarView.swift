@@ -56,8 +56,8 @@ struct NavigationBarView: View, Sendable {
         .animation(.interactiveSpring(dampingFraction: 0.55).speed(0.7), value: navigationIsScaled)
         .gesture(dragGesture)
         .simultaneousGesture(longPress)
-        .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: calendarManager.dateDisplay)
-        .animation(.spring(response: 0.8, dampingFraction: 0.6), value: dateOffset)
+        .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.65), value: calendarManager.dateDisplay)
+        .animation(.spring(), value: dateOffset)
     }
 
     // Navigation Bar background with Blur view.
@@ -152,7 +152,6 @@ struct NavigationBarView: View, Sendable {
                 navigationIsScaled = false
                 if enableDatePicker || disableInput { return }
                 let width = $0.translation.width
-                dateOffset = .zero
                 if abs(width) > 80 {
                     dateForward = width > 80 ? false : true
                     disableInput = true
@@ -160,10 +159,13 @@ struct NavigationBarView: View, Sendable {
                         try await Task.sleep(for: .milliseconds(100))
                         calendarManager.iterateMonth(value: dateForward ? 1 : -1)
                         await calendarManager.setMonth()
-                        try await Task.sleep(for: .milliseconds(400))
+                        dateOffset = .zero
+                        try await Task.sleep(for: .milliseconds(500))
                         disableInput = false
                     }
 
+                } else {
+                    dateOffset = .zero
                 }
             })
     }

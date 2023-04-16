@@ -10,7 +10,6 @@ import SwiftUI
 struct WeekdayBar: View {
     @Environment(\.colorScheme) private var colorScheme
     
-
     let weekday: Int
     var spacing: CGFloat = 2
     let tintColor: TintColor

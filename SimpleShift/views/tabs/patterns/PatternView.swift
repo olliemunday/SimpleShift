@@ -13,7 +13,6 @@ struct PatternView: View {
     // Enivronment and Binding variables
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
-    @StateObject private var settingsController = SettingsManager()
     @EnvironmentObject var patternManager: PatternManager
     @EnvironmentObject var hapticManager: HapticManager
     @EnvironmentObject var calendarPattern: CalendarPattern
@@ -35,6 +34,10 @@ struct PatternView: View {
     @State private var slideOffset: CGFloat = 0.0
     @State private var mainOffset: CGFloat = 0.0
     @State private var draggedPatternId: UUID = UUID()
+    @State private var weekDeleteShowing: UUID = UUID()
+
+    @AppStorage("_tintColor", store: .standard)
+    public var tintColor: TintColor = .blue
 
     var isBasicView: Bool = false
     
@@ -94,7 +97,7 @@ struct PatternView: View {
         }
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: pattern.weekArray)
             .onAppear { hapticManager.prepareEngine() }
-            .onChange(of: zoomedIn) { zoomed in if !zoomed { nameDisabled = true }; mainOffset = 0 }
+            .onChange(of: zoomedIn) { if !$0 { nameDisabled = true; weekDeleteShowing = UUID() }; mainOffset = 0 }
             .onChange(of: scenePhase, perform: { scene in if scene == .active { hapticManager.prepareEngine() } })
             .popover(isPresented: $showShiftSelector) { shiftSelector }
             .onTapGesture { if !isBasicView { patternToggle(id: pattern.id) } }
@@ -259,14 +262,7 @@ struct PatternView: View {
                 .frame(width: 36, height: 36)
         }
     }
-    
-    /// Week section
-    private var weekdayBar: some View {
-        WeekdayBar(weekday: settingsController.weekday,
-                   tintColor: settingsController.tintColor)
-            .padding(.horizontal, 2)
-            .transition(.opacity.combined(with: .scale))
-    }
+
     private var weekLayer: some View {
         ZStack {
             weekView
@@ -283,7 +279,8 @@ struct PatternView: View {
                                     patternId: pattern.id,
                                     zoomedIn: zoomedIn,
                                     isFirst: isFirst,
-                                    isDragging: $isDragging)
+                                    isDragging: $isDragging,
+                                    weekDeleteShowing: $weekDeleteShowing)
                         .transition(.scaleInOut(anchor: .top, voffset: -100))
                         .frame(height: zoomedIn ? 80 : 65)
                 }
@@ -330,7 +327,7 @@ struct PatternView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 26, height: 26)
-                    .foregroundColor(settingsController.tintColor.colorAdjusted(colorScheme))
+                    .foregroundColor(tintColor.colorAdjusted(colorScheme))
             }
         }
             .frame(width: 100, height: 45, alignment: .center)
@@ -384,6 +381,7 @@ struct PatternView: View {
     }
     private func addWeek() {
         patternManager.addWeekToPattern(id: pattern.id)
+        weekDeleteShowing = UUID()
     }
     private func removeWeek() {
         patternManager.removeLastWeekFromPattern(id: pattern.id)

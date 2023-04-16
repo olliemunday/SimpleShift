@@ -38,8 +38,9 @@ struct CalendarDateView: View, Sendable {
                     }
                 })
         }
-        .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.7), value: calendarManager.datesPage.id)
-        .animation(.interactiveSpring(response: 0.6), value: calendarHoldScale)
+        .animation(.interactiveSpring(response: 0.7, dampingFraction: 0.65), value: calendarManager.datesPage.id)
+        .animation(.interactiveSpring(response: 0.4, dampingFraction: 0.55), value: calendarHoldScale)
+        .animation(.spring(), value: slideOffset)
         .gesture(calendarDrag)
         .simultaneousGesture(calendarEditHold)
     }
@@ -146,9 +147,7 @@ struct CalendarDateView: View, Sendable {
                 } else {
                     isHolding = true
                     if drag.translation.height > 0 { dateForward = false } else { dateForward = true }
-                    withAnimation(.spring(response: 0.65, dampingFraction: 0.6)) {
-                        slideOffset = drag.translation.height
-                    }
+                    slideOffset = drag.translation.height
                 }
 
             })
@@ -166,16 +165,14 @@ struct CalendarDateView: View, Sendable {
                     let height = $0.translation.height
                     if height > 0 { dateForward = false } else { dateForward = true }
                     calendarHoldScale = false
-                    withAnimation(.spring(response: 0.65, dampingFraction: 0.6)) {
-                        slideOffset = 0
-                    }
-                    if abs(height) < 50 { return }
+                    if abs(height) < 50 { slideOffset = 0; return }
                     disableInput = true
                     Task {
                         try await Task.sleep(for: .milliseconds(100))
                         calendarManager.iterateMonth(value: height > 0 ? -1 : 1)
                         await calendarManager.setMonth()
-                        try await Task.sleep(for: .milliseconds(400))
+                        slideOffset = 0
+                        try await Task.sleep(for: .milliseconds(500))
                         disableInput = false
                     }
                     isHolding = false

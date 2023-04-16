@@ -93,6 +93,7 @@
 "colorsettings" = "Colour Settings";
 "date" = "Date";
 "time" = "Time";
+"text" = "Text";
 "gradient" = "Gradient";
 "solid" = "Solid";
 "custom" = "Custom";
@@ -100,6 +101,8 @@
 "endtime" = "End Time";
 "shiftdeletealert" = "Deleting a shift will remove it from the calendar.";
 "editing" = "Editing";
+"emoji" = "Emoji";
+"selectemoji" = "Select Emoji";
 
 // Patterns
 "shiftpatterns" = "Shift Patterns";

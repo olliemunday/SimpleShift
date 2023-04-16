@@ -35,7 +35,8 @@
 		0748064229218B1300E2B34F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0748064429218B1300E2B34F /* Localizable.strings */; };
 		0761187A27FA965800023E9B /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0761187927FA965800023E9B /* DateView.swift */; };
 		076178AC290919180080B690 /* ShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076178AB290919180080B690 /* ShiftView.swift */; };
-		076178AE29091B1C0080B690 /* ShiftEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076178AD29091B1C0080B690 /* ShiftEditor.swift */; };
+		076912F329ECAE1C00BC8FA9 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076912F229ECAE1C00BC8FA9 /* EmojiPicker.swift */; };
+		076912F629ECAE4100BC8FA9 /* ElegantEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 076912F529ECAE4100BC8FA9 /* ElegantEmojiPicker */; };
 		076A6EA9291D993D00E31D35 /* WelcomeiCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076A6EA8291D993D00E31D35 /* WelcomeiCloudView.swift */; };
 		076BEB6727F966BC0098BB8D /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB6627F966BC0098BB8D /* Shift.swift */; };
 		076BEB7827FA3D090098BB8D /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB7727FA3D090098BB8D /* ImageButton.swift */; };
@@ -49,15 +50,13 @@
 		077C407129EB12BD007F056D /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C407029EB12BD007F056D /* TabsView.swift */; };
 		07894E2F27F8DF9E00C71A28 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07894E2E27F8DF9E00C71A28 /* Markers.swift */; };
 		078ECD672918314900ABCFF7 /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ECD662918314900ABCFF7 /* CalendarDateView.swift */; };
-		0790523529EB945600C53D44 /* Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790523429EB945500C53D44 /* Emoji.swift */; };
-		0790523729EB948000C53D44 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790523629EB948000C53D44 /* EmojiPicker.swift */; };
+		0790523B29EC5B6100C53D44 /* ShiftEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790523A29EC5B6100C53D44 /* ShiftEditor.swift */; };
 		0794057728D11603003A7592 /* ShiftSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057628D11603003A7592 /* ShiftSelector.swift */; };
 		0794057928D12C57003A7592 /* WeekdayBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057828D12C57003A7592 /* WeekdayBar.swift */; };
 		0794057B28D156F5003A7592 /* PatternView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057A28D156F5003A7592 /* PatternView.swift */; };
 		0794057F28D17951003A7592 /* ScaleInOut-AnyTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057E28D17951003A7592 /* ScaleInOut-AnyTransition.swift */; };
 		07A3C38D2905FB4500860784 /* DateDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3C38C2905FB4500860784 /* DateDisplay.swift */; };
 		07ADEFF729E1B119005A066F /* SpinningGradientLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ADEFF629E1B119005A066F /* SpinningGradientLogo.swift */; };
-		07D05FB629E75C5500B43DB9 /* CalendarPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D05FB529E75C5500B43DB9 /* CalendarPattern.swift */; };
 		07D7FDE829E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D7FDE729E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift */; };
 		07D7FDEA29E30BD5005321D7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07D7FDE929E30BD5005321D7 /* Launch Screen.storyboard */; };
 		07D8E6A128C7A2E500B7A851 /* PatternsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D8E6A028C7A2E500B7A851 /* PatternsView.swift */; };
@@ -102,7 +101,7 @@
 		07062E8527ED0069001E8505 /* SwiftShiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftShiftApp.swift; sourceTree = "<group>"; };
 		07062E8927ED006A001E8505 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07062EAD27ED0122001E8505 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		07062EBE27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftShiftModel.xcdatamodel; sourceTree = "<group>"; };
+		07062EBE27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = SwiftShiftModel.xcdatamodel; sourceTree = "<group>"; };
 		071302C229BEBC760041FBA4 /* HelpViewOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewOption.swift; sourceTree = "<group>"; };
 		0713033029C2C4500041FBA4 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		071E319628D8F0A40076112E /* PatternShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternShiftView.swift; sourceTree = "<group>"; };
@@ -122,10 +121,6 @@
 		07438A002920550200249F35 /* HCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCenter.swift; sourceTree = "<group>"; };
 		07438A022920562500249F35 /* CalendarExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExampleView.swift; sourceTree = "<group>"; };
 		07438A04292138CF00249F35 /* CalendarRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRender.swift; sourceTree = "<group>"; };
-		0747D0DE291032BC0044323A /* SwiftShiftWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftShiftWidgetBundle.swift; sourceTree = "<group>"; };
-		0747D0E0291032BC0044323A /* SwiftShiftWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftShiftWidget.swift; sourceTree = "<group>"; };
-		0747D0E2291032BD0044323A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0747D0E4291032BD0044323A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0748064329218B1300E2B34F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0748064529218B1500E2B34F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		074806462921B83400E2B34F /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -133,7 +128,7 @@
 		0758E94A29A4721600B0CE54 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0761187927FA965800023E9B /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
 		076178AB290919180080B690 /* ShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftView.swift; sourceTree = "<group>"; };
-		076178AD29091B1C0080B690 /* ShiftEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftEditor.swift; sourceTree = "<group>"; };
+		076912F229ECAE1C00BC8FA9 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
 		076A6EA8291D993D00E31D35 /* WelcomeiCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeiCloudView.swift; sourceTree = "<group>"; };
 		076BEB6627F966BC0098BB8D /* Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
 		076BEB7727FA3D090098BB8D /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
@@ -146,10 +141,8 @@
 		077C406C29EAF613007F056D /* TintColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColors.swift; sourceTree = "<group>"; };
 		077C407029EB12BD007F056D /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		07894E2E27F8DF9E00C71A28 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
-		078ECD5C2912C5CD00ABCFF7 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 		078ECD662918314900ABCFF7 /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
-		0790523429EB945500C53D44 /* Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji.swift; sourceTree = "<group>"; };
-		0790523629EB948000C53D44 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
+		0790523A29EC5B6100C53D44 /* ShiftEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftEditor.swift; sourceTree = "<group>"; };
 		0791A5B728020E370002A3E8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		0791A5B928020E370002A3E8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0794057528D1042A003A7592 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -160,7 +153,6 @@
 		07A28ED3290A3DA10019AF4D /* SimpleShift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleShift.entitlements; sourceTree = "<group>"; };
 		07A3C38C2905FB4500860784 /* DateDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDisplay.swift; sourceTree = "<group>"; };
 		07ADEFF629E1B119005A066F /* SpinningGradientLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningGradientLogo.swift; sourceTree = "<group>"; };
-		07D05FB529E75C5500B43DB9 /* CalendarPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPattern.swift; sourceTree = "<group>"; };
 		07D7FDE729E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StrictConcurrencyWorkaroundView+PreviewProvider.swift"; sourceTree = "<group>"; };
 		07D7FDE929E30BD5005321D7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		07D8E6A028C7A2E500B7A851 /* PatternsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsView.swift; sourceTree = "<group>"; };
@@ -180,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				076912F629ECAE4100BC8FA9 /* ElegantEmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +185,6 @@
 				0758E94A29A4721600B0CE54 /* README.md */,
 				0748064429218B1300E2B34F /* Localizable.strings */,
 				07062E8427ED0069001E8505 /* SimpleShift */,
-				0747D0DD291032BC0044323A /* SwiftShiftWidget */,
 				07062E8327ED0069001E8505 /* Products */,
 				075D85B827F5EBA300FD1160 /* Frameworks */,
 			);
@@ -209,19 +201,17 @@
 		07062E8427ED0069001E8505 /* SimpleShift */ = {
 			isa = PBXGroup;
 			children = (
+				07C4D22029EE7DA800F069B1 /* Preview Content */,
 				07A28ED3290A3DA10019AF4D /* SimpleShift.entitlements */,
 				076BEB7F27FA74480098BB8D /* extensions */,
 				07062ED527F0D90F001E8505 /* models */,
 				07062EC727F0CA5D001E8505 /* views */,
 				07062EC027F0C663001E8505 /* managers */,
-				07D05FB429E75C0100B43DB9 /* objects */,
 				07062E8527ED0069001E8505 /* SwiftShiftApp.swift */,
 				0794057528D1042A003A7592 /* Info.plist */,
 				07062E8927ED006A001E8505 /* Assets.xcassets */,
 				07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */,
 				07D7FDE929E30BD5005321D7 /* Launch Screen.storyboard */,
-				07D7FDE629E3025A005321D7 /* Preview Content */,
-				0790523429EB945500C53D44 /* Emoji.swift */,
 			);
 			path = SimpleShift;
 			sourceTree = "<group>";
@@ -273,18 +263,6 @@
 			path = Gradient;
 			sourceTree = "<group>";
 		};
-		0747D0DD291032BC0044323A /* SwiftShiftWidget */ = {
-			isa = PBXGroup;
-			children = (
-				0747D0DE291032BC0044323A /* SwiftShiftWidgetBundle.swift */,
-				0747D0E0291032BC0044323A /* SwiftShiftWidget.swift */,
-				0747D0E2291032BD0044323A /* Assets.xcassets */,
-				0747D0E4291032BD0044323A /* Info.plist */,
-				078ECD5C2912C5CD00ABCFF7 /* WidgetManager.swift */,
-			);
-			path = SwiftShiftWidget;
-			sourceTree = "<group>";
-		};
 		075D85B827F5EBA300FD1160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				071FC29628D5099000A0BA7D /* Gradient */,
+				071E31BC28E0A1570076112E /* UIVisualEffectView.swift */,
 				0724C33E291EBB5800F472F4 /* ImageLabel.swift */,
 				076BEB7727FA3D090098BB8D /* ImageButton.swift */,
 				07894E2E27F8DF9E00C71A28 /* Markers.swift */,
@@ -331,7 +310,7 @@
 				071E31B828DE43130076112E /* TabViewItem.swift */,
 				07438A002920550200249F35 /* HCenter.swift */,
 				07ADEFF629E1B119005A066F /* SpinningGradientLogo.swift */,
-				0790523629EB948000C53D44 /* EmojiPicker.swift */,
+				076912F229ECAE1C00BC8FA9 /* EmojiPicker.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -343,7 +322,7 @@
 				076178AB290919180080B690 /* ShiftView.swift */,
 				0794057628D11603003A7592 /* ShiftSelector.swift */,
 				0775E2492907EE6800F8C20F /* ShiftsTip.swift */,
-				076178AD29091B1C0080B690 /* ShiftEditor.swift */,
+				0790523A29EC5B6100C53D44 /* ShiftEditor.swift */,
 			);
 			path = shifts;
 			sourceTree = "<group>";
@@ -354,21 +333,12 @@
 				076BEB8027FA745F0098BB8D /* Color+Extensions.swift */,
 				0794057E28D17951003A7592 /* ScaleInOut-AnyTransition.swift */,
 				071E319828D9429E0076112E /* AnimationCompletionObserverModifer.swift */,
-				071E31BC28E0A1570076112E /* UIVisualEffectView.swift */,
 				07D7FDE729E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
 		};
-		07D05FB429E75C0100B43DB9 /* objects */ = {
-			isa = PBXGroup;
-			children = (
-				07D05FB529E75C5500B43DB9 /* CalendarPattern.swift */,
-			);
-			path = objects;
-			sourceTree = "<group>";
-		};
-		07D7FDE629E3025A005321D7 /* Preview Content */ = {
+		07C4D22029EE7DA800F069B1 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -429,6 +399,7 @@
 			);
 			name = SimpleShift;
 			packageProductDependencies = (
+				076912F529ECAE4100BC8FA9 /* ElegantEmojiPicker */,
 			);
 			productName = SwiftShift;
 			productReference = 07062E8227ED0069001E8505 /* SimpleShift.app */;
@@ -462,6 +433,7 @@
 			);
 			mainGroup = 07062E7927ED0069001E8505;
 			packageReferences = (
+				076912F429ECAE4000BC8FA9 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */,
 			);
 			productRefGroup = 07062E8327ED0069001E8505 /* Products */;
 			projectDirPath = "";
@@ -506,18 +478,16 @@
 				076BEB7D27FA45620098BB8D /* ShiftManager.swift in Sources */,
 				0775E24A2907EE6800F8C20F /* ShiftsTip.swift in Sources */,
 				07F169B027F1DF99004D75E3 /* PersistenceController.swift in Sources */,
+				0790523B29EC5B6100C53D44 /* ShiftEditor.swift in Sources */,
 				07438A05292138CF00249F35 /* CalendarRender.swift in Sources */,
 				0737DC7027F7F16A00CF2AC9 /* SensePreferences.swift in Sources */,
 				07062E8627ED0069001E8505 /* SwiftShiftApp.swift in Sources */,
 				071FC29C28D5814E00A0BA7D /* PatternWeekView.swift in Sources */,
 				0704A95429AE3B0D00B8F9AC /* NavigationBarView.swift in Sources */,
+				076912F329ECAE1C00BC8FA9 /* EmojiPicker.swift in Sources */,
 				071302C329BEBC760041FBA4 /* HelpViewOption.swift in Sources */,
-				0790523729EB948000C53D44 /* EmojiPicker.swift in Sources */,
-				07D05FB629E75C5500B43DB9 /* CalendarPattern.swift in Sources */,
-				076178AE29091B1C0080B690 /* ShiftEditor.swift in Sources */,
 				07438A012920550200249F35 /* HCenter.swift in Sources */,
 				0794057928D12C57003A7592 /* WeekdayBar.swift in Sources */,
-				0790523529EB945600C53D44 /* Emoji.swift in Sources */,
 				07438A032920562500249F35 /* CalendarExampleView.swift in Sources */,
 				07894E2F27F8DF9E00C71A28 /* Markers.swift in Sources */,
 				074389FF2920500F00249F35 /* PatternExample.swift in Sources */,
@@ -698,7 +668,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SimpleShift/SimpleShift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 33;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleShift/Preview Content\"";
 				DEVELOPMENT_TEAM = 99V2REC394;
@@ -745,7 +715,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SimpleShift/SimpleShift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleShift/Preview Content\"";
 				DEVELOPMENT_TEAM = 99V2REC394;
 				ENABLE_PREVIEWS = YES;
@@ -806,6 +776,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		076912F429ECAE4000BC8FA9 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Finalet/Elegant-Emoji-Picker";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		076912F529ECAE4100BC8FA9 /* ElegantEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 076912F429ECAE4000BC8FA9 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */;
+			productName = ElegantEmojiPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */ = {

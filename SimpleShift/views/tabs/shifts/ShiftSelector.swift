@@ -53,7 +53,11 @@ struct ShiftSelectorOption: View {
             Text(shift.shift)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-                .font(.system(size: 24, weight: .semibold, design: .rounded))
+                .dynamicTypeSize(.large ... .xLarge)
+                .font(.system(shift.isCustom == 2 ? .largeTitle : .title3,
+                              design: .rounded,
+                              weight: .semibold))
+                .shadow(radius: shift.isCustom == 2 ? 1 : 0)
                 .foregroundColor(shift.gradient_2.textColor)
         }
     }

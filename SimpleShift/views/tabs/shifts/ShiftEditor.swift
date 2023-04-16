@@ -13,9 +13,11 @@ struct ShiftEditor: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var shiftManager: ShiftManager
 
+    let isNewShift: Bool
+    @State var shift: Shift
     @State private var showGradient: Int = 0
     @State private var showCustomText: Int = 0
-    @State private var customText: String = ""
+    @State private var showEmojiPicker: Bool = false
 
     private enum NavigationType: String, Hashable {
         case gradientPreset = "Gradient"
@@ -25,130 +27,141 @@ struct ShiftEditor: View {
     var body: some View {
         NavigationStack(path: $navigationStack) {
                 VStack(spacing: 0) {
-                    ShiftView(shift: shiftManager.editingShift)
+                    ShiftView(shift: shift)
                         .frame(width: 86, height: 144)
                         .scaleEffect(1.1)
+                        .disabled(true)
                     List {
-                        Section("shiftsettings", content: { textSettings })
-                        Section("colorsettings", content: { colorSettings })
-                        if !shiftManager.isNewShift { Section { delete } }
-                    }
-
-                    .environment(\.defaultMinListRowHeight, 50)
-                    .scrollContentBackground(.hidden)
-                    .onAppear {
-                        showGradient = shiftManager.editingShift.gradient_1 == shiftManager.editingShift.gradient_2 ? 0 : 1
-                        showCustomText = shiftManager.editingShift.isCustom
+                        textSettings
+                        colorSettings
+                        if !isNewShift { Section { delete } }
                     }
                     .navigationDestination(for: NavigationType.self, destination: { value in
                         switch value {
                         case .gradientPreset: gradientPresets
                         }
                     })
-                    .animation(.default, value: showCustomText)
+                    .scrollContentBackground(.hidden)
+                    .animation(.default, value: shift.isCustom)
                     .animation(.default, value: showGradient)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button("cancel") { dismiss() }
                                 .foregroundColor(.red)
-
                         }
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(shiftManager.isNewShift ? "add" : "save") {
-                                shiftManager.setShift(template: shiftManager.editingShift)
+                            Button(isNewShift ? "add" : "save") {
+                                shiftManager.setShift(template: shift)
                                 dismiss()
                             }
                             .bold()
-                            .disabled(shiftManager.editingShift.shift.isEmpty)
+                            .disabled(shift.shift.isEmpty)
                         }
                     }
                 }
-
-                    .background(Color("GenericBackground"))
+                .background(Color("GenericBackground"))
         }
     }
 
-    @ViewBuilder private var textSettings: some View {
-        Picker("Show custom text", selection: $showCustomText) {
-            Text("time").tag(0)
-            Text("custom").tag(1)
-//            Text("emoji").tag(2)
-        }
-            .pickerStyle(.segmented)
-            .onChange(of: showCustomText) { val in
-                shiftManager.editingShift.isCustom = showCustomText
-                if shiftManager.editingShift.shift == shiftManager.getEditingShiftTimeString() {
-                    shiftManager.editingShift.shift = ""
+    private var textSettings: some View {
+        Section("shiftsettings", content: {
+            Picker("Show custom text", selection: $shift.isCustom) {
+                Text("time").tag(0)
+                Text("text").tag(1)
+                Text("emoji").tag(2)
+            }
+                .pickerStyle(.segmented)
+                .onChange(of: shift.isCustom) {
+                    if $0 == 0 {
+                        if let string = shiftManager.getShiftTimeString(shift) {
+                            shift.shift = string
+                        }
+                    }
+                    if $0 == 2 { shift.shift = "" }
                 }
+
+            if shift.isCustom == 0 {
+                DatePicker(String(localized: "starttime"), selection: $shift.startTime, displayedComponents: [.hourAndMinute])
+                    .environment(\.locale, Locale(identifier: "en_GB"))
+                    .environment(\.timeZone, .gmt)
+                    .onChange(of: shift.startTime) { _ in
+                        if let string = shiftManager.getShiftTimeString(shift) {
+                            shift.shift = string
+                        }
+                    }
+
+                DatePicker(String(localized: "endtime"), selection: $shift.endTime, displayedComponents: [.hourAndMinute])
+                    .environment(\.locale, Locale(identifier: "en_GB"))
+                    .environment(\.timeZone, .gmt)
+                    .onChange(of: shift.endTime) { _ in
+                        if let string = shiftManager.getShiftTimeString(shift) {
+                            shift.shift = string
+                        }
+                    }
             }
 
-        if showCustomText == 0 {
-            DatePicker(String(localized: "starttime"), selection: $shiftManager.editingShift.startTime, displayedComponents: [.hourAndMinute])
-                .environment(\.locale, Locale(identifier: "en_GB"))
-                .environment(\.timeZone, .gmt)
-                .onChange(of: shiftManager.editingShift.startTime) { _ in
-                    shiftManager.editingShift.isCustom = 0
-                    if let string = shiftManager.getEditingShiftTimeString() {
-                        shiftManager.editingShift.shift = string
+            if shift.isCustom == 1 {
+                TextField("text", text: $shift.shift)
+                    .onReceive(shift.shift.publisher.collect()) {
+                        let text = String($0)
+                        if let time = shiftManager.getShiftTimeString(shift) {
+                            if text == time { shift.shift = ""; return }
+                        }
+                        if text.count >= 10 {
+                            shift.shift = String(text.prefix(10))
+                        } else {
+                            shift.shift = text.filter { $0.isLetter || $0.isNumber || $0.isPunctuation || $0 == " " }
+                        }
                     }
+            }
+
+            if shift.isCustom == 2 {
+                Button("selectemoji") {
+                    showEmojiPicker.toggle()
                 }
+                .foregroundColor(Color.primary)
+                .sheet(isPresented: $showEmojiPicker) {
+                    EmojiPicker(string: $shift.shift, showBackground: false)
+                        .ignoresSafeArea()
+                        .presentationDetents([.medium, .large])
+                        .background(
+                            EmojiBlurBackground(style: .systemUltraThinMaterial)
+                                .ignoresSafeArea()
+                        )
+
+                }
+            }
+        })
+    }
+
+    private var colorSettings: some View {
+        Section("colorsettings", content: {
+            Picker("Color selection", selection: $showGradient) {
+                Text("solid").tag(0)
+                Text("gradient").tag(1)
+            }
+                .pickerStyle(.segmented)
                 .onAppear {
-                    if let string = shiftManager.getEditingShiftTimeString() {
-                        shiftManager.editingShift.shift = string
-                    }
+                    showGradient = shift.gradient_1 == shift.gradient_2 ? 0 : 1
+                }
+                .onChange(of: showGradient) { showGrad in
+                    if showGrad == 0 { shift.gradient_2 = shift.gradient_1 }
                 }
 
-            DatePicker(String(localized: "endtime"), selection: $shiftManager.editingShift.endTime, displayedComponents: [.hourAndMinute])
-                .environment(\.locale, Locale(identifier: "en_GB"))
-                .environment(\.timeZone, .gmt)
-                .onChange(of: shiftManager.editingShift.endTime) { _ in
-                    shiftManager.editingShift.isCustom = 0
-                    if let string = shiftManager.getEditingShiftTimeString() {
-                        shiftManager.editingShift.shift = string
+            if showGradient == 0 {
+                ColorPicker("color", selection: $shift.gradient_1)
+                    .onChange(of: shift.gradient_1) { col in
+                        if showGradient == 0 {
+                            shift.gradient_2 = shift.gradient_1
+                        }
                     }
-                }
-        }
-
-        if showCustomText == 1 {
-            TextField("custom", text: $customText)
-                .onReceive(customText.publisher.collect()) { _ in
-                    if customText.count >= 10 {
-                        customText = String(customText.prefix(10))
-                    } else {
-                        customText = customText.filter { $0.isLetter || $0.isNumber || $0.isPunctuation || $0 == " " }
-                    }
-                }
-                .onAppear(perform: { customText = shiftManager.editingShift.shift })
-                .onChange(of: customText, perform: { shiftManager.editingShift.shift = $0 })
-        }
-
-//        if showCustomText == 2 {
-//            Rectangle()
-//        }
-    }
-
-    @ViewBuilder private var colorSettings: some View {
-        Picker("Color selection", selection: $showGradient) {
-            Text("solid").tag(0)
-            Text("gradient").tag(1)
-        }
-            .pickerStyle(.segmented)
-            .onChange(of: showGradient) { showGrad in
-                if showGrad == 0 { shiftManager.editingShift.gradient_2 = shiftManager.editingShift.gradient_1 }
             }
-
-        if showGradient == 0 {
-            ColorPicker("color", selection: $shiftManager.editingShift.gradient_1)
-                .onChange(of: shiftManager.editingShift.gradient_1) { col in
-                    if showGradient == 0 {
-                        shiftManager.editingShift.gradient_2 = shiftManager.editingShift.gradient_1
-                    }
-                }
-        } else {
-            ColorPicker("topcolor", selection: $shiftManager.editingShift.gradient_1)
-            ColorPicker("bottomcolor", selection: $shiftManager.editingShift.gradient_2)
-            NavigationLink("presets", value: NavigationType.gradientPreset)
-        }
+            if showGradient == 1 {
+                ColorPicker("topcolor", selection: $shift.gradient_1)
+                ColorPicker("bottomcolor", selection: $shift.gradient_2)
+                NavigationLink("presets", value: NavigationType.gradientPreset)
+            }
+        })
     }
 
     ///================>
@@ -202,7 +215,7 @@ struct ShiftEditor: View {
                 LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
                     ForEach(presets) { preset in
                         Button {
-                            (shiftManager.editingShift.gradient_1, shiftManager.editingShift.gradient_2) = (preset.color1, preset.color2); navigationStack.removeAll()
+                            (shift.gradient_1, shift.gradient_2) = (preset.color1, preset.color2); navigationStack.removeAll()
                         } label: {
                             ZStack {
                                 GradientRounded(cornerRadius: 16, colors: [preset.color1, preset.color2], direction: .vertical)
@@ -234,7 +247,7 @@ struct ShiftEditor: View {
         .alert("shiftdeletealert", isPresented: $showDeleteAlert, actions: {
             Button(role: .destructive) {
                 showDeleteAlert.toggle()
-                shiftManager.deleteShift(shift: shiftManager.editingShift)
+                shiftManager.deleteShift(shift: shift)
                 dismiss()
             } label: {
                 Text("Delete")
