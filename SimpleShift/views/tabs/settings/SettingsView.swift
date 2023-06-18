@@ -72,7 +72,7 @@ struct SettingsView: View {
                 footer: {
                     ZStack {
                         HStack {
-                            Text("SimpleShift v1.2\n© 2023 Ollie Munday")
+                            Text("SimpleShift v1.1.1\n© 2023 Ollie Munday")
                                 .padding(.vertical, 10)
                             Spacer()
                         }
