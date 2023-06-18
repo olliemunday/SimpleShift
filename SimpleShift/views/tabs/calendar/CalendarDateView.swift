@@ -69,7 +69,7 @@ struct CalendarDateView: View, Sendable {
         .popover(isPresented: $showPatternConfirm, content: {
             NavigationView { patternConfirmation.navigationBarTitle("confirmpattern", displayMode: .inline) }
                     .presentationDetents([.fraction(0.33), .medium])
-                    .onDisappear { calendarManager.deselectAll(); calendarPattern.deselectPattern() }
+                    .onDisappear { calendarManager.deselectAll(); calendarPattern.deselectPattern(); repeatCount = 1 }
         })
     }
 
@@ -224,7 +224,7 @@ struct CalendarDateView: View, Sendable {
             
             Button("applypattern") {
                 Task {
-                    calendarManager.setPatternFromDate(pattern: calendarPattern.applyingPattern, repeatCount: repeatCount)
+                    await calendarManager.setPatternFromDate(pattern: calendarPattern.applyingPattern, repeatCount: repeatCount)
                     showPatternConfirm = false
                     isEditing = false
                     calendarPattern.isApplyingPattern = false

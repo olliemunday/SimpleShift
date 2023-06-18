@@ -174,7 +174,7 @@ extension CalendarPageManager {
         cacheCalendarPages()
     }
 
-    public func setPatternFromDate(pattern: Pattern?, repeatCount: Int = 1) {
+    public func setPatternFromDate(pattern: Pattern?, repeatCount: Int = 1) async {
         guard let weekArray = pattern?.weekArray else { return }
 
         var unpacked = [UUID?]()
@@ -213,9 +213,11 @@ extension CalendarPageManager {
         } catch {
             return
         }
-
+        
         cacheCalendarPages()
-        setMonth()
+        DispatchQueue.main.async {
+            self.setMonth()
+        }
     }
 }
 
@@ -336,13 +338,13 @@ extension CalendarPageManager {
 
     private func cacheCalendarPages() {
         Task {
+            pageCache.removeAll()
             for iter in -2...2 {
                 if iter == 0 { continue }
                 let dateComp = DateComponents(month: iter)
                 guard let iterDate = userCalendar.date(byAdding: dateComp, to: setDate) else { continue }
 
                 let page = getCalendarPage(date: iterDate)
-                pageCache.removeAll(where: { $0.id == page.id })
                 pageCache.append(page)
             }
         }
