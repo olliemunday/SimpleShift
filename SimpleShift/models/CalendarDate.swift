@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct CalendarDate: Identifiable, Hashable, Equatable {
+struct CalendarDate: Identifiable, Hashable, Equatable, Codable {
     // ID or Index of Date
     let id: Int
     
@@ -25,6 +25,13 @@ struct CalendarDate: Identifiable, Hashable, Equatable {
 
 struct CalendarPage: Identifiable, Equatable {
     let id: Int
+    let display: String
 
-    var dates: [CalendarDate]
+    var weeks: [CalendarWeek] = []
+}
+
+struct CalendarWeek: Identifiable, Equatable {
+    let id: Int
+
+    var days: [CalendarDate] = []
 }

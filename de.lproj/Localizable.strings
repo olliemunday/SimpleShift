@@ -114,7 +114,8 @@
 "deleteweek" = "Woche löschen";
 "deletepattern" = "Muster löschen";
 "applyingpattern" = "Muster anwenden";
-
+"applypattern" = "Muster anwenden";
+"confirmpattern" = "Muster bestätigen";
 
 // Common
 "continue" = "Fortsetzen";

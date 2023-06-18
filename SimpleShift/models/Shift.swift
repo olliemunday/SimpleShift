@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import CloudKit
 
-struct Shift: Identifiable, Equatable, Hashable {
+struct Shift: Identifiable, Equatable, Hashable, Codable {
 
     var id: UUID = UUID()
     var shift: String = ""
@@ -21,7 +21,7 @@ struct Shift: Identifiable, Equatable, Hashable {
     var gradient_1: Color = Color.hex("65788A")
     var gradient_2: Color = Color.hex("65788A")
 
-    var ckrecord: CKRecord?
+//    var ckrecord: CKRecord?
 
     var hide: Bool = false
     

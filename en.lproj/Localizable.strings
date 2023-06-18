@@ -60,6 +60,7 @@
 "indicatortype1" = "Top Accent";
 "indicatortype2" = "Bottom Capsule";
 "indicatortype3" = "Border Highlight";
+"indicatortype4" = "Flashing Highlight";
 
 // Weekdays
 "monday" = "Monday";
@@ -114,7 +115,8 @@
 "deleteweek" = "Delete Week";
 "deletepattern" = "Delete pattern";
 "applyingpattern" = "Applying Pattern";
-
+"applypattern" = "Apply pattern";
+"confirmpattern" = "Confirm Pattern";
 
 // Common
 "continue" = "Continue";

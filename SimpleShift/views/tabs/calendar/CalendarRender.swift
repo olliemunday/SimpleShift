@@ -17,15 +17,7 @@ struct CalendarRender: View {
     let weekday: Int
     let tintColor: TintColor
 
-    var dates = [
-        CalendarDate(id: 1, date: Date.now, day: "1", greyed: false),
-        CalendarDate(id: 2, date: Date.now, day: "2", greyed: false),
-        CalendarDate(id: 3, date: Date.now, day: "3", greyed: false),
-        CalendarDate(id: 4, date: Date.now, day: "4", greyed: false),
-        CalendarDate(id: 5, date: Date.now, day: "5", greyed: false),
-        CalendarDate(id: 6, date: Date.now, day: "6", greyed: false),
-        CalendarDate(id: 7, date: Date.now, day: "7", greyed: false)
-    ]
+    let calendarPage: CalendarPage
 
     let shifts: [Shift]
     let gridSpacing: CGFloat = 2.0
@@ -39,18 +31,21 @@ struct CalendarRender: View {
                 WeekdayBar(weekday: weekday, tintColor: tintColor)
                     .frame(height: 30)
 
-
-                LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
-                    ForEach(dates) { date in
-                        DateView(id: date.id,
-                                 date: date,
-                                 template: shifts.first(where: {$0.id == date.templateId}),
-                                 greyed: date.greyed,
-                                 offDay: true,
-                                 today: 0,
-                                 tintColor: tintColor)
-                            .frame(height: 90)
-
+                Grid(alignment: .center,
+                     horizontalSpacing: 2,
+                     verticalSpacing: 2) {
+                    ForEach(calendarPage.weeks) { week in
+                        GridRow {
+                            ForEach(week.days) { day in
+                                DateView(id: day.id,
+                                         date: day,
+                                         template: shifts.first(where: {$0.id == day.templateId}),
+                                         greyed: day.greyed,
+                                         offDay: true,
+                                         today: 0,
+                                         tintColor: tintColor)
+                            }
+                        }
                     }
                 }
 
@@ -69,8 +64,6 @@ struct CalendarRender: View {
                     .padding(.vertical, 2)
             }
             .padding(.horizontal, 3)
-
-
         }
     }
 

@@ -19,6 +19,8 @@ class ShiftManager: NSObject, ObservableObject {
 
     private var dateFormatter = DateFormatter()
 
+//    var watchConnectivity = WatchConnectivityManager.shared
+
     @Published var shifts: [Shift] = []
 
     init (noLoad: Bool = false) {
@@ -290,6 +292,54 @@ class ShiftManager: NSObject, ObservableObject {
 
 }
 
+extension ShiftManager {
+
+    public func packageShifts() -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(shifts)
+            return data
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+
+    public func importShifts(_ data: Data) {
+        do {
+            let decoder = JSONDecoder()
+            let importShifts = try decoder.decode([Shift].self, from: data)
+            shifts = importShifts
+
+            try fetchedResultsController.performFetch()
+            guard let fetchedResults = fetchedResultsController.fetchedObjects else { return }
+            for shift in self.shifts {
+                if let existing = fetchedResults.first(where: { $0.id == shift.id }) {
+                    existing.color1 = shift.gradient_1.rawValue
+                    existing.color2 = shift.gradient_2.rawValue
+                    existing.startTime = shift.startTime
+                    existing.endTime = shift.endTime
+                    existing.isCustom = Int32(shift.isCustom)
+                    existing.shift = shift.shift
+                    continue
+                }
+                let newShift = CD_Shift(context: viewContext)
+                newShift.id = shift.id
+                newShift.color1 = shift.gradient_1.rawValue
+                newShift.color2 = shift.gradient_2.rawValue
+                newShift.startTime = shift.startTime
+                newShift.endTime = shift.endTime
+                newShift.isCustom = Int32(shift.isCustom)
+                newShift.shift = shift.shift
+            }
+            try viewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+}
+
 extension ShiftManager: NSFetchedResultsControllerDelegate {
     // Reflect changes made to CoreData in object array.
     internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -304,6 +354,11 @@ extension ShiftManager: NSFetchedResultsControllerDelegate {
         }
 
         self.shifts = updated
+
+//        Task {
+//            let shifts = self.packageShifts()
+//            watchConnectivity.transferData(["shifts" : shifts as Any])
+//        }
     }
 }
 
@@ -314,7 +369,7 @@ struct ShiftMapped: Identifiable {
     }
     
     var id: UUID {
-        template.id!
+        template.id ?? UUID()
     }
 
     var shift: String {
@@ -331,12 +386,12 @@ struct ShiftMapped: Identifiable {
 
     var gradient1: Color {
         let raw = template.color1!
-        return Color(rawValue: raw) ?? .white
+        return Color(rawValue: raw)
     }
 
     var gradient2: Color {
         let raw = template.color2!
-        return Color(rawValue: raw) ?? .black
+        return Color(rawValue: raw)
     }
 
     var isCustom: Int {

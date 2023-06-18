@@ -13,42 +13,31 @@ struct HelpNavigationView: View {
     
 
     var body: some View {
-        GeometryReader { geo in
             ScrollView {
-                Grid(alignment: .center, horizontalSpacing: geo.size.width/12, verticalSpacing: 20) {
+                Grid(alignment: .center, horizontalSpacing: 30, verticalSpacing: 30) {
                     GridRow(alignment: .center) {
                         NavigationLink(destination: {calendarHelp},
-                                       label: { HelpViewOption(size: geo.size.height / 4,
-                                                               image: "calendar",
-                                                               text: String(localized: "calendar"),
-                                                               colors: [Color.hex("FDFC47"), Color.hex("24FE41")] )
-
-
+                                       label: { HelpViewOption(image: "calendar",
+                                                                  text: String(localized: "calendar"),
+                                                                  colors: [Color.hex("FDFC47"), Color.hex("24FE41")])
                         })
                         NavigationLink(destination: {shiftHelp},
-                                       label: { HelpViewOption(size: geo.size.height / 4,
-                                                               image: "square.stack.3d.down.forward",
+                                       label: { HelpViewOption(image: "square.stack.3d.down.forward",
                                                                text: String(localized: "shifts"),
                                                                colors: [Color.hex("f5af19"), Color.hex("f12711")] )
                         })
                     }
-                    .padding(.horizontal, 8)
 
                     GridRow {
                         NavigationLink(destination: {patternHelp},
-                                       label: { HelpViewOption(size: geo.size.height / 4,
-                                                               image: "clock.arrow.2.circlepath",
+                                       label: { HelpViewOption(image: "clock.arrow.2.circlepath",
                                                                text: String(localized: "patterns"),
                                                                colors: [Color.hex("96DEDA"), Color.hex("50C9C3")])
-
                         })
                     }
-                    .padding(.horizontal, 8)
                 }
-                .padding(.vertical, 20)
-                .padding(.horizontal , geo.size.width/12)
+                .padding(30)
             }
-        }
         .navigationTitle("help")
     }
 
@@ -216,7 +205,7 @@ struct HelpNavigationView: View {
                     .background(content: {Color.blue.cornerRadius(12)})
                     .padding()
                     .drawingGroup()
-                    .shadow(radius: 2)
+                    .shadow(radius: 1)
             }
         }
         .navigationTitle("navigationbar")
@@ -281,7 +270,7 @@ struct HelpNavigationView: View {
                         .background(content: {Color.blue.cornerRadius(12)})
                         .padding()
                         .drawingGroup()
-                        .shadow(radius: 2)
+                        .shadow(radius: 1)
                 }
 
                 Text("shiftshelp1")
@@ -355,7 +344,7 @@ struct HelpNavigationView: View {
                 .background(content: {Color.blue.cornerRadius(22)})
                 .padding()
                 .drawingGroup()
-                .shadow(radius: 2)
+                .shadow(radius: 1)
         }
 
         Text("patternshelp1")
@@ -439,8 +428,6 @@ struct HelpNavigationView: View {
 //        .cornerRadius(16)
         .frame(width: 220, height: 160)
     }
-
-
 
 }
 

@@ -37,33 +37,70 @@ struct ShiftsView: View {
         .navigationViewStyle(.stack)
     }
 
+    @State private var gridHeight = 30.0
+    let gridSpacing = 30.0
+    let gridRowAmount = 3
     @ViewBuilder private var shiftView: some View {
         ScrollView {
-            Rectangle().frame(height: 10).hidden()
-            if isEmpty { ShiftsTip().transition(.scaleInOut(anchor: .bottom)) } else { shiftList }
+            Rectangle().frame(height: 6).hidden()
+            if isEmpty { ShiftsTip().transition(.scaleInOut(anchor: .bottom)) }
+            else {
+            LazyVGrid(columns: Array(repeating: GridItem(spacing: gridSpacing), count: gridRowAmount),
+                      spacing: 30) {
+                ForEach(shiftManager.shifts) { shift in
+                    ShiftView(shift: shift)
+                        .frame(height: gridHeight)
+                        .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .onDrag {
+                            draggedShift = shift
+                            return NSItemProvider(object: "\(shift.shift)" as NSString)
+                        }
+                        .onDrop(of: [UTType.text], delegate: ShiftDropDelegate(shifts: $shiftManager.shifts, shift: shift, draggedShift: draggedShift, shiftManager: shiftManager))
+                        .transition(.scale)
+                }
+            }
+                      .padding(.horizontal, gridSpacing)
+            
+            Rectangle().frame(height: 6).hidden()
         }
+        }
+        .background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear {
+                        let spacingWidth = gridSpacing * Double(gridRowAmount + 1)
+                        let width = (geo.size.width - spacingWidth) / Double(gridRowAmount)
+                        gridHeight = width * 1.4
+                    }
+            }
+        )
     }
 
     @State var draggedShift: Shift?
     private var shiftList: some View {
-        let gridSpacing: CGFloat = 26
+        let gridSpacing: CGFloat = 30
         var gridColumns: Array<GridItem> { Array(repeating: GridItem(spacing: gridSpacing), count: 3) }
-        return LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
-            ForEach(shiftManager.shifts) { shift in
-                ShiftView(shift: shift)
-                    .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 18, style: .continuous))
-                    .onDrag {
-                        draggedShift = shift
-
-                        return NSItemProvider(object: "\(shift.shift)" as NSString)
-                    }
-                    .onDrop(of: [UTType.text], delegate: ShiftDropDelegate(shifts: $shiftManager.shifts, shift: shift, draggedShift: draggedShift, shiftManager: shiftManager))
-                    .transition(.scale)
+        return GeometryReader { geo in
+            LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
+                ForEach(shiftManager.shifts) { shift in
+                    ShiftView(shift: shift)
+                        .frame(height: geo.size.width / 3)
+                        .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .onDrag {
+                            draggedShift = shift
+                            
+                            return NSItemProvider(object: "\(shift.shift)" as NSString)
+                        }
+                        .onDrop(of: [UTType.text], delegate: ShiftDropDelegate(shifts: $shiftManager.shifts, shift: shift, draggedShift: draggedShift, shiftManager: shiftManager))
+                        .transition(.scale)
+                }
             }
+            .animation(.spring(response: 0.6, dampingFraction: 0.65), value: shiftManager.shifts)
+            .padding(.horizontal, 30)
+
         }
-        .animation(.spring(response: 0.6, dampingFraction: 0.65), value: shiftManager.shifts)
-        .padding(.horizontal, 26)
     }
+
     private var addButton: some View {
         Button() {
             showEditor.toggle()

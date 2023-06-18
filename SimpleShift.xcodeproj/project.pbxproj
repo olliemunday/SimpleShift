@@ -13,7 +13,6 @@
 		07062E8A27ED006A001E8505 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07062E8927ED006A001E8505 /* Assets.xcassets */; };
 		07062EB327ED0122001E8505 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07062EAD27ED0122001E8505 /* SettingsView.swift */; };
 		07062EBF27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */; };
-		071302C329BEBC760041FBA4 /* HelpViewOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071302C229BEBC760041FBA4 /* HelpViewOption.swift */; };
 		0713033129C2C4500041FBA4 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0713033029C2C4500041FBA4 /* HapticManager.swift */; };
 		071E319728D8F0A40076112E /* PatternShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E319628D8F0A40076112E /* PatternShiftView.swift */; };
 		071E319928D9429E0076112E /* AnimationCompletionObserverModifer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E319828D9429E0076112E /* AnimationCompletionObserverModifer.swift */; };
@@ -24,9 +23,17 @@
 		071FC29828D509A900A0BA7D /* GradientTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FC29728D509A900A0BA7D /* GradientTypes.swift */; };
 		071FC29C28D5814E00A0BA7D /* PatternWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FC29B28D5814E00A0BA7D /* PatternWeekView.swift */; };
 		0724C33F291EBB5800F472F4 /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0724C33E291EBB5800F472F4 /* ImageLabel.swift */; };
+		07295E2C2A368BB70025ED82 /* ShiftManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB7C27FA45620098BB8D /* ShiftManager.swift */; };
+		07295E2D2A368BBA0025ED82 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F169AF27F1DF99004D75E3 /* PersistenceController.swift */; };
+		07295E2E2A368BD10025ED82 /* SwiftShiftModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */; };
+		07295E2F2A368BE40025ED82 /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB6627F966BC0098BB8D /* Shift.swift */; };
+		07295E302A368BE60025ED82 /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFB25427F5046E001CD175 /* CalendarDate.swift */; };
+		07295E312A368BFE0025ED82 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB8027FA745F0098BB8D /* Color+Extensions.swift */; };
+		07295E322A368C080025ED82 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8CA28CCE22500FF4A48 /* Pattern.swift */; };
+		07295E332A368C190025ED82 /* TintColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C406C29EAF613007F056D /* TintColors.swift */; };
+		07295E342A368C9E0025ED82 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB8027FA745F0098BB8D /* Color+Extensions.swift */; };
 		0737DC7027F7F16A00CF2AC9 /* SensePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0737DC6F27F7F16A00CF2AC9 /* SensePreferences.swift */; };
 		074389F3291FD2B100249F35 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074389F2291FD2B100249F35 /* PrivacyView.swift */; };
-		074389F5291FE3FF00249F35 /* IndicatorExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074389F4291FE3FF00249F35 /* IndicatorExampleView.swift */; };
 		074389F7291FFD9B00249F35 /* ColorPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074389F6291FFD9B00249F35 /* ColorPreviewView.swift */; };
 		074389FF2920500F00249F35 /* PatternExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074389FE2920500F00249F35 /* PatternExample.swift */; };
 		07438A012920550200249F35 /* HCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07438A002920550200249F35 /* HCenter.swift */; };
@@ -43,6 +50,7 @@
 		076BEB7B27FA45470098BB8D /* ShiftsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB7A27FA45470098BB8D /* ShiftsView.swift */; };
 		076BEB7D27FA45620098BB8D /* ShiftManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB7C27FA45620098BB8D /* ShiftManager.swift */; };
 		076BEB8127FA745F0098BB8D /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076BEB8027FA745F0098BB8D /* Color+Extensions.swift */; };
+		0770227C2A37B08D0049FFCA /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0770227B2A37B08D0049FFCA /* TabsView.swift */; };
 		0775E24A2907EE6800F8C20F /* ShiftsTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775E2492907EE6800F8C20F /* ShiftsTip.swift */; };
 		0775E24C29081FB000F8C20F /* PatternsTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775E24B29081FB000F8C20F /* PatternsTip.swift */; };
 		0775E25029083A1400F8C20F /* GradientPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775E24F29083A1400F8C20F /* GradientPreset.swift */; };
@@ -57,6 +65,28 @@
 		0794057F28D17951003A7592 /* ScaleInOut-AnyTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0794057E28D17951003A7592 /* ScaleInOut-AnyTransition.swift */; };
 		07A3C38D2905FB4500860784 /* DateDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3C38C2905FB4500860784 /* DateDisplay.swift */; };
 		07ADEFF729E1B119005A066F /* SpinningGradientLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ADEFF629E1B119005A066F /* SpinningGradientLogo.swift */; };
+		07B560202A35DABD007D81C0 /* SimpleShiftWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B5601F2A35DABD007D81C0 /* SimpleShiftWatchApp.swift */; };
+		07B560222A35DABD007D81C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B560212A35DABD007D81C0 /* ContentView.swift */; };
+		07B560242A35DABF007D81C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07B560232A35DABF007D81C0 /* Assets.xcassets */; };
+		07B560272A35DABF007D81C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07B560262A35DABF007D81C0 /* Preview Assets.xcassets */; };
+		07C8A0052A1088570045C99A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0791A5B728020E370002A3E8 /* WidgetKit.framework */; };
+		07C8A0062A1088570045C99A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0791A5B928020E370002A3E8 /* SwiftUI.framework */; };
+		07C8A0092A1088570045C99A /* SimpleShiftWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8A0082A1088570045C99A /* SimpleShiftWidgetBundle.swift */; };
+		07C8A00B2A1088570045C99A /* SimpleShiftWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8A00A2A1088570045C99A /* SimpleShiftWidget.swift */; };
+		07C8A00D2A1088590045C99A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07C8A00C2A1088590045C99A /* Assets.xcassets */; };
+		07C8A0152A10890E0045C99A /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFB25427F5046E001CD175 /* CalendarDate.swift */; };
+		07C8A0162A108A390045C99A /* SwiftShiftModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07062EBD27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodeld */; };
+		07C8A0172A108AD90045C99A /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F169AF27F1DF99004D75E3 /* PersistenceController.swift */; };
+		07CB8A502A37751F00762B77 /* GradientRounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FC29428D3F45B00A0BA7D /* GradientRounded.swift */; };
+		07CB8A512A37752400762B77 /* GradientTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FC29728D509A900A0BA7D /* GradientTypes.swift */; };
+		07CC65622A368D9600F92FB9 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B5602F2A35E54D007D81C0 /* WatchConnectivityManager.swift */; };
+		07CE793C2A371A03005691A0 /* CalendarPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CE793B2A371A03005691A0 /* CalendarPageManager.swift */; };
+		07CE79412A3745C8005691A0 /* CalendarWatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CE793F2A3745C4005691A0 /* CalendarWatchManager.swift */; };
+		07CE79442A375EAA005691A0 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8D028CD16C300FF4A48 /* CalendarManager.swift */; };
+		07CE79452A375EAA005691A0 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8D028CD16C300FF4A48 /* CalendarManager.swift */; };
+		07CF3AE22A3DAF9E00310D26 /* SyncPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CF3AE12A3DAF9E00310D26 /* SyncPromptView.swift */; };
+		07CF3AE62A3E0A7F00310D26 /* Animation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CF3AE52A3E0A7F00310D26 /* Animation+Extensions.swift */; };
+		07CF3AEA2A3E597700310D26 /* HelpViewOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CF3AE92A3E597700310D26 /* HelpViewOption.swift */; };
 		07D7FDE829E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D7FDE729E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift */; };
 		07D7FDEA29E30BD5005321D7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07D7FDE929E30BD5005321D7 /* Launch Screen.storyboard */; };
 		07D8E6A128C7A2E500B7A851 /* PatternsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D8E6A028C7A2E500B7A851 /* PatternsView.swift */; };
@@ -64,11 +94,11 @@
 		07EBC8C928CBF13100FF4A48 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8C828CBF13100FF4A48 /* CalendarView.swift */; };
 		07EBC8CB28CCE22500FF4A48 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8CA28CCE22500FF4A48 /* Pattern.swift */; };
 		07EBC8CD28CCE3AA00FF4A48 /* PatternManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8CC28CCE3AA00FF4A48 /* PatternManager.swift */; };
-		07EBC8D128CD16C300FF4A48 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EBC8D028CD16C300FF4A48 /* CalendarManager.swift */; };
 		07ED492929E73BEC00F9519F /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ED492829E73BEC00F9519F /* SettingsManager.swift */; };
 		07EFB22127F36C21001CD175 /* FixedDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFB22027F36C21001CD175 /* FixedDatePicker.swift */; };
 		07EFB25527F5046E001CD175 /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFB25427F5046E001CD175 /* CalendarDate.swift */; };
 		07F169B027F1DF99004D75E3 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F169AF27F1DF99004D75E3 /* PersistenceController.swift */; };
+		07FB84D12A3C69740041E0BD /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB84D02A3C69740041E0BD /* DeveloperView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -92,6 +122,16 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		07B5602E2A35DABF007D81C0 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -102,7 +142,6 @@
 		07062E8927ED006A001E8505 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07062EAD27ED0122001E8505 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		07062EBE27F0C5E4001E8505 /* SwiftShiftModel.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = SwiftShiftModel.xcdatamodel; sourceTree = "<group>"; };
-		071302C229BEBC760041FBA4 /* HelpViewOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewOption.swift; sourceTree = "<group>"; };
 		0713033029C2C4500041FBA4 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		071E319628D8F0A40076112E /* PatternShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternShiftView.swift; sourceTree = "<group>"; };
 		071E319828D9429E0076112E /* AnimationCompletionObserverModifer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletionObserverModifer.swift; sourceTree = "<group>"; };
@@ -115,7 +154,6 @@
 		0724C33E291EBB5800F472F4 /* ImageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
 		0737DC6F27F7F16A00CF2AC9 /* SensePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensePreferences.swift; sourceTree = "<group>"; };
 		074389F2291FD2B100249F35 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
-		074389F4291FE3FF00249F35 /* IndicatorExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorExampleView.swift; sourceTree = "<group>"; };
 		074389F6291FFD9B00249F35 /* ColorPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPreviewView.swift; sourceTree = "<group>"; };
 		074389FE2920500F00249F35 /* PatternExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternExample.swift; sourceTree = "<group>"; };
 		07438A002920550200249F35 /* HCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCenter.swift; sourceTree = "<group>"; };
@@ -135,6 +173,7 @@
 		076BEB7A27FA45470098BB8D /* ShiftsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsView.swift; sourceTree = "<group>"; };
 		076BEB7C27FA45620098BB8D /* ShiftManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftManager.swift; sourceTree = "<group>"; };
 		076BEB8027FA745F0098BB8D /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		0770227B2A37B08D0049FFCA /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		0775E2492907EE6800F8C20F /* ShiftsTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsTip.swift; sourceTree = "<group>"; };
 		0775E24B29081FB000F8C20F /* PatternsTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsTip.swift; sourceTree = "<group>"; };
 		0775E24F29083A1400F8C20F /* GradientPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientPreset.swift; sourceTree = "<group>"; };
@@ -153,6 +192,23 @@
 		07A28ED3290A3DA10019AF4D /* SimpleShift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleShift.entitlements; sourceTree = "<group>"; };
 		07A3C38C2905FB4500860784 /* DateDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDisplay.swift; sourceTree = "<group>"; };
 		07ADEFF629E1B119005A066F /* SpinningGradientLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningGradientLogo.swift; sourceTree = "<group>"; };
+		07B5601D2A35DABD007D81C0 /* SimpleShift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleShift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07B5601F2A35DABD007D81C0 /* SimpleShiftWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShiftWatchApp.swift; sourceTree = "<group>"; };
+		07B560212A35DABD007D81C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		07B560232A35DABF007D81C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		07B560262A35DABF007D81C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		07B5602F2A35E54D007D81C0 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		07C8A0042A1088570045C99A /* SimpleShiftWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SimpleShiftWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		07C8A0082A1088570045C99A /* SimpleShiftWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShiftWidgetBundle.swift; sourceTree = "<group>"; };
+		07C8A00A2A1088570045C99A /* SimpleShiftWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShiftWidget.swift; sourceTree = "<group>"; };
+		07C8A00C2A1088590045C99A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		07C8A00E2A1088590045C99A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07CB8A6D2A37A71200762B77 /* SimpleShiftWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SimpleShiftWatch Watch App.entitlements"; sourceTree = "<group>"; };
+		07CE793B2A371A03005691A0 /* CalendarPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPageManager.swift; sourceTree = "<group>"; };
+		07CE793F2A3745C4005691A0 /* CalendarWatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWatchManager.swift; sourceTree = "<group>"; };
+		07CF3AE12A3DAF9E00310D26 /* SyncPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPromptView.swift; sourceTree = "<group>"; };
+		07CF3AE52A3E0A7F00310D26 /* Animation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+Extensions.swift"; sourceTree = "<group>"; };
+		07CF3AE92A3E597700310D26 /* HelpViewOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewOption.swift; sourceTree = "<group>"; };
 		07D7FDE729E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StrictConcurrencyWorkaroundView+PreviewProvider.swift"; sourceTree = "<group>"; };
 		07D7FDE929E30BD5005321D7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		07D8E6A028C7A2E500B7A851 /* PatternsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsView.swift; sourceTree = "<group>"; };
@@ -165,6 +221,8 @@
 		07EFB22027F36C21001CD175 /* FixedDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedDatePicker.swift; sourceTree = "<group>"; };
 		07EFB25427F5046E001CD175 /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		07F169AF27F1DF99004D75E3 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		07FB84D02A3C69740041E0BD /* DeveloperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperView.swift; sourceTree = "<group>"; };
+		07FB84D22A3C6D070041E0BD /* SimpleShiftWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleShiftWatch-Watch-App-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +231,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				076912F629ECAE4100BC8FA9 /* ElegantEmojiPicker in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07B5601A2A35DABD007D81C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07C8A0012A1088570045C99A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07C8A0062A1088570045C99A /* SwiftUI.framework in Frameworks */,
+				07C8A0052A1088570045C99A /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +268,8 @@
 			isa = PBXGroup;
 			children = (
 				07062E8227ED0069001E8505 /* SimpleShift.app */,
+				07C8A0042A1088570045C99A /* SimpleShiftWidgetExtension.appex */,
+				07B5601D2A35DABD007D81C0 /* SimpleShift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,6 +277,8 @@
 		07062E8427ED0069001E8505 /* SimpleShift */ = {
 			isa = PBXGroup;
 			children = (
+				07C8A0072A1088570045C99A /* Widget */,
+				07B5601E2A35DABD007D81C0 /* watchOS */,
 				07C4D22029EE7DA800F069B1 /* Preview Content */,
 				07A28ED3290A3DA10019AF4D /* SimpleShift.entitlements */,
 				076BEB7F27FA74480098BB8D /* extensions */,
@@ -220,11 +298,13 @@
 			isa = PBXGroup;
 			children = (
 				07EBC8D028CD16C300FF4A48 /* CalendarManager.swift */,
+				07CE793B2A371A03005691A0 /* CalendarPageManager.swift */,
 				076BEB7C27FA45620098BB8D /* ShiftManager.swift */,
 				07EBC8CC28CCE3AA00FF4A48 /* PatternManager.swift */,
 				0713033029C2C4500041FBA4 /* HapticManager.swift */,
 				07ED492829E73BEC00F9519F /* SettingsManager.swift */,
 				07F169AF27F1DF99004D75E3 /* PersistenceController.swift */,
+				07B5602F2A35E54D007D81C0 /* WatchConnectivityManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -276,10 +356,9 @@
 			isa = PBXGroup;
 			children = (
 				07062EAD27ED0122001E8505 /* SettingsView.swift */,
-				074389F4291FE3FF00249F35 /* IndicatorExampleView.swift */,
 				074389F6291FFD9B00249F35 /* ColorPreviewView.swift */,
 				0704A95729B18D2200B8F9AC /* HelpNavigationView.swift */,
-				071302C229BEBC760041FBA4 /* HelpViewOption.swift */,
+				07CF3AE92A3E597700310D26 /* HelpViewOption.swift */,
 			);
 			path = settings;
 			sourceTree = "<group>";
@@ -334,8 +413,31 @@
 				0794057E28D17951003A7592 /* ScaleInOut-AnyTransition.swift */,
 				071E319828D9429E0076112E /* AnimationCompletionObserverModifer.swift */,
 				07D7FDE729E3037A005321D7 /* StrictConcurrencyWorkaroundView+PreviewProvider.swift */,
+				07CF3AE52A3E0A7F00310D26 /* Animation+Extensions.swift */,
 			);
 			path = extensions;
+			sourceTree = "<group>";
+		};
+		07B5601E2A35DABD007D81C0 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				07FB84D22A3C6D070041E0BD /* SimpleShiftWatch-Watch-App-Info.plist */,
+				07CB8A6D2A37A71200762B77 /* SimpleShiftWatch Watch App.entitlements */,
+				07FB84CD2A3C69450041E0BD /* views */,
+				07CE79362A370E7D005691A0 /* managers */,
+				07B5601F2A35DABD007D81C0 /* SimpleShiftWatchApp.swift */,
+				07B560232A35DABF007D81C0 /* Assets.xcassets */,
+				07B560252A35DABF007D81C0 /* Preview Content */,
+			);
+			path = watchOS;
+			sourceTree = "<group>";
+		};
+		07B560252A35DABF007D81C0 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				07B560262A35DABF007D81C0 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		07C4D22029EE7DA800F069B1 /* Preview Content */ = {
@@ -343,6 +445,25 @@
 			children = (
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		07C8A0072A1088570045C99A /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				07C8A0082A1088570045C99A /* SimpleShiftWidgetBundle.swift */,
+				07C8A00A2A1088570045C99A /* SimpleShiftWidget.swift */,
+				07C8A00C2A1088590045C99A /* Assets.xcassets */,
+				07C8A00E2A1088590045C99A /* Info.plist */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		07CE79362A370E7D005691A0 /* managers */ = {
+			isa = PBXGroup;
+			children = (
+				07CE793F2A3745C4005691A0 /* CalendarWatchManager.swift */,
+			);
+			path = managers;
 			sourceTree = "<group>";
 		};
 		07D8E69F28C7A2D300B7A851 /* patterns */ = {
@@ -380,6 +501,33 @@
 			path = modal;
 			sourceTree = "<group>";
 		};
+		07FB84CD2A3C69450041E0BD /* views */ = {
+			isa = PBXGroup;
+			children = (
+				07FB84CF2A3C69590041E0BD /* developer */,
+				07FB84CE2A3C69520041E0BD /* today */,
+				0770227B2A37B08D0049FFCA /* TabsView.swift */,
+				07CF3AE12A3DAF9E00310D26 /* SyncPromptView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		07FB84CE2A3C69520041E0BD /* today */ = {
+			isa = PBXGroup;
+			children = (
+				07B560212A35DABD007D81C0 /* ContentView.swift */,
+			);
+			path = today;
+			sourceTree = "<group>";
+		};
+		07FB84CF2A3C69590041E0BD /* developer */ = {
+			isa = PBXGroup;
+			children = (
+				07FB84D02A3C69740041E0BD /* DeveloperView.swift */,
+			);
+			path = developer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -392,6 +540,7 @@
 				07062E8027ED0069001E8505 /* Resources */,
 				075D85BC27F5EBA300FD1160 /* Embed Frameworks */,
 				0791A5CA28020E390002A3E8 /* Embed Foundation Extensions */,
+				07B5602E2A35DABF007D81C0 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
@@ -405,6 +554,40 @@
 			productReference = 07062E8227ED0069001E8505 /* SimpleShift.app */;
 			productType = "com.apple.product-type.application";
 		};
+		07B5601C2A35DABD007D81C0 /* SimpleShiftWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07B5602B2A35DABF007D81C0 /* Build configuration list for PBXNativeTarget "SimpleShiftWatch Watch App" */;
+			buildPhases = (
+				07B560192A35DABD007D81C0 /* Sources */,
+				07B5601A2A35DABD007D81C0 /* Frameworks */,
+				07B5601B2A35DABD007D81C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SimpleShiftWatch Watch App";
+			productName = "SimpleShiftWatch Watch App";
+			productReference = 07B5601D2A35DABD007D81C0 /* SimpleShift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		07C8A0032A1088570045C99A /* SimpleShiftWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07C8A0142A1088590045C99A /* Build configuration list for PBXNativeTarget "SimpleShiftWidgetExtension" */;
+			buildPhases = (
+				07C8A0002A1088570045C99A /* Sources */,
+				07C8A0012A1088570045C99A /* Frameworks */,
+				07C8A0022A1088570045C99A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimpleShiftWidgetExtension;
+			productName = SimpleShiftWidgetExtension;
+			productReference = 07C8A0042A1088570045C99A /* SimpleShiftWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -412,11 +595,17 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					07062E8127ED0069001E8505 = {
 						CreatedOnToolsVersion = 13.3;
+					};
+					07B5601C2A35DABD007D81C0 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					07C8A0032A1088570045C99A = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -440,6 +629,8 @@
 			projectRoot = "";
 			targets = (
 				07062E8127ED0069001E8505 /* SimpleShift */,
+				07C8A0032A1088570045C99A /* SimpleShiftWidgetExtension */,
+				07B5601C2A35DABD007D81C0 /* SimpleShiftWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -452,6 +643,23 @@
 				07D7FDEA29E30BD5005321D7 /* Launch Screen.storyboard in Resources */,
 				0748064229218B1300E2B34F /* Localizable.strings in Resources */,
 				07062E8A27ED006A001E8505 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07B5601B2A35DABD007D81C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07B560272A35DABF007D81C0 /* Preview Assets.xcassets in Resources */,
+				07B560242A35DABF007D81C0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07C8A0022A1088570045C99A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07C8A00D2A1088590045C99A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +678,7 @@
 				074389F7291FFD9B00249F35 /* ColorPreviewView.swift in Sources */,
 				07A3C38D2905FB4500860784 /* DateDisplay.swift in Sources */,
 				0713033129C2C4500041FBA4 /* HapticManager.swift in Sources */,
+				07CE79452A375EAA005691A0 /* CalendarManager.swift in Sources */,
 				07EFB22127F36C21001CD175 /* FixedDatePicker.swift in Sources */,
 				07ED492929E73BEC00F9519F /* SettingsManager.swift in Sources */,
 				071FC29828D509A900A0BA7D /* GradientTypes.swift in Sources */,
@@ -485,7 +694,6 @@
 				071FC29C28D5814E00A0BA7D /* PatternWeekView.swift in Sources */,
 				0704A95429AE3B0D00B8F9AC /* NavigationBarView.swift in Sources */,
 				076912F329ECAE1C00BC8FA9 /* EmojiPicker.swift in Sources */,
-				071302C329BEBC760041FBA4 /* HelpViewOption.swift in Sources */,
 				07438A012920550200249F35 /* HCenter.swift in Sources */,
 				0794057928D12C57003A7592 /* WeekdayBar.swift in Sources */,
 				07438A032920562500249F35 /* CalendarExampleView.swift in Sources */,
@@ -502,15 +710,16 @@
 				0704A95829B18D2200B8F9AC /* HelpNavigationView.swift in Sources */,
 				07062EB327ED0122001E8505 /* SettingsView.swift in Sources */,
 				076BEB7827FA3D090098BB8D /* ImageButton.swift in Sources */,
-				074389F5291FE3FF00249F35 /* IndicatorExampleView.swift in Sources */,
+				07CE793C2A371A03005691A0 /* CalendarPageManager.swift in Sources */,
 				076BEB6727F966BC0098BB8D /* Shift.swift in Sources */,
 				071E31A128DCD81A0076112E /* ScrollViewOffsetKey.swift in Sources */,
 				071E31BD28E0A1570076112E /* UIVisualEffectView.swift in Sources */,
+				07CF3AEA2A3E597700310D26 /* HelpViewOption.swift in Sources */,
 				07D8E6A128C7A2E500B7A851 /* PatternsView.swift in Sources */,
-				07EBC8D128CD16C300FF4A48 /* CalendarManager.swift in Sources */,
 				076A6EA9291D993D00E31D35 /* WelcomeiCloudView.swift in Sources */,
 				076BEB7B27FA45470098BB8D /* ShiftsView.swift in Sources */,
 				0775E25029083A1400F8C20F /* GradientPreset.swift in Sources */,
+				07CF3AE62A3E0A7F00310D26 /* Animation+Extensions.swift in Sources */,
 				077C406D29EAF613007F056D /* TintColors.swift in Sources */,
 				0724C33F291EBB5800F472F4 /* ImageLabel.swift in Sources */,
 				071E319928D9429E0076112E /* AnimationCompletionObserverModifer.swift in Sources */,
@@ -520,6 +729,44 @@
 				07EFB25527F5046E001CD175 /* CalendarDate.swift in Sources */,
 				0794057728D11603003A7592 /* ShiftSelector.swift in Sources */,
 				078ECD672918314900ABCFF7 /* CalendarDateView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07B560192A35DABD007D81C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07295E2E2A368BD10025ED82 /* SwiftShiftModel.xcdatamodeld in Sources */,
+				07B560222A35DABD007D81C0 /* ContentView.swift in Sources */,
+				07295E2D2A368BBA0025ED82 /* PersistenceController.swift in Sources */,
+				07FB84D12A3C69740041E0BD /* DeveloperView.swift in Sources */,
+				07CE79442A375EAA005691A0 /* CalendarManager.swift in Sources */,
+				0770227C2A37B08D0049FFCA /* TabsView.swift in Sources */,
+				07295E2F2A368BE40025ED82 /* Shift.swift in Sources */,
+				07295E2C2A368BB70025ED82 /* ShiftManager.swift in Sources */,
+				07295E332A368C190025ED82 /* TintColors.swift in Sources */,
+				07295E322A368C080025ED82 /* Pattern.swift in Sources */,
+				07CE79412A3745C8005691A0 /* CalendarWatchManager.swift in Sources */,
+				07CB8A512A37752400762B77 /* GradientTypes.swift in Sources */,
+				07295E302A368BE60025ED82 /* CalendarDate.swift in Sources */,
+				07B560202A35DABD007D81C0 /* SimpleShiftWatchApp.swift in Sources */,
+				07295E312A368BFE0025ED82 /* Color+Extensions.swift in Sources */,
+				07CF3AE22A3DAF9E00310D26 /* SyncPromptView.swift in Sources */,
+				07CC65622A368D9600F92FB9 /* WatchConnectivityManager.swift in Sources */,
+				07CB8A502A37751F00762B77 /* GradientRounded.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07C8A0002A1088570045C99A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07C8A0162A108A390045C99A /* SwiftShiftModel.xcdatamodeld in Sources */,
+				07C8A00B2A1088570045C99A /* SimpleShiftWidget.swift in Sources */,
+				07C8A0152A10890E0045C99A /* CalendarDate.swift in Sources */,
+				07C8A0092A1088570045C99A /* SimpleShiftWidgetBundle.swift in Sources */,
+				07C8A0172A108AD90045C99A /* PersistenceController.swift in Sources */,
+				07295E342A368C9E0025ED82 /* Color+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,7 +938,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				NEW_SETTING = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.olliemunday.SwiftShift;
@@ -719,7 +966,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleShift/Preview Content\"";
 				DEVELOPMENT_TEAM = 99V2REC394;
 				ENABLE_PREVIEWS = YES;
-				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SimpleShift/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SimpleShift;
@@ -738,7 +985,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				NEW_SETTING = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.olliemunday.SwiftShift;
@@ -751,6 +998,139 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		07B5602C2A35DABF007D81C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "SimpleShiftWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_ASSET_PATHS = "\"SimpleShift/watchOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 99V2REC394;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SimpleShiftWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.olliemunday.SwiftShift;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.olliemunday.SwiftShift.watchkitapp;
+				PRODUCT_NAME = SimpleShift;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		07B5602D2A35DABF007D81C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "SimpleShiftWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_ASSET_PATHS = "\"SimpleShift/watchOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 99V2REC394;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SimpleShiftWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.olliemunday.SwiftShift;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.olliemunday.SwiftShift.watchkitapp;
+				PRODUCT_NAME = SimpleShift;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		07C8A0122A1088590045C99A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 99V2REC394;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SimpleShift/Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SimpleShiftWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.olliemunday.SwiftShift.SimpleShiftWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		07C8A0132A1088590045C99A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 99V2REC394;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SimpleShift/Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SimpleShiftWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.olliemunday.SwiftShift.SimpleShiftWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -771,6 +1151,24 @@
 			buildConfigurations = (
 				07062E9627ED006A001E8505 /* Debug */,
 				07062E9727ED006A001E8505 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07B5602B2A35DABF007D81C0 /* Build configuration list for PBXNativeTarget "SimpleShiftWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07B5602C2A35DABF007D81C0 /* Debug */,
+				07B5602D2A35DABF007D81C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07C8A0142A1088590045C99A /* Build configuration list for PBXNativeTarget "SimpleShiftWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07C8A0122A1088590045C99A /* Debug */,
+				07C8A0132A1088590045C99A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

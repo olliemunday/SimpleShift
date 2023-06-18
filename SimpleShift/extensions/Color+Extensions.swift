@@ -79,7 +79,7 @@ extension Color {
 // Convert Color to String for AppStorage
 extension Color: RawRepresentable {
     
-    public init?(rawValue: String) {
+    public init(rawValue: String) {
         guard let data = Data(base64Encoded: rawValue) else {
             self = .black
             return
@@ -103,6 +103,22 @@ extension Color: RawRepresentable {
     }
 }
 
+extension Color: Codable {
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+
+        self.init(rawValue: rawValue)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(self.rawValue)
+    }
+
+}
+
 extension Color {
     static func hex(_ hex: String, alpha: CGFloat = 1.0) -> Color {
         guard let hex = Int(hex, radix: 16) else { return Color.clear }
@@ -114,3 +130,5 @@ extension Color {
         return Color(uiColor: uicolor)
     }
 }
+
+

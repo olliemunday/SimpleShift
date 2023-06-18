@@ -35,7 +35,6 @@ struct WeekdayBar: View {
     private var weekdayBar: some View {
         return HStack(spacing: spacing) {
             ForEach(getWeekdays(start: weekday - 1), id: \.self) { wkday in
-
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(tintColor.colorAdjusted(colorScheme))
                     .opacity(0.95)

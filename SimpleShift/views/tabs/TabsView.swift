@@ -23,6 +23,8 @@ struct TabsView: View {
     @State private var tabSelection = 1
     @State private var showiCloudCard: Bool = false
 
+//    var watchConnectivity = WatchConnectivityManager.shared
+
 
     @StateObject private var calendarPattern = CalendarPattern()
     var body: some View { navigation }
@@ -48,6 +50,11 @@ struct TabsView: View {
             .onAppear() {
                 UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
             }
+//            .onChange(of: scenePhase) { scene in
+//                if scene == .active {
+//                    Task { watchConnectivity.sendAllWatchData() }
+//                }
+//            }
     }
 }
 

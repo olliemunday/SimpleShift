@@ -28,8 +28,7 @@ struct ShiftEditor: View {
         NavigationStack(path: $navigationStack) {
                 VStack(spacing: 0) {
                     ShiftView(shift: shift)
-                        .frame(width: 86, height: 144)
-                        .scaleEffect(1.1)
+                        .frame(width: 100, height: 140)
                         .disabled(true)
                     List {
                         textSettings

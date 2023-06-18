@@ -11,7 +11,6 @@ struct HelpViewOption: View {
 
     @Environment(\.colorScheme) var colorScheme
 
-    let size: CGFloat
     let image: String
     let text: String
     let colors: [Color]
@@ -20,42 +19,34 @@ struct HelpViewOption: View {
     public var tintColor: TintColor = .blue
 
     var body: some View {
-            GradientRounded(cornerRadius: size / 5, colors: colors, direction: .vertical)
-                .frame(height: size)
+        ZStack {
+            GradientRounded(cornerRadius: 20, colors: colors, direction: .vertical)
                 .foregroundColor(tintColor.colorAdjusted(colorScheme))
-                .cornerRadius(size / 5)
-                .overlay {
-                    VStack(alignment: .center) {
-                        Rectangle()
-                            .hidden()
-                            .overlay {
-                                Image(systemName: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.black)
-                            }
-                            .frame(height: size * 0.5)
 
-                        Text(text)
-                            .font(.system(size: max(16, 0.12 * (size)) , weight: .semibold, design: .rounded))
-                            .dynamicTypeSize(.medium ... .large)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
+            VStack(alignment: .center, spacing: 6) {
+                Color.clear
+                    .aspectRatio(1, contentMode: .fit)
+                    .overlay {
+                        Image(systemName: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .foregroundColor(.black)
-
                     }
-                }
-                .drawingGroup()
-                .shadow(radius: 1)
-    }
+                    .padding(.horizontal, 30)
 
-}
+                Text(text)
+                    .font(.system(.title3, design: .rounded, weight: .semibold))
+                    .dynamicTypeSize(.medium ... .large)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .foregroundColor(.black)
 
-struct HelpViewOption_Previews: PreviewProvider {
-    static var previews: some View {
-        HStack {
-            HelpViewOption(size: 200, image: "calendar", text: "calendar", colors: [.cyan, .blue])
+            }
+            .padding(.vertical, 20)
         }
+            .drawingGroup()
+            .shadow(radius: 1)
+
 
     }
 }

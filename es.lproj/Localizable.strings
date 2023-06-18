@@ -114,6 +114,8 @@
 "deleteweek" = "Eliminar semana";
 "deletepattern" = "Eliminar patrón";
 "applyingpattern" = "Aplicando Patrón";
+"applypattern" = "Aplicar patrón";
+"confirmpattern" = "Confirmar patrón";
 
 
 // Common

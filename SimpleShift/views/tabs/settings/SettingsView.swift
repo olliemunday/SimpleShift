@@ -72,7 +72,7 @@ struct SettingsView: View {
                 footer: {
                     ZStack {
                         HStack {
-                            Text("SimpleShift v1.1\n© 2023 Ollie Munday")
+                            Text("SimpleShift v1.2\n© 2023 Ollie Munday")
                                 .padding(.vertical, 10)
                             Spacer()
                         }
@@ -195,7 +195,7 @@ struct SettingsView: View {
         .alert("eraseallalert", isPresented: $showingDeleteAlert) {
             Button("delete", role: .destructive) {
                 Task {
-                    await CalendarManager(noLoad: true).deleteAll()
+                    CalendarManager(noLoad: true).deleteAll()
                     await ShiftManager(noLoad: true).deleteAll()
                     await PatternManager(noLoad: true).deleteAll()
                 }
@@ -210,33 +210,61 @@ struct SettingsView: View {
         String(localized: "indicatoroff"),
         String(localized: "indicatortype1"),
         String(localized: "indicatortype2"),
-        String(localized: "indicatortype3")
+        String(localized: "indicatortype3"),
+        String(localized: "indicatortype4")
     ]
 
     private var todayIndicatorSelector: some View {
-        List {
-            ForEach(0...3, id: \.self) { index in
-                Section {
+        ScrollView {
+            Rectangle().frame(height: 6).hidden()
+
+            LazyVGrid(columns: [GridItem(spacing: 16), GridItem(spacing: 16)], spacing: 16) {
+                ForEach(0...4, id: \.self) { index in
                     Button {
                         withAnimation { settingsManager.todayIndicatorType = index }
                     } label: {
-                        HStack {
-                            Spacer()
-                            VStack(spacing: 10) {
-                                CustomMarker(size: 20, primary: settingsManager.todayIndicatorType == index ? .blue : .gray, icon: "checkmark")
-                                    .shadow(radius: 1)
-                                IndicatorExampleView(type: index)
-                                    .environmentObject(settingsManager)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .foregroundColor(.primary)
+                                .opacity(0.1)
+
+                            if settingsManager.todayIndicatorType == index {
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        CustomMarker(size: 24, primary: .blue, icon: "checkmark")
+                                            .shadow(radius: 1)
+                                            .padding(8)
+                                    }
+                                    Spacer()
+                                }
                             }
-                            Spacer()
+
+                            VStack(spacing: 16) {
+                                DateView(id: index,
+                                         date: CalendarDate(id: index, date: Date.now, day: "12", greyed: false),
+                                         greyed: false,
+                                         offDay: settingsManager.calendarShowOff,
+                                         today: index,
+                                         tintColor: settingsManager.tintColor)
+                                .frame(width: 60, height: 96)
+
+                                Text(typeNames[index])
+                                    .dynamicTypeSize(.small ... .xxxLarge)
+                                    .multilineTextAlignment(.center)
+                                    .bold()
+                                    .foregroundColor(.primary)
+                            }
+                            .padding(16)
                         }
                     }
-                } header: {
-                    Text(typeNames[index])
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
+            .padding(.horizontal, 16)
         }
         .navigationTitle("todayindicator")
+        .animation(.easeInOut, value: settingsManager.todayIndicatorType)
     }
 
     private func openWebsite() {

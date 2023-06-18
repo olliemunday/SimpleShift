@@ -11,13 +11,16 @@ struct ShiftView: View {
     let shift: Shift
 
     @State private var showEditor: Bool = false
-    
+
+    var textSize = Font.TextStyle.title2
+    var emojiSize = Font.TextStyle.largeTitle
+    var textPadding = 4.0
+
     var body: some View {
         Button {
             showEditor.toggle()
         } label: {
             background
-                .frame(height: 120, alignment: .center)
                 .drawingGroup()
                 .shadow(radius: 2)
         }
@@ -29,16 +32,17 @@ struct ShiftView: View {
 
     private var background: some View {
         ZStack {
-            GradientRounded(cornerRadius: 18, colors: shift.gradientArray, direction: .vertical)
+            GradientRounded(cornerRadius: 20, colors: shift.gradientArray, direction: .vertical)
             Text(shift.shift)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .dynamicTypeSize(.large ... .xLarge)
-                .font(.system(shift.isCustom == 2 ? .largeTitle : .title3,
+                .font(.system(shift.isCustom == 2 ? emojiSize : textSize,
                               design: .rounded,
-                              weight: .semibold))
+                              weight: .bold))
                 .shadow(radius: shift.isCustom == 2 ? 1 : 0)
                 .foregroundColor(shift.gradient_2.textColor)
+                .padding(.horizontal, textPadding)
         }
     }
 }

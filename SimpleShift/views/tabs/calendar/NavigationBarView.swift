@@ -10,7 +10,7 @@ import UIKit
 
 struct NavigationBarView: View, Sendable {
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject private var calendarManager: CalendarManager
+    @EnvironmentObject private var calendarManager: CalendarPageManager
     @EnvironmentObject private var hapticManager: HapticManager
 
     @Binding var navigationIsScaled: Bool
@@ -56,7 +56,7 @@ struct NavigationBarView: View, Sendable {
         .animation(.interactiveSpring(dampingFraction: 0.55).speed(0.7), value: navigationIsScaled)
         .gesture(dragGesture)
         .simultaneousGesture(longPress)
-        .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.65), value: calendarManager.dateDisplay)
+        .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.65), value: calendarManager.calendarPage.display)
         .animation(.spring(), value: dateOffset)
     }
 
@@ -107,7 +107,9 @@ struct NavigationBarView: View, Sendable {
         Task {
             try await Task.sleep(for: .milliseconds(100))
             calendarManager.iterateMonth(value: forward ? 1 : -1)
-            await calendarManager.setMonth()
+            withAnimation(.interactiveSpring(response: 0.7, dampingFraction: 0.65)) {
+                calendarManager.setMonth()
+            }
             try await Task.sleep(for: .milliseconds(800))
             disableInput = false
         }
@@ -115,8 +117,8 @@ struct NavigationBarView: View, Sendable {
 
     // Date display for Navigation bar.
     @ViewBuilder private var navigationDate: some View {
-        Text(calendarManager.dateDisplay)
-            .id(calendarManager.dateDisplay)
+        Text(calendarManager.calendarPage.display)
+            .id(calendarManager.calendarPage.display)
             .frame(maxWidth: .infinity, alignment: .center)
             .font(.system(size: 32, weight: .semibold, design: .rounded))
             .foregroundColor(Color("ShiftText"))
@@ -158,7 +160,9 @@ struct NavigationBarView: View, Sendable {
                     Task {
                         try await Task.sleep(for: .milliseconds(100))
                         calendarManager.iterateMonth(value: dateForward ? 1 : -1)
-                        await calendarManager.setMonth()
+                        withAnimation(.interactiveSpring(response: 0.7, dampingFraction: 0.65)) {
+                            calendarManager.setMonth()
+                        }
                         dateOffset = .zero
                         try await Task.sleep(for: .milliseconds(500))
                         disableInput = false

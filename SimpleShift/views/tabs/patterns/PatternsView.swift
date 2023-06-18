@@ -50,7 +50,7 @@ struct PatternsView: View {
     var scrollView: some View {
         ScrollViewReader { scroll in
             ScrollView {
-                Rectangle().frame(height: 10).hidden()
+                Rectangle().frame(height: 6).hidden()
                 if isEditing { editStack } else { scrollStack }
             }
             .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.6), value: isEmpty)
@@ -86,6 +86,7 @@ struct PatternsView: View {
                 }
                 .bold(isEditing)
                 .disabled(isEditingTransitory)
+                .disabled(patternManager.patternStore.isEmpty)
             }
         }
         .animation(.interactiveSpring(response: 0.5, dampingFraction: 0.75), value: patternManager.patternSelected)

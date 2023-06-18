@@ -25,8 +25,13 @@ class PersistenceController {
 
     /// Initialise a new `NSPersistentContainer`.
     private func createContainer() {
+        #if os(iOS)
         container = NSPersistentCloudKitContainer(name: "SwiftShiftModel")
+        #endif
 
+        #if os(watchOS)
+        container = NSPersistentContainer(name: "SwiftShiftModel")
+        #endif
         let description = container.persistentStoreDescriptions.first
         description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 

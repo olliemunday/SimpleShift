@@ -27,11 +27,15 @@ struct DateView: View, @unchecked Sendable {
             .opacity(date.greyed && greyed ? 0.3 : 1.0)
             .animation(.interactiveSpring(response: 0.4, dampingFraction: 0.8), value: date.selected)
             .animation(.spring(), value: today)
-            .onChange(of: today) {
-                if $0 == 3 { spinAngle = 360 }
-                else { spinAngle = 0 }
+            .onDisappear {
+                isFlashing = false
+                isBorderSpinning = false
             }
-            .onAppear { if today == 3 { spinAngle = 360 } }
+            .task {
+                if today <= 0 { return }
+                if today == 3 { isBorderSpinning = true }
+                if today == 4 { isFlashing = true }
+            }
     }
     
     private var main: some View {
@@ -42,6 +46,7 @@ struct DateView: View, @unchecked Sendable {
                 if today == 1 { topIndicator.transition(.opacity) }
                 if today == 2 { capsuleIndicator.transition(.opacity) }
                 if today == 3 { borderIndicator.transition(.opacity) }
+                if today == 4 { flashingIndicator.transition(.opacity) }
 
             }
             .overlay { textLayer }
@@ -66,7 +71,7 @@ struct DateView: View, @unchecked Sendable {
             .opacity(0.8)
             .mask {
                 VStack {
-                        Rectangle().frame(height: 18)
+                        Rectangle().frame(height: 20)
                         Spacer()
                     }
             }
@@ -74,7 +79,7 @@ struct DateView: View, @unchecked Sendable {
         RoundedRectangle(cornerRadius: cornerRadius)
             .foregroundColor(tintColor.colorAdjusted(colorScheme))
             .mask( VStack {
-                    Rectangle().frame(height: 16)
+                    Rectangle().frame(height: 18)
                     Spacer()
                 } )
     }
@@ -93,6 +98,8 @@ struct DateView: View, @unchecked Sendable {
             .frame(height: 8)
             .padding(.horizontal, 14)
             .padding(.vertical, 4)
+            .drawingGroup()
+            .shadow(radius: 1)
         }
     }
 
@@ -114,7 +121,7 @@ struct DateView: View, @unchecked Sendable {
                 .font(.system(size: 12))
                 .bold()
                 .foregroundColor(today == 1 ? tintColor.textColor(colorScheme) : template?.gradient_1.textColor)
-                .padding(.top, 1)
+                .padding(.top, 3)
             Spacer()
         }
         VStack(spacing: 0) {
@@ -132,24 +139,40 @@ struct DateView: View, @unchecked Sendable {
         .padding(.horizontal, 1)
     }
 
-
-    @State private var spinAngle: Double = 0.0
+    @State private var isBorderSpinning: Bool = false
     @ViewBuilder var borderIndicator: some View {
         ZStack {
             let tint = tintColor.colorAdjusted(colorScheme)
             let border = borderColor
             AngularGradient(colors: [border, tint], center: .center)
-                .blur(radius: 6)
-                .scaleEffect(x: 3.2, y: 1.4, anchor: .center)
-                .rotationEffect(.degrees(spinAngle))
-                .animation(Animation.linear(duration: 2.2).repeatForever(autoreverses: false), value: spinAngle)
+                .blur(radius: 3)
+                .scaleEffect(x: 2, y: 6, anchor: .center)
+                .rotationEffect(.degrees(isBorderSpinning ? 360.0 : 0.0))
+                .animation(Animation.linear(duration: 2.0).repeat(while: isBorderSpinning, autoreverses: false), value: isBorderSpinning)
                 .mask {
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(lineWidth: 4)
+                        .stroke(lineWidth: 7)
                         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-
                 }
 
+
+        }
+    }
+
+    @State private var isFlashing: Bool = false
+    @ViewBuilder private var flashingIndicator: some View {
+        Rectangle()
+            .cornerRadius(cornerRadius)
+            .foregroundColor(flashingColor)
+            .opacity(isFlashing ? 0.5 : 0.0)
+            .animation(.easeInOut(duration: 0.8).repeat(while: isFlashing), value: isFlashing)
+    }
+
+    var flashingColor: Color {
+        if let template = template {
+            return template.gradient_2.textColor
+        } else {
+            return capsuleBorderColor
         }
     }
 

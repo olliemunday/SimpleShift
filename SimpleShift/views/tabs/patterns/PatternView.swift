@@ -73,7 +73,13 @@ struct PatternView: View {
         .animation(.interactiveSpring(), value: mainOffset)
         .gesture(slideGesture)
         .alert("deletepattern", isPresented: $deleteAlert, actions: {
-            Button("delete", role: .destructive, action: {patternManager.deletePattern(id: pattern.id); deleteAlert = false})
+            Button("delete", role: .destructive, action: {
+                patternManager.deletePattern(id: pattern.id)
+                deleteAlert = false
+                if patternManager.patternStore.isEmpty {
+                    isEditing = false
+                }
+            })
             Button("cancel", role: .cancel, action: {deleteAlert = false})
         })
         .contentShape(.dragPreview, RoundedRectangle(cornerRadius: 15, style: .continuous))

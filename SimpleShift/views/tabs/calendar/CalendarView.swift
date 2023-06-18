@@ -10,13 +10,14 @@ import UIKit
 import os
 import Combine
 import CoreHaptics
+import WatchConnectivity
 
 struct CalendarView: View, Sendable {
     /// External variables/objects
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.timeZone) private var timeZone
-    @StateObject private var calendarManager = CalendarManager()
+    @StateObject private var calendarManager = CalendarPageManager()
     @StateObject private var shiftManager = ShiftManager()
     @StateObject private var hapticManager = HapticManager()
     @EnvironmentObject private var calendarPattern: CalendarPattern
@@ -60,14 +61,20 @@ struct CalendarView: View, Sendable {
         .navigationViewStyle(.stack)
         .onChange(of: scenePhase, perform: { if $0 == .active {
             // Change color here
-            Task.detached { await calendarManager.setMonth() }
+            Task {
+                withAnimation(.interactiveSpring(response: 0.7, dampingFraction: 0.65)) {
+                    calendarManager.setMonth()
+                }
+            }
             hapticManager.prepareEngine()
         } })
         .onDisappear { isEditing = false }
-        .onAppear() { Task.detached { await calendarManager.setMonth() }; hapticManager.prepareEngine() }
         .onChange(of: calendarPattern.isApplyingPattern) { applying in isEditing = applying }
         .onChange(of: tabSelection) { if !($0 == 1) { calendarPattern.deselectPattern() } }
         .onChange(of: snapshotImage, perform: { _ in showShareSheet = true })
+        .onChange(of: calendarManager.weekday) { newValue in
+            calendarManager.setMonth()
+        }
         .popover(isPresented: $showShareSheet) {
             ShareSheet(items: [snapshotImage!])
         }
@@ -85,7 +92,7 @@ struct CalendarView: View, Sendable {
                     let lastcomp = calendar.dateComponents([.day], from: lastTime)
                     let lastday = lastcomp.day
 
-                    if nowday != lastday { await calendarManager.setMonth() }
+                    if nowday != lastday { calendarManager.setMonth() }
 
                     lastTime = now
                     try await Task.sleep(for: .seconds(10))
@@ -104,16 +111,18 @@ struct CalendarView: View, Sendable {
     private var todayButton: some View {
         Button("today") {
             if Date.now > calendarManager.setDate { dateForward = true } else { dateForward = false }
-
-            Task.detached {
+            Task {
                 try await Task.sleep(for: Duration.milliseconds(200))
                 DispatchQueue.main.async { calendarManager.setCalendarDateToday() }
                 try await Task.sleep(for: Duration.milliseconds(500))
-                await calendarManager.setMonth()
+                withAnimation(.interactiveSpring(response: 0.7, dampingFraction: 0.65)) {
+                    calendarManager.setMonth()
+                }
             }
         }
         .disabled(calendarManager.isSameMonth(date: calendarManager.getCalendarDate(date: Date.now) ?? Date.now))
     }
+
     // Toggle editing.
     private var editButton: some View {
         Button(isEditing ? "done" : "edit" ) {
@@ -160,10 +169,10 @@ struct CalendarView: View, Sendable {
             showRendering = true
             Task {
                 try await Task.sleep(for: .milliseconds(500))
-                let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.dateDisplay,
+                let renderer = ImageRenderer(content: CalendarRender(displayDate: calendarManager.calendarPage.display,
                                                                      weekday: calendarManager.weekday,
                                                                      tintColor: calendarManager.tintColor,
-                                                                     dates: calendarManager.datesPage.dates,
+                                                                     calendarPage: calendarManager.calendarPage,
                                                                      shifts: shiftManager.shifts)
                     .environment(\.colorScheme, colorScheme))
                 renderer.proposedSize = ProposedViewSize(width: 400, height: 660)
@@ -233,7 +242,7 @@ struct CalendarView: View, Sendable {
                             Task {
                                 try await Task.sleep(for: .microseconds(100))
                                 calendarManager.setCalendarDate(date: date)
-                                await calendarManager.setMonth() }
+                                calendarManager.setMonth() }
                         }
                         .onChange(of: calendarManager.setDate) { new in withAnimation { datePickerDate = new } }
                 }
@@ -269,7 +278,6 @@ struct CalendarView: View, Sendable {
                 .padding(.top, 2)
         }
     }
-
 
 }
 
