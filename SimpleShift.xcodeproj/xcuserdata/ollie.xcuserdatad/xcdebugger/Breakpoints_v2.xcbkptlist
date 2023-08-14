@@ -174,5 +174,174 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4474F8F5-3931-43F3-A79D-B4E9F3D7ADC0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleShift/views/tabs/calendar/CalendarView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "renderingProgress"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "WeekListHeading"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "604">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "488">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "548">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "520">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "5B752803-C9A8-4588-A1C1-496EFE38A232 - 147674c1daaab530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleShift.WeekListHeading.body.getter : some"
+                  moduleName = "SimpleShift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ollie/Projects/SwiftShift/SimpleShift/watchOS/views/weeklist/WeekListHeading.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

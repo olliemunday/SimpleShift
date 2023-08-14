@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "07B5601C2A35DABD007D81C0"
                BuildableName = "SimpleShift.app"
-               BlueprintName = "SimpleShiftWatch Watch App"
+               BlueprintName = "SimpleShift watchOS"
                ReferencedContainer = "container:SimpleShift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,6 +47,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = "en-GB"
+      region = "GB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -59,7 +61,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "07B5601C2A35DABD007D81C0"
             BuildableName = "SimpleShift.app"
-            BlueprintName = "SimpleShiftWatch Watch App"
+            BlueprintName = "SimpleShift watchOS"
             ReferencedContainer = "container:SimpleShift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -76,7 +78,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "07B5601C2A35DABD007D81C0"
             BuildableName = "SimpleShift.app"
-            BlueprintName = "SimpleShiftWatch Watch App"
+            BlueprintName = "SimpleShift watchOS"
             ReferencedContainer = "container:SimpleShift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -116,6 +116,7 @@
 "applyingpattern" = "Aplicando Patrón";
 "applypattern" = "Aplicar patrón";
 "confirmpattern" = "Confirmar patrón";
+"repeat" = "Repetir";
 
 
 // Common
@@ -182,3 +183,5 @@
 "patternshelp4" = "Para agregar una semana, usa el botón de más en la parte inferior de la pila. Para eliminar una semana, desliza hacia la izquierda para revelar el botón de eliminación.";
 "patternshelp5" = "En caso de que se elimine un turno, el marcador de posición volverá al estado original de apagado.";
 "patternshelp6" = "Una vez configurado el patrón, se puede aplicar al calendario usando el botón de aplicar que se muestra arriba. Selecciona la fecha de inicio en el calendario y elige cuántas veces repetir el patrón.";
+
+"applewatch" = "Apple Watch";

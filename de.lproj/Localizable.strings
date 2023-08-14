@@ -116,6 +116,7 @@
 "applyingpattern" = "Muster anwenden";
 "applypattern" = "Muster anwenden";
 "confirmpattern" = "Muster bestätigen";
+"repeat" = "Wiederholung";
 
 // Common
 "continue" = "Fortsetzen";
@@ -184,3 +185,4 @@ Hier können Sie vordefinierte Schichten erstellen und sie verwenden, um ein Mus
 "patternshelp5" = "Im Falle einer gelöschten Schicht wird der Platzhalter auf den ursprünglichen Aus-Zustand zurückgesetzt.";
 "patternshelp6" = "Sobald das Muster eingerichtet ist, kann es mit dem oben angezeigten 'Anwenden'-Button auf den Kalender angewendet werden. Wählen Sie das Startdatum im Kalender aus und entscheiden Sie, wie oft das Muster wiederholt werden soll.";
 
+"applewatch" = "Apple Watch";

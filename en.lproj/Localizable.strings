@@ -117,6 +117,7 @@
 "applyingpattern" = "Applying Pattern";
 "applypattern" = "Apply pattern";
 "confirmpattern" = "Confirm Pattern";
+"repeat" = "Repeat";
 
 // Common
 "continue" = "Continue";
@@ -181,3 +182,5 @@
 "patternshelp4" = "To add a week use the plus button at the bottom of the stack. To delete a week swipe left to reveal the delete button.";
 "patternshelp5" = "In the case of a shift being deleted the placeholder will reset back to the original Off setting.";
 "patternshelp6" = "When the pattern is setup it can be applied to the calendar using the apply button shown above. Select the start date in the calendar and choose how many times to repeat the pattern.";
+
+"applewatch" = "Apple Watch";

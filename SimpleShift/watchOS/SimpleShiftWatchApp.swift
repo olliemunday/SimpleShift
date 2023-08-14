@@ -14,8 +14,8 @@ struct SimpleShiftWatch_Watch_AppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if watchConnectivity.calendarSynced {
-                TabsView()
+            if watchConnectivity.calendarSynced && watchConnectivity.shiftsSynced {
+                WeekListView()
             } else {
                 SyncPromptView()
             }
